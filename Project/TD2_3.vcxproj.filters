@@ -21,12 +21,12 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameScene.cpp">
+    <ClCompile Include="Source\Scene\GameScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\GameScene.h">
+    <ClInclude Include="Source\Scene\GameScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>

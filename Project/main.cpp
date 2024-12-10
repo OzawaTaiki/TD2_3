@@ -16,7 +16,7 @@
 /*-----シーン-----*/
 #include "eScene/SceneManager.h"
 #include "eScene/SampleScene.h"
-#include "Source/GameScene.h"
+#include "Source/Scene/GameScene.h"
 /*---------------*/
 
 

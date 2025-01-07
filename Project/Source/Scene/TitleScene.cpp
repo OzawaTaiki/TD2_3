@@ -4,7 +4,7 @@
 
 std::unique_ptr<BaseScene> TitleScene::Create()
 {
-	return std::unique_ptr<TitleScene>();
+	return std::make_unique<TitleScene>();
 }
 
 TitleScene::~TitleScene()

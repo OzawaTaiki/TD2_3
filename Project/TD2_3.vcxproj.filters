@@ -16,6 +16,12 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{7066b019-73f9-4b3d-b60a-5af228a190a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{0c78f603-365d-432e-80eb-25481bf05875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Player">
+      <UniqueIdentifier>{824e39e3-eb51-42a6-bc6c-33c07c4be0b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -31,7 +37,7 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Player\Player.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Objects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +51,7 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Player\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Objects\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

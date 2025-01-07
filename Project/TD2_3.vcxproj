@@ -143,7 +143,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source\GameScene.cpp" />
+    <ClCompile Include="Source\Scene\ResultScene.cpp" />
+    <ClCompile Include="Source\Scene\GameScene.cpp" />
+    <ClCompile Include="Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -151,7 +153,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\GameScene.h" />
+    <ClInclude Include="Source\Scene\ResultScene.h" />
+    <ClInclude Include="Source\Scene\GameScene.h" />
+    <ClInclude Include="Source\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

@@ -1,6 +1,6 @@
 #include "GameScene.h"
 
-#include "eScene/SceneManager.h"
+#include <Framework/eScene/BaseScene.h>
 
 std::unique_ptr<BaseScene>GameScene::Create()
 {

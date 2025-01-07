@@ -17,6 +17,8 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+    // シーン変更処理
+    //SceneManager::GetInstance()->ReserveScene("Result");
 }
 
 void GameScene::Draw()

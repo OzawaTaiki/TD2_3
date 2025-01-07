@@ -18,6 +18,7 @@
 #include "eScene/SampleScene.h"
 #include "Source/Scene/GameScene.h"
 #include "Source/Scene/TitleScene.h"
+#include "Source/Scene/ResultScene.h"
 /*---------------*/
 
 
@@ -60,9 +61,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	SceneManager::RegisterScene("Title", GameScene::Create);
 	SceneManager::RegisterScene("Game", GameScene::Create);
+	SceneManager::RegisterScene("Result", GameScene::Create);
 	SceneManager::GetInstance()->Initialize("Title");
-	SceneManager::GetInstance()->Initialize("Game");
-
 	Time::Initialize();
 
 	///
@@ -78,7 +78,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 
 		SceneManager::GetInstance()->Update();
-		//gameScene->Update();
 
 		///
 		/// 更新処理ここまで
@@ -92,7 +91,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 
 		SceneManager::GetInstance()->Draw();
-		//gameScene->Draw();
 
 
 		///

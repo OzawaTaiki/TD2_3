@@ -20,6 +20,7 @@ void GameScene::Initialize()
     SceneCamera_.UpdateMatrix();
     debugCamera_.Initialize();
 
+    player_ = std::make_unique<Player>();
     player_->Initialize();
 }
 

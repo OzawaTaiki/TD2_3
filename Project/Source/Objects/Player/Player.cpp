@@ -2,10 +2,10 @@
 
 void Player::Initialize()
 {
-//	input_ = Input::GetInstance();
+	input_ = Input::GetInstance();
 
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Player/Player.gltf","d");
+	oModel_->Initialize("Sphere/Sphere.obj","d");
 
 }
 

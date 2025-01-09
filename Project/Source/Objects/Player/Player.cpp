@@ -4,8 +4,13 @@
 
 
 #include <numbers>
-void Player::Initialize()
+#include <windows.h>
+#include <DirectXMath.h>
+#include <Physics/Math/MatrixFunction.h>
+using namespace DirectX;
+void Player::Initialize(Camera* camera)
 {
+	camera_ = camera;
 	input_ = Input::GetInstance();
 
 	oModel_ = std::make_unique<ObjectModel>();
@@ -38,16 +43,16 @@ void Player::Update()
 #endif // _DEBUG
 }
 
-void Player::Draw(const Camera& camera, const Vector4& color)
+void Player::Draw(const Vector4& color)
 {
-	oModel_->Draw(&camera, color);
+	oModel_->Draw(camera_, color);
 
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
-		bullet->Draw(camera,Vector4{255.0f,0.0f,0.0f,1.0f});
+		bullet->Draw(*camera_,Vector4{255.0f,0.0f,0.0f,1.0f});
 	}
 
 	for (SouthPoleBullet* bullet : bulletsSouth_) {
-		bullet->Draw(camera, Vector4{0.0f,0.0f,255.0f,1.0f});
+		bullet->Draw(*camera_, Vector4{0.0f,0.0f,255.0f,1.0f});
 	}
 }
 
@@ -94,6 +99,9 @@ void Player::Move()
 
 void Player::Rotate()
 {
+	/*===============================================================//
+						 　　  コントローラー
+	//===============================================================*/
 	if (input_->IsControllerConnected()) {
 		XINPUT_STATE xInputState;
 		ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
@@ -126,6 +134,10 @@ void Player::Rotate()
 		}
 	}
 
+	/*===============================================================//
+					 　　		マウス
+	//===============================================================*/
+
 	oModel_->rotate_ = rotation_;
 }
 
@@ -138,7 +150,7 @@ void Player::Fire()
 
 void Player::NorthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_RB)) {
+	if (input_->IsPadTriggered(PadButton::iPad_RB) || input_->IsMouseTriggered(0)) {
 
 		// プレイヤーの向きから弾の初速度を計算
 		float direction = rotation_.y + std::numbers::pi / 2.0f;
@@ -163,7 +175,7 @@ void Player::NorthPoleBulletFire()
 
 void Player::SouthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_LB)) {
+	if (input_->IsPadTriggered(PadButton::iPad_LB) || input_->IsMouseTriggered(1)) {
 		float direction = rotation_.y + std::numbers::pi / 2.0f;
 		// プレイヤーの向きから弾の初速度を計算
 		Vector3 velocity(

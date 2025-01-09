@@ -23,7 +23,7 @@ void GameScene::Initialize()
     debugCamera_.Initialize();
 
     player_ = std::make_unique<Player>();
-    player_->Initialize();
+    player_->Initialize(&SceneCamera_);
 }
 
 void GameScene::Update()
@@ -50,7 +50,7 @@ void GameScene::Draw()
 {
     ModelManager::GetInstance()->PreDrawForObjectModel();
 
-    player_->Draw(SceneCamera_, { 1,1,1,1 });
+    player_->Draw({ 1,1,1,1 });
 
 }
 

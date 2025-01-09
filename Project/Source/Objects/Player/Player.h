@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(Camera* camera);
 
 	/// <summary>
 	/// 更新
@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const Camera& camera,const Vector4& color);
+	void Draw(const Vector4& color);
 
 
 private:
@@ -90,15 +90,12 @@ private:
 							 　　ポインタなど
 	//===============================================================*/
 	Input* input_ = nullptr;
-
+	Camera* camera_ = nullptr;
 	std::unique_ptr<ObjectModel> oModel_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
-
-
-
 
 
 	/*===============================================================//

@@ -3,6 +3,8 @@
 #include <Framework/eScene/BaseScene.h>
 #include <Rendering/Model/ModelManager.h>
 
+#include <DirectXMath.h>
+
 std::unique_ptr<BaseScene>GameScene::Create()
 {
     return std::make_unique<GameScene>();
@@ -15,8 +17,8 @@ GameScene::~GameScene()
 void GameScene::Initialize()
 {
     SceneCamera_.Initialize();
-    SceneCamera_.translate_ = { 0,5,-20 };
-    SceneCamera_.rotate_ = { 0.26f,0,0 };
+    SceneCamera_.translate_ = { 0,100,0 };
+    SceneCamera_.rotate_ = { DirectX::XMConvertToRadians(90.0f),0,0 };
     SceneCamera_.UpdateMatrix();
     debugCamera_.Initialize();
 

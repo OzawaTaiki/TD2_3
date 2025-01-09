@@ -13,7 +13,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Vector3& translate,Vector3& velocity);
+	void Initialize(const Vector3& translate,const Vector3& velocity);
 
 	/// <summary>
 	/// 更新

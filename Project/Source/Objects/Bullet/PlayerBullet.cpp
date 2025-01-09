@@ -1,9 +1,9 @@
 #include "PlayerBullet.h"
 
-void PlayerBullet::Initialize(Vector3& translate, Vector3& velocity)
+void PlayerBullet::Initialize(const Vector3& translate, const Vector3& velocity)
 {
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Sphere/Sphere.obj", "e");
+	oModel_->Initialize("Sphere/Sphere.obj", "Player Bullet");
 
 	//----------------------------------------------------//
 	/*					メンバ変数に保存					　*/
@@ -17,7 +17,7 @@ void PlayerBullet::Update()
 	if (--deathTimer_ <= 0) {
 		isAlive_ = false;
 	}
-
+	oModel_->translate_ += velocity_;
 	oModel_->Update();
 }
 

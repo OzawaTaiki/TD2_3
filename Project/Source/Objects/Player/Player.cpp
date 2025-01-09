@@ -1,20 +1,33 @@
 #include "Player.h"
-
+#include <Physics/Math/VectorFunction.h>
 #include <algorithm>
+
+
+#include <numbers>
 void Player::Initialize()
 {
 	input_ = Input::GetInstance();
 
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Sphere/Sphere.obj", "Player");
+	oModel_->Initialize("Debug/Debug.obj", "Player");
 
 	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data");
 
+	// 回転軸の初期化
+	rotation_ = { 0.0f,0.0f,0.0f };
 }
 
 void Player::Update()
 {
 	Move();
+
+	Rotate();
+
+	Bulletdelete();
+
+	Fire();
+
+	UpdateBullet();
 
 	oModel_->Update();
 
@@ -28,6 +41,10 @@ void Player::Update()
 void Player::Draw(const Camera& camera, const Vector4& color)
 {
 	oModel_->Draw(&camera, color);
+
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(camera,color);
+	}
 }
 
 void Player::Move()
@@ -57,10 +74,10 @@ void Player::Move()
 			// 左スティックのX軸とY軸の値を取得（-32768 ～ 32767）
 			float thumbLX = static_cast<float>(xInputState.Gamepad.sThumbLX);
 			float thumbLY = static_cast<float>(xInputState.Gamepad.sThumbLY);
-			if (fabs(thumbLX) > kDeadZone_) {
+			if (fabs(thumbLX) > kDeadZoneL_) {
 				move.x += (thumbLX / 32767.0f) * kCharacterSpeed_;
 			}
-			if (fabs(thumbLY) > kDeadZone_) {
+			if (fabs(thumbLY) > kDeadZoneL_) {
 				move.z += (thumbLY / 32767.0f) * kCharacterSpeed_;
 			}
 		}
@@ -71,10 +88,82 @@ void Player::Move()
 	oModel_->translate_ += move;
 }
 
+void Player::Rotate()
+{
+	if (input_->IsControllerConnected()) {
+		XINPUT_STATE xInputState;
+		ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
+		if (XInputGetState(0, &xInputState) == ERROR_SUCCESS) {
+			// 右スティックのX軸とY軸の値を取得（-32768 ～ 32767）
+			float thumbRX = static_cast<float>(xInputState.Gamepad.sThumbRX);
+			float thumbRY = static_cast<float>(xInputState.Gamepad.sThumbRY);
+
+			// デッドゾーンをチェック
+			if (fabs(thumbRX) > kDeadZoneR_ || fabs(thumbRY) > kDeadZoneR_) {
+				// 目標角度を計算
+				float newYaw = std::atan2(thumbRX, thumbRY);
+
+				// 現在の角度との誤差を計算
+				float diff = newYaw - rotation_.y;
+
+				// -π～+π の範囲に収める（角度の折り返し対応）
+				while (diff < -std::numbers::pi) diff += std::numbers::pi * 2.0f;
+				while (diff > std::numbers::pi) diff -= std::numbers::pi * 2.0f;
+
+				// ここで「角度差が一定以上の場合のみ更新」する
+				const float kAngleThreshold = 0.001f;
+				// 例: 0.015f は約 0.86°(度) に相当 (0.015 * 180 / π)
+
+				if (fabs(diff) > kAngleThreshold) {
+					// 角度差が大きい場合のみ更新するので、ガタガタしにくい
+					rotation_.y = newYaw;
+				}
+			}
+		}
+	}
+
+	oModel_->rotate_ = rotation_;
+}
+
 void Player::Fire()
 {
+	if (input_->IsPadTriggered(PadButton::iPad_RB)) {
 
+		// プレイヤーの向きから弾の初速度を計算
+		Vector3 velocity(
+			sin(rotation_.y) * bulletVelocity_, // X方向の速度
+			0.0f,                               // Y方向の速度
+			cos(rotation_.y) * bulletVelocity_  // Z方向の速度
+		);
 
+		// 弾を生成し、初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(GetWorldPosition(),velocity);
+
+		// 弾を登録する
+		bullets_.push_back(newBullet);
+
+	}
+
+}
+
+void Player::UpdateBullet()
+{
+	// 弾の更新
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
+	}
+}
+
+void Player::Bulletdelete() {
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (!bullet->IsAlive()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+		});
 }
 
 void Player::Save()
@@ -86,7 +175,7 @@ void Player::ImGui()
 {
 	ImGui::Begin("Player");
 
-	ImGui::DragFloat("DeadZone", &kDeadZone_);
+	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_);
 	ImGui::DragFloat("Speed", &kCharacterSpeed_,0.01f,1.0f);
 
 	ImGui::End();

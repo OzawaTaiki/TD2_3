@@ -6,8 +6,11 @@
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
 
+
 // C++
 #include <memory>
+#include "../Bullet/PlayerBullet.h"
+#include <list>
 
 class Player
 {
@@ -37,9 +40,24 @@ private:
 	void Move();
 
 	/// <summary>
+	/// 回転
+	/// </summary>
+	void Rotate();
+
+	/// <summary>
 	/// 射撃関数
 	/// </summary>
 	void Fire();
+
+	/// <summary>
+	/// 弾の更新
+	/// </summary>
+	void UpdateBullet();
+
+	/// <summary>
+	/// 弾の削除
+	/// </summary>
+	void Bulletdelete();
 
 
 	void Save();
@@ -56,13 +74,40 @@ public:
 	Vector3 GetWorldPosition();
 
 private:
+	/*===============================================================//
+							 　　ポインタなど
+	//===============================================================*/
 	Input* input_ = nullptr;
+
 	std::unique_ptr<ObjectModel> oModel_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
-	// デッドゾーンを設定（小さい入力値を無視）
-	float kDeadZone_ = 7000.0f;
+	std::list<PlayerBullet*> bullets_;
+
+
+
+
+
+	/*===============================================================//
+								コントローラー
+	//===============================================================*/	
+
+	// デッドゾーンを設定
+	float kDeadZoneL_ = 7000.0f;
+	float kDeadZoneR_ = 10000.0f;
 	float kCharacterSpeed_ = 0.25f;
+	Vector3 rotation_; 
+	float kRotationSpeed_ = 0.05f; 
+
+
+
+
+
+	/*===============================================================//
+								 弾関連
+	//===============================================================*/
+	float bulletVelocity_ =  3.0f;
+
 
 };
 

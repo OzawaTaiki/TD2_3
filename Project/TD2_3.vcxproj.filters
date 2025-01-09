@@ -39,6 +39,9 @@
     <ClCompile Include="Source\Objects\Player\Player.cpp">
       <Filter>Objects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Objects\Bullet\PlayerBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Source\Objects\Player\Player.h">
       <Filter>Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Bullet\PlayerBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

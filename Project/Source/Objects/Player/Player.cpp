@@ -141,17 +141,18 @@ void Player::NorthPoleBulletFire()
 	if (input_->IsPadTriggered(PadButton::iPad_RB)) {
 
 		// プレイヤーの向きから弾の初速度を計算
+		float direction = rotation_.y + std::numbers::pi / 2.0f;
 		Vector3 velocity(
-			sin(rotation_.y) * bulletVelocity_, // X方向の速度
+			sin(direction) * bulletVelocity_, // X方向の速度
 			0.0f,                               // Y方向の速度
-			cos(rotation_.y) * bulletVelocity_  // Z方向の速度
+			cos(direction) * bulletVelocity_  // Z方向の速度
 		);
 
 		Vector3 pos = GetWorldPosition();
 
 		// 弾を生成し、初期化
 		NorthPoleBullet* newBullet = new NorthPoleBullet();
-		newBullet->Initialize("Cube/cube.obj", "North",pos,velocity);
+		newBullet->Initialize("Sphere/sphere.obj", "North",pos,velocity);
 
 		// 弾を登録する
 		bulletsNorth_.push_back(newBullet);
@@ -163,12 +164,12 @@ void Player::NorthPoleBulletFire()
 void Player::SouthPoleBulletFire()
 {
 	if (input_->IsPadTriggered(PadButton::iPad_LB)) {
-
+		float direction = rotation_.y + std::numbers::pi / 2.0f;
 		// プレイヤーの向きから弾の初速度を計算
 		Vector3 velocity(
-			sin(rotation_.y) * bulletVelocity_, // X方向の速度
+			sin(direction) * bulletVelocity_, // X方向の速度
 			0.0f,                               // Y方向の速度
-			cos(rotation_.y) * bulletVelocity_  // Z方向の速度
+			cos(direction) * bulletVelocity_  // Z方向の速度
 		);
 
 		velocity *= -1.0f;
@@ -176,7 +177,7 @@ void Player::SouthPoleBulletFire()
 
 		// 弾を生成し、初期化
 		SouthPoleBullet* newBullet = new SouthPoleBullet();
-		newBullet->Initialize("Cube/cube.obj", "South",pos, velocity);
+		newBullet->Initialize("Sphere/sphere.obj", "South",pos, velocity);
 
 		// 弾を登録する
 		bulletsSouth_.push_back(newBullet);

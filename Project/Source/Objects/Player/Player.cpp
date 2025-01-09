@@ -34,42 +34,41 @@ void Player::Move()
 {
 	// キャラクターの移動ベクトル
 	Vector3 move = { 0.0f, 0.0f, 0.0f };
-	
+
+#ifdef _DEBUG
+	if (input_->IsKeyPressed(DIK_W)) {
+		move.z += kCharacterSpeed_;
+	}
+	if (input_->IsKeyPressed(DIK_A)) {
+		move.x -= kCharacterSpeed_;
+	}
+	if (input_->IsKeyPressed(DIK_S)) {
+		move.z -= kCharacterSpeed_;
+	}
+	if (input_->IsKeyPressed(DIK_D)) {
+		move.x += kCharacterSpeed_;
+	}
+#endif // _DEBUG
 
 	if (input_->IsControllerConnected()) {
-		// パッドの左スティック（アナログ入力）による移動
 		XINPUT_STATE xInputState;
 		ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
-
-		// ゲームパッドの状態を取得
 		if (XInputGetState(0, &xInputState) == ERROR_SUCCESS) {
 			// 左スティックのX軸とY軸の値を取得（-32768 ～ 32767）
 			float thumbLX = static_cast<float>(xInputState.Gamepad.sThumbLX);
 			float thumbLY = static_cast<float>(xInputState.Gamepad.sThumbLY);
-
-
-			// 左スティックのX軸を移動に反映（X軸方向）
 			if (fabs(thumbLX) > kDeadZone_) {
 				move.x += (thumbLX / 32767.0f) * kCharacterSpeed_;
 			}
-
-			// 左スティックのY軸を移動に反映（Z軸方向）
 			if (fabs(thumbLY) > kDeadZone_) {
 				move.z += (thumbLY / 32767.0f) * kCharacterSpeed_;
 			}
 		}
-
-		// ワールド座標に移動を反映
-		oModel_->translate_ += move;
-
-		// ----- 移動限界座標 ----- //
-		//const float kMoveLimitX = 34.0f;
-		//const float kMoveLimitZ = 18.0f;
-
-		//// 範囲を超えない処理
-		//oModel_->translate_.x = std::clamp(oModel_->translate_.x, -kMoveLimitX, kMoveLimitX);
-		//oModel_->translate_.z = std::clamp(oModel_->translate_.z, -kMoveLimitZ, kMoveLimitZ);
 	}
+
+
+	// ワールド座標に移動を反映
+	oModel_->translate_ += move;
 }
 
 void Player::Fire()

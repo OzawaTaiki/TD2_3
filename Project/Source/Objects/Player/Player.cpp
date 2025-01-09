@@ -43,7 +43,11 @@ void Player::Draw(const Camera& camera, const Vector4& color)
 	oModel_->Draw(&camera, color);
 
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
-		bullet->Draw(camera,color);
+		bullet->Draw(camera,Vector4{255.0f,0.0f,0.0f,1.0f});
+	}
+
+	for (SouthPoleBullet* bullet : bulletsSouth_) {
+		bullet->Draw(camera, Vector4{0.0f,0.0f,255.0f,1.0f});
 	}
 }
 
@@ -143,9 +147,11 @@ void Player::NorthPoleBulletFire()
 			cos(rotation_.y) * bulletVelocity_  // Z方向の速度
 		);
 
+		Vector3 pos = GetWorldPosition();
+
 		// 弾を生成し、初期化
 		NorthPoleBullet* newBullet = new NorthPoleBullet();
-		newBullet->Initialize("Debug/Debug.obj", "North",GetWorldPosition(),velocity);
+		newBullet->Initialize("Cube/cube.obj", "North",pos,velocity);
 
 		// 弾を登録する
 		bulletsNorth_.push_back(newBullet);
@@ -156,6 +162,26 @@ void Player::NorthPoleBulletFire()
 
 void Player::SouthPoleBulletFire()
 {
+	if (input_->IsPadTriggered(PadButton::iPad_LB)) {
+
+		// プレイヤーの向きから弾の初速度を計算
+		Vector3 velocity(
+			sin(rotation_.y) * bulletVelocity_, // X方向の速度
+			0.0f,                               // Y方向の速度
+			cos(rotation_.y) * bulletVelocity_  // Z方向の速度
+		);
+
+		velocity *= -1.0f;
+		Vector3 pos = GetWorldPosition();
+
+		// 弾を生成し、初期化
+		SouthPoleBullet* newBullet = new SouthPoleBullet();
+		newBullet->Initialize("Cube/cube.obj", "South",pos, velocity);
+
+		// 弾を登録する
+		bulletsSouth_.push_back(newBullet);
+
+	}
 }
 
 void Player::UpdateBullet()
@@ -164,11 +190,23 @@ void Player::UpdateBullet()
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
 		bullet->Update();
 	}
+
+	for (SouthPoleBullet* bullet : bulletsSouth_) {
+		bullet->Update();
+	}
 }
 
 void Player::Bulletdelete() {
 	// デスフラグの立った弾を削除
 	bulletsNorth_.remove_if([](NorthPoleBullet* bullet) {
+		if (!bullet->IsAlive()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+		});
+
+	bulletsSouth_.remove_if([](SouthPoleBullet* bullet) {
 		if (!bullet->IsAlive()) {
 			delete bullet;
 			return true;

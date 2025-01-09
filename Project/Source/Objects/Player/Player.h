@@ -9,7 +9,6 @@
 
 // C++
 #include <memory>
-#include "../Bullet/PlayerBullet.h"
 #include "../Bullet/NorthPoleBullet.h"
 #include "../Bullet/SouthPoleBullet.h"
 #include <list>

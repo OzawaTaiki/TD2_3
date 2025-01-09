@@ -10,6 +10,8 @@
 // C++
 #include <memory>
 #include "../Bullet/PlayerBullet.h"
+#include "../Bullet/NorthPoleBullet.h"
+#include "../Bullet/SouthPoleBullet.h"
 #include <list>
 
 class Player
@@ -45,9 +47,20 @@ private:
 	void Rotate();
 
 	/// <summary>
-	/// 射撃関数
+	/// 全体射撃
 	/// </summary>
 	void Fire();
+
+
+	/// <summary>
+	/// N極のタイプの弾
+	/// </summary>
+	void NorthPoleBulletFire();
+
+	/// <summary>
+	/// S極のタイプの弾
+	/// </summary>
+	void SouthPoleBulletFire();
 
 	/// <summary>
 	/// 弾の更新
@@ -82,7 +95,8 @@ private:
 	std::unique_ptr<ObjectModel> oModel_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
-	std::list<PlayerBullet*> bullets_;
+	std::list<NorthPoleBullet*> bulletsNorth_;
+	std::list<SouthPoleBullet*> bulletsSouth_;
 
 
 

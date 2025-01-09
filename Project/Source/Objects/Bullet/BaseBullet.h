@@ -6,46 +6,40 @@
 
 // C++
 #include <memory>
-class PlayerBullet
+class BaseBullet
 {
 public:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const Vector3& translate,const Vector3& velocity);
+	virtual void Initialize(const std::string& directoryPath, const std::string& name,
+		const Vector3& translate, const Vector3& velocity);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	virtual void Update();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const Camera& camera, const Vector4& color);
-
-private:
-
-#ifdef _DEBUG
-	void ImGui();
-#endif // _DEBUG
-
+	virtual void Draw(const Camera& camera, const Vector4& color);
 
 public:
 
 	/// <summary>
 	/// デスタイマー関数
 	/// </summary>
-	bool IsAlive() const { return isAlive_; }
+	virtual bool IsAlive() const { return isAlive_; }
 
-	
+
 	/// <summary>
 	/// ワールド座標を取得
 	/// </summary>
-	Vector3 GetWorldPosition();
+	virtual Vector3 GetWorldPosition();
 
-private:
+protected:
 	// モデルデータ
 	std::unique_ptr<ObjectModel> oModel_ = nullptr;
 

@@ -39,7 +39,13 @@
     <ClCompile Include="Source\Objects\Player\Player.cpp">
       <Filter>Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Objects\Bullet\PlayerBullet.cpp">
+    <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Bullet\NorthPoleBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Bullet\BaseBullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +62,13 @@
     <ClInclude Include="Source\Objects\Player\Player.h">
       <Filter>Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objects\Bullet\PlayerBullet.h">
+    <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Bullet\NorthPoleBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Bullet\BaseBullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

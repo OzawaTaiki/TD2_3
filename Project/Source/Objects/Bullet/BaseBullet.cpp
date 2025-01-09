@@ -1,9 +1,10 @@
-#include "PlayerBullet.h"
+#include "BaseBullet.h"
 
-void PlayerBullet::Initialize(const Vector3& translate, const Vector3& velocity)
+void BaseBullet::Initialize(const std::string& directoryPath, const std::string& name, 
+	const Vector3& translate, const Vector3& velocity)
 {
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Sphere/Sphere.obj", "Player Bullet");
+	oModel_->Initialize(directoryPath, name);
 
 	//----------------------------------------------------//
 	/*					メンバ変数に保存					　*/
@@ -12,7 +13,7 @@ void PlayerBullet::Initialize(const Vector3& translate, const Vector3& velocity)
 	velocity_ = velocity;
 }
 
-void PlayerBullet::Update()
+void BaseBullet::Update()
 {
 	if (--deathTimer_ <= 0) {
 		isAlive_ = false;
@@ -21,12 +22,12 @@ void PlayerBullet::Update()
 	oModel_->Update();
 }
 
-void PlayerBullet::Draw(const Camera& camera, const Vector4& color)
+void BaseBullet::Draw(const Camera& camera, const Vector4& color)
 {
 	oModel_->Draw(&camera, color);
 }
 
-Vector3 PlayerBullet::GetWorldPosition()
+Vector3 BaseBullet::GetWorldPosition()
 {
 	Vector3 worldPos;
 	worldPos.x = oModel_->GetWorldTransform()->matWorld_.m[3][0];

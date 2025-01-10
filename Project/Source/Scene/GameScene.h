@@ -5,7 +5,7 @@
 #include <Framework/Camera/DebugCamera.h>
 #include <memory>
 
-#include "../Objects/Player/Player.h"
+#include "../Objects/Entity/Player/Player.h"
 #include "../Camera/FollowCamera.h"
 
 

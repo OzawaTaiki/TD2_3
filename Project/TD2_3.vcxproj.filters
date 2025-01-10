@@ -28,6 +28,9 @@
     <Filter Include="Objects\Camera">
       <UniqueIdentifier>{ccd41e2e-7bbb-4503-ab74-65cab97ca956}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Enemy">
+      <UniqueIdentifier>{6564d73f-6ec7-4275-b1d2-13af4e217faf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,7 +45,7 @@
     <ClCompile Include="Source\Scene\ResultScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Objects\Player\Player.cpp">
+    <ClCompile Include="Source\Objects\Entity\Player\Player.cpp">
       <Filter>Objects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Bullet\NorthPoleBullet.cpp">
@@ -57,6 +60,12 @@
     <ClCompile Include="Source\Camera\FollowCamera.cpp">
       <Filter>Objects\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Objects\Entity\Enemy\Enemy.cpp">
+      <Filter>Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -68,7 +77,7 @@
     <ClInclude Include="Source\Scene\ResultScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objects\Player\Player.h">
+    <ClInclude Include="Source\Objects\Entity\Player\Player.h">
       <Filter>Objects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Bullet\BaseBullet.h">
@@ -82,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="Source\Camera\FollowCamera.h">
       <Filter>Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Enemy\Enemy.h">
+      <Filter>Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\BaseEntity.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -30,23 +30,35 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+#ifdef _DEBUG
+    if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN) &&
+        Input::GetInstance()->IsKeyPressed(DIK_RSHIFT))
+        enableDebugCamera_ = !enableDebugCamera_;
+#endif // _DEBUG
+
 
     player_->Update();
 
     if (enableDebugCamera_)
     {
+        // デバッグカメラの更新
         debugCamera_.Update();
         SceneCamera_.matView_ = debugCamera_.matView_;
-        SceneCamera_.TransferData();
     }
     else
     {
+        // 追従カメラの更新
         followCamera_.Update();
+
+        // フォローカメラのビュー行列をシーンカメラに適用
         SceneCamera_.matView_ = followCamera_.matView_;
-       // SceneCamera_.Update();
+
+        // シーンカメラの行列を更新
         SceneCamera_.UpdateMatrix();
     }
 
+    // カメラ情報をGPUに転送
+    SceneCamera_.TransferData();
 
 }
 

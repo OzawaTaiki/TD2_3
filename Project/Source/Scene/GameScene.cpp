@@ -21,9 +21,11 @@ void GameScene::Initialize()
     SceneCamera_.rotate_ = { DirectX::XMConvertToRadians(90.0f),0,0 };
     SceneCamera_.UpdateMatrix();
     debugCamera_.Initialize();
+    followCamera_.Initialize();
 
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
+    followCamera_.SetTarget(player_->GetWorldTransform());
 }
 
 void GameScene::Update()
@@ -39,7 +41,9 @@ void GameScene::Update()
     }
     else
     {
-        SceneCamera_.Update();
+        followCamera_.Update();
+        SceneCamera_.matView_ = followCamera_.matView_;
+       // SceneCamera_.Update();
         SceneCamera_.UpdateMatrix();
     }
 

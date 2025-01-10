@@ -22,6 +22,12 @@
     <Filter Include="Objects\Player">
       <UniqueIdentifier>{824e39e3-eb51-42a6-bc6c-33c07c4be0b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Bullet">
+      <UniqueIdentifier>{43b9a12e-4d54-4d6f-b738-fe15dcaa9747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Camera">
+      <UniqueIdentifier>{ccd41e2e-7bbb-4503-ab74-65cab97ca956}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,14 +45,17 @@
     <ClCompile Include="Source\Objects\Player\Player.cpp">
       <Filter>Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Objects\Bullet\NorthPoleBullet.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp">
+      <Filter>Objects\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Bullet\BaseBullet.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\FollowCamera.cpp">
+      <Filter>Objects\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,14 +71,17 @@
     <ClInclude Include="Source\Objects\Player\Player.h">
       <Filter>Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Source\Objects\Bullet\BaseBullet.h">
+      <Filter>Objects\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Bullet\NorthPoleBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Objects\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objects\Bullet\BaseBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h">
+      <Filter>Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\FollowCamera.h">
+      <Filter>Objects\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

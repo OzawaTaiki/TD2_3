@@ -85,6 +85,13 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldPosition();
 
+	/// <summary>
+	/// ワールドトランスフォーム
+	/// </summary>
+	const WorldTransform GetWorldTransform() {
+		return *(oModel_->GetWorldTransform());
+	}
+
 private:
 	/*===============================================================//
 							 　　ポインタなど

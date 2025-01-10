@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "../Objects/Player/Player.h"
-
+#include "../Camera/FollowCamera.h"
 
 
 class GameScene : public BaseScene
@@ -24,6 +24,7 @@ public:
 private:
     Camera SceneCamera_ = {};
     DebugCamera debugCamera_ = {};
+    FollowCamera followCamera_ = {};
     bool enableDebugCamera_ = false;
 
     std::unique_ptr<Player> player_ = nullptr;

@@ -26,6 +26,8 @@ void GameScene::Initialize()
     debugCamera_.Initialize();
     followCamera_.Initialize();
 
+    collisionManager_ = CollisionManager::GetInstance();
+
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
     followCamera_.SetTarget(player_->GetWorldTransform());
@@ -39,6 +41,11 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+    /*===============================================================//
+                         　　    当たり判定
+    //===============================================================*/
+    collisionManager_->ResetColliderList();
+
 #ifdef _DEBUG
     if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN) &&
         Input::GetInstance()->IsKeyPressed(DIK_RSHIFT))
@@ -65,7 +72,7 @@ void GameScene::Update()
         SceneCamera_.UpdateMatrix();
     }
 
-
+    collisionManager_->CheckAllCollision();
 }
 
 void GameScene::Draw()

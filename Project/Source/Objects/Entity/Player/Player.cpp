@@ -26,11 +26,11 @@ void Player::Initialize(Camera* camera)
 						 　　  コライダー設定
 	//===============================================================*/
 
-	collider_ = new Collider();
+	collider_ = std::make_unique<Collider>();
 	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
-	//collider_->SetShape(oModel_->);
+	collider_->SetShape(oModel_->GetMin(),oModel_->GetMax());
 	collider_->SetAtrribute("Player");
-	//collider_->SetMask();
+	collider_->SetMask({ "Player" });
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; }); 
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); }); 
 	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f }); 
@@ -38,6 +38,8 @@ void Player::Initialize(Camera* camera)
 
 void Player::Update()
 {
+	collider_->RegsterCollider();
+
 	Move();
 
 	Rotate();
@@ -59,7 +61,12 @@ void Player::Update()
 
 void Player::Draw(const Vector4& color)
 {
+	//collider_->Draw();
+
+
 	oModel_->Draw(camera_, color);
+
+
 
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
 		bullet->Draw(*camera_,Vector4{255.0f,0.0f,0.0f,1.0f});
@@ -72,6 +79,10 @@ void Player::Draw(const Vector4& color)
 
 void Player::OnCollision(const Collider* other)
 {
+
+	if (other->GetName() == "Enemy") {
+
+	}
 }
 
 void Player::Move()

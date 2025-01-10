@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../BaseEntity.h"
+#include <Physics/Collision/Collider.h>
+
 class Enemy : public BaseEntity
 {
 public:
@@ -20,6 +22,15 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+
+private:
+
+	/// <summary>
+	/// 衝突
+	/// </summary>
+	void OnCollision(const Collider* other);
+
+
 public:
 
 
@@ -27,6 +38,11 @@ public:
 
 private:
 	
+	/*===============================================================//
+						 　　	ポインタなど
+	//===============================================================*/
+
+	std::unique_ptr<Collider> collider_ = nullptr;
 	bool isAlive_ = true;
 
 };

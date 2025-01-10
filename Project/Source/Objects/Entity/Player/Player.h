@@ -102,7 +102,7 @@ private:
 							 　　ポインタなど
 	//===============================================================*/
 	Input* input_ = nullptr;
-	Collider* collider_ = nullptr;
+	std::unique_ptr<Collider> collider_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
 	std::list<NorthPoleBullet*> bulletsNorth_;

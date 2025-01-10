@@ -9,7 +9,7 @@
 #include "../Objects/Entity/Player/Player.h"
 #include "../Objects/Entity/Enemy/EnemyManager.h"
 #include "../Camera/FollowCamera.h"
-
+#include <Physics/Collision/CollisionManager.h>
 
 class GameScene : public BaseScene
 {
@@ -27,6 +27,7 @@ private:
     Camera SceneCamera_ = {};
     DebugCamera debugCamera_ = {};
     FollowCamera followCamera_ = {};
+    CollisionManager* collisionManager_ = nullptr;
     bool enableDebugCamera_ = false;
 
     std::unique_ptr<Player> player_ = nullptr;

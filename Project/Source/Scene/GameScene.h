@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "../Objects/Entity/Player/Player.h"
+#include "../Objects/Entity/Enemy/EnemyManager.h"
 #include "../Camera/FollowCamera.h"
 
 
@@ -28,6 +29,7 @@ private:
     bool enableDebugCamera_ = false;
 
     std::unique_ptr<Player> player_ = nullptr;
+    std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 
 #ifdef _DEBUG
     void ImGui();

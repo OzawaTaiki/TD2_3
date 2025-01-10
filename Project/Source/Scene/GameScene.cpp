@@ -26,6 +26,9 @@ void GameScene::Initialize()
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
     followCamera_.SetTarget(player_->GetWorldTransform());
+
+    enemyManager_ = std::make_unique<EnemyManager>();
+    enemyManager_->Initialize(&SceneCamera_);
 }
 
 void GameScene::Update()
@@ -38,6 +41,7 @@ void GameScene::Update()
 
 
     player_->Update();
+    enemyManager_->Update();
 
     if (enableDebugCamera_)
     {
@@ -63,7 +67,7 @@ void GameScene::Draw()
     ModelManager::GetInstance()->PreDrawForObjectModel();
 
     player_->Draw({ 1,1,1,1 });
-
+    enemyManager_->Draw({ 1,1,1,1 });
 }
 
 #ifdef _DEBUG

@@ -1,7 +1,6 @@
 #pragma once
 #include <Rendering/Model/ObjectModel.h>
 #include <Rendering/Model/AnimationModel.h>
-#include <Framework/Camera/Camera.h>
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>

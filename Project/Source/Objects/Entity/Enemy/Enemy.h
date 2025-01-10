@@ -20,10 +20,14 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+public:
+
+
+	bool& GetIsAlive() { return isAlive_; }
 
 private:
 	
-
+	bool isAlive_ = true;
 
 };
 

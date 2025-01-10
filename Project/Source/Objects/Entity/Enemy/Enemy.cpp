@@ -5,7 +5,7 @@ void Enemy::Initialize(Camera* camera)
 	camera_ = camera;
 
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("human/walk.gltf", "Enemy");
+	oModel_->Initialize("Cube/cube.obj", "Enemy");
 
 	/*===============================================================//
 					 　　	  コライダー設定

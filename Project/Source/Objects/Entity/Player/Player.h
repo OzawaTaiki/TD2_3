@@ -8,6 +8,7 @@
 #include "../../Bullet/SouthPoleBullet.h"
 #include "../../Bullet/NorthPoleBullet.h"
 #include "../BaseEntity.h"
+#include <Physics/Collision/Collider.h>
 
 // C++
 #include <memory>
@@ -32,6 +33,11 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(const Vector4& color) override;
+
+	/// <summary>
+	/// 衝突
+	/// </summary>
+	void OnCollision(const Collider* other);
 
 
 private:
@@ -96,6 +102,7 @@ private:
 							 　　ポインタなど
 	//===============================================================*/
 	Input* input_ = nullptr;
+	Collider* collider_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
 	std::list<NorthPoleBullet*> bulletsNorth_;

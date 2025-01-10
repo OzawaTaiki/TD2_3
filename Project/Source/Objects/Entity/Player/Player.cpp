@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <DirectXMath.h>
 #include <Physics/Math/MatrixFunction.h>
+
 using namespace DirectX;
 void Player::Initialize(Camera* camera)
 {
@@ -20,6 +21,19 @@ void Player::Initialize(Camera* camera)
 
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
+
+	/*===============================================================//
+						 　　  コライダー設定
+	//===============================================================*/
+
+	collider_ = new Collider();
+	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
+	//collider_->SetShape(oModel_->);
+	collider_->SetAtrribute("Player");
+	//collider_->SetMask();
+	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; }); 
+	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); }); 
+	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f }); 
 }
 
 void Player::Update()
@@ -54,6 +68,10 @@ void Player::Draw(const Vector4& color)
 	for (SouthPoleBullet* bullet : bulletsSouth_) {
 		bullet->Draw(*camera_, Vector4{0.0f,0.0f,255.0f,1.0f});
 	}
+}
+
+void Player::OnCollision(const Collider* other)
+{
 }
 
 void Player::Move()

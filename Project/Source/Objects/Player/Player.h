@@ -88,9 +88,7 @@ public:
 	/// <summary>
 	/// ワールドトランスフォーム
 	/// </summary>
-	const WorldTransform GetWorldTransform() {
-		return *(oModel_->GetWorldTransform());
-	}
+	const WorldTransform& GetWorldTransform() {return *oModel_->GetWorldTransform();}
 
 private:
 	/*===============================================================//

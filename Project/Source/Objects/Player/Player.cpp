@@ -150,7 +150,7 @@ void Player::Fire()
 
 void Player::NorthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_RB) || input_->IsMouseTriggered(0)) {
+	if (input_->IsPadTriggered(PadButton::iPad_RB) /*|| input_->IsMouseTriggered(0)*/) {
 
 		// プレイヤーの向きから弾の初速度を計算
 		float direction = rotation_.y + std::numbers::pi / 2.0f;
@@ -175,7 +175,7 @@ void Player::NorthPoleBulletFire()
 
 void Player::SouthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_LB) || input_->IsMouseTriggered(1)) {
+	if (input_->IsPadTriggered(PadButton::iPad_LB) /*|| input_->IsMouseTriggered(1)*/) {
 		float direction = rotation_.y + std::numbers::pi / 2.0f;
 		// プレイヤーの向きから弾の初速度を計算
 		Vector3 velocity(

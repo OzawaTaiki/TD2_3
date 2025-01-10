@@ -49,7 +49,8 @@ void GameScene::Update()
     {
         followCamera_.Update();
         SceneCamera_.matView_ = followCamera_.matView_;
-        SceneCamera_.TransferData();
+        SceneCamera_.translate_ = followCamera_.translate_;
+        SceneCamera_.rotate_ = followCamera_.rotate_;
         SceneCamera_.Update();
         SceneCamera_.UpdateMatrix();
     }

@@ -19,7 +19,7 @@ public:
 
     Vector3 translate_ = { 0,0,0 };
     Vector3 scale_ = { 1,1,1 };
-    Vector3 rotate_ = { DirectX::XMConvertToRadians(90.0f),0,0 };
+    Vector3 rotate_ = { 0,0,0 };
 
     Matrix4x4 matView_ = {};
 

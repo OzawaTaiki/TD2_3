@@ -3,6 +3,7 @@
 
 #include <Framework/Camera/Camera.h>
 #include <Framework/Camera/DebugCamera.h>
+#include <Rendering/Light/LightGroup.h>
 #include <memory>
 
 #include "../Objects/Entity/Player/Player.h"
@@ -30,6 +31,8 @@ private:
 
     std::unique_ptr<Player> player_ = nullptr;
     std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
+
+    LightGroup lightGroup_ = {};
 
 #ifdef _DEBUG
     void ImGui();

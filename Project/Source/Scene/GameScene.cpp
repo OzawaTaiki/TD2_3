@@ -2,6 +2,9 @@
 
 #include <Framework/eScene/BaseScene.h>
 #include <Rendering/Model/ModelManager.h>
+#include <Rendering/Light/LightingSystem.h>
+
+
 
 #include <DirectXMath.h>
 
@@ -29,6 +32,9 @@ void GameScene::Initialize()
 
     enemyManager_ = std::make_unique<EnemyManager>();
     enemyManager_->Initialize(&SceneCamera_);
+
+    lightGroup_.Initialize();
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 }
 
 void GameScene::Update()

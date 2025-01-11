@@ -28,7 +28,7 @@ void SouthPoleBullet::Update()
 void SouthPoleBullet::Draw(const Camera& camera, const Vector4& color)
 {
 	if (!isAlive_) return; // 生存状態を確認
-	collider_->Draw();
+	//collider_->Draw();
 	BaseBullet::Draw(camera, color);
 }
 

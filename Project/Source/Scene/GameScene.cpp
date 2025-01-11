@@ -3,7 +3,7 @@
 #include <Framework/eScene/BaseScene.h>
 #include <Rendering/Model/ModelManager.h>
 #include <Rendering/Light/LightingSystem.h>
-
+#include <Rendering/LineDrawer/LineDrawer.h>
 
 
 #include <DirectXMath.h>
@@ -37,6 +37,8 @@ void GameScene::Initialize()
 
     lightGroup_.Initialize();
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+
+    LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
 }
 
 void GameScene::Update()
@@ -81,6 +83,8 @@ void GameScene::Draw()
 
     player_->Draw({ 1,1,1,1 });
     enemyManager_->Draw({ 1,1,1,1 });
+
+    LineDrawer::GetInstance()->Draw();
 }
 
 #ifdef _DEBUG

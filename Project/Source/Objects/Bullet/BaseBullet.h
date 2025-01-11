@@ -3,6 +3,7 @@
 #include <Rendering/Model/AnimationModel.h>
 #include <Framework/Camera/Camera.h>
 #include <Systems/Input/Input.h>
+#include <Physics/Collision/Collider.h>
 
 // C++
 #include <memory>
@@ -26,6 +27,10 @@ public:
 	/// </summary>
 	virtual void Draw(const Camera& camera, const Vector4& color);
 
+	/// <summary>
+	/// 衝突
+	/// </summary>
+	virtual void OnCollision(const Collider* other) = 0;
 public:
 
 	/// <summary>
@@ -40,15 +45,21 @@ public:
 	virtual Vector3 GetWorldPosition();
 
 protected:
-	// モデルデータ
+	/*===============================================================//
+					 　　		ポインタなど
+	//===============================================================*/
 	std::unique_ptr<ObjectModel> oModel_ = nullptr;
+	std::unique_ptr<Collider> collider_ = nullptr;
+
+
+	/*===============================================================//
+					 　　		その他設定
+	//===============================================================*/
 
 	// 移動速度
 	Vector3 velocity_ = Vector3(0.0f, 0.0f, 0.0f);
-
 	// デスタイマー
 	int32_t deathTimer_ = kLifeTime;
-
 	// 生存フラグ
 	bool isAlive_ = true;
 

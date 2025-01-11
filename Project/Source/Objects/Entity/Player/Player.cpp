@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <DirectXMath.h>
 #include <Physics/Math/MatrixFunction.h>
+
 using namespace DirectX;
 void Player::Initialize(Camera* camera)
 {
@@ -20,10 +21,25 @@ void Player::Initialize(Camera* camera)
 
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
+
+	/*===============================================================//
+						 　　  コライダー設定
+	//===============================================================*/
+
+	collider_ = std::make_unique<Collider>();
+	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
+	collider_->SetShape(oModel_->GetMin(),oModel_->GetMax());
+	collider_->SetAtrribute("Player");
+	collider_->SetMask({ "Player" });
+	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; }); 
+	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); }); 
+	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f }); 
 }
 
 void Player::Update()
 {
+	collider_->RegsterCollider();
+
 	Move();
 
 	Rotate();
@@ -45,7 +61,12 @@ void Player::Update()
 
 void Player::Draw(const Vector4& color)
 {
+	//collider_->Draw();
+
+
 	oModel_->Draw(camera_, color);
+
+
 
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
 		bullet->Draw(*camera_,Vector4{255.0f,0.0f,0.0f,1.0f});
@@ -53,6 +74,14 @@ void Player::Draw(const Vector4& color)
 
 	for (SouthPoleBullet* bullet : bulletsSouth_) {
 		bullet->Draw(*camera_, Vector4{0.0f,0.0f,255.0f,1.0f});
+	}
+}
+
+void Player::OnCollision(const Collider* other)
+{
+
+	if (other->GetName() == "Enemy") {
+
 	}
 }
 

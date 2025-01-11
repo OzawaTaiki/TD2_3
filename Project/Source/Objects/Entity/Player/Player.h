@@ -1,36 +1,43 @@
 #pragma once
 #include <Rendering/Model/ObjectModel.h>
 #include <Rendering/Model/AnimationModel.h>
-#include <Framework/Camera/Camera.h>
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
 
+#include "../../Bullet/SouthPoleBullet.h"
+#include "../../Bullet/NorthPoleBullet.h"
+#include "../BaseEntity.h"
+#include <Physics/Collision/Collider.h>
 
 // C++
 #include <memory>
-#include "../Bullet/NorthPoleBullet.h"
-#include "../Bullet/SouthPoleBullet.h"
 #include <list>
 
-class Player
+
+class Player : public BaseEntity
 {
 public:
 	
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Camera* camera);
+	void Initialize(Camera* camera) override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const Vector4& color);
+	void Draw(const Vector4& color) override;
+
+	/// <summary>
+	/// 衝突
+	/// </summary>
+	void OnCollision(const Collider* other);
 
 
 private:
@@ -95,8 +102,7 @@ private:
 							 　　ポインタなど
 	//===============================================================*/
 	Input* input_ = nullptr;
-	Camera* camera_ = nullptr;
-	std::unique_ptr<ObjectModel> oModel_ = nullptr;
+	std::unique_ptr<Collider> collider_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
 	std::list<NorthPoleBullet*> bulletsNorth_;

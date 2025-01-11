@@ -54,6 +54,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Sprite::StaticInitialize(WinApp::kWindowWidth_, WinApp::kWindowHeight_);
 	ModelManager::GetInstance()->Initialize();
+    LightingSystem::GetInstance()->Initialize();
 
 	LineDrawer* lineDrawer = LineDrawer::GetInstance();
 	lineDrawer->Initialize();
@@ -64,7 +65,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	JsonHub::GetInstance()->Initialize("Resources/Data/");
 
 	SceneManager::RegisterScene("Sample", SampleScene::Create);
-	SceneManager::RegisterScene("ParticleTest", ParticleTestScene::Create);
 	SceneManager::RegisterScene("Title", TitleScene::Create);
 	SceneManager::RegisterScene("Game", GameScene::Create);
 	SceneManager::RegisterScene("Result", ResultScene::Create);

@@ -20,5 +20,10 @@ public:
 	/// </summary>
 	void Draw(const Camera& camera, const Vector4& color) override;
 
+	/// <summary>
+	/// 衝突
+	/// </summary>
+	void OnCollision(const Collider* other) override;
+
 };
 

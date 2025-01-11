@@ -2,6 +2,9 @@
 
 #include <Framework/eScene/BaseScene.h>
 #include <Rendering/Model/ModelManager.h>
+#include <Rendering/Light/LightingSystem.h>
+#include <Rendering/LineDrawer/LineDrawer.h>
+
 
 #include <DirectXMath.h>
 
@@ -23,13 +26,28 @@ void GameScene::Initialize()
     debugCamera_.Initialize();
     followCamera_.Initialize();
 
+    collisionManager_ = CollisionManager::GetInstance();
+
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
     followCamera_.SetTarget(player_->GetWorldTransform());
+
+    enemyManager_ = std::make_unique<EnemyManager>();
+    enemyManager_->Initialize(&SceneCamera_);
+
+    lightGroup_.Initialize();
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+
+    LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
 }
 
 void GameScene::Update()
 {
+    /*===============================================================//
+                         　　    当たり判定
+    //===============================================================*/
+    collisionManager_->ResetColliderList();
+
 #ifdef _DEBUG
     if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN) &&
         Input::GetInstance()->IsKeyPressed(DIK_RSHIFT))
@@ -38,6 +56,7 @@ void GameScene::Update()
 
 
     player_->Update();
+    enemyManager_->Update();
 
     if (enableDebugCamera_)
     {
@@ -55,7 +74,7 @@ void GameScene::Update()
         SceneCamera_.UpdateMatrix();
     }
 
-
+    collisionManager_->CheckAllCollision();
 }
 
 void GameScene::Draw()
@@ -63,7 +82,9 @@ void GameScene::Draw()
     ModelManager::GetInstance()->PreDrawForObjectModel();
 
     player_->Draw({ 1,1,1,1 });
+    enemyManager_->Draw({ 1,1,1,1 });
 
+    LineDrawer::GetInstance()->Draw();
 }
 
 #ifdef _DEBUG

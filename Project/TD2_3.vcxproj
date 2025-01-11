@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\Enemy.cpp" />
@@ -161,6 +162,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LoadScene.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\Enemy.h" />

@@ -72,6 +72,9 @@
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp">
       <Filter>Objects\Entity\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
       <Filter>Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

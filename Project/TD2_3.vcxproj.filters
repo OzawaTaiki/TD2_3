@@ -40,6 +40,9 @@
     <Filter Include="Source\System_TD\Camera">
       <UniqueIdentifier>{ccd41e2e-7bbb-4503-ab74-65cab97ca956}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System_TD\TypeManager">
+      <UniqueIdentifier>{ddb9ef8b-cea9-443f-994f-3bbdb01c9fd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp">
       <Filter>Source\Objects\Entity\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp">
+      <Filter>Source\System_TD\TypeManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -112,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
       <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h">
+      <Filter>Source\System_TD\TypeManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

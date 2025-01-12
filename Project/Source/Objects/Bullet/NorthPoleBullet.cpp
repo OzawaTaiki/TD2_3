@@ -1,4 +1,6 @@
 #include "NorthPoleBullet.h"
+#include "../Entity/Enemy/Enemy.h"
+#include "../../System_TD/TypeManager/TypeManager.h"
 
 void NorthPoleBullet::Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity)
 {
@@ -15,6 +17,8 @@ void NorthPoleBullet::Initialize(const std::string& directoryPath, const std::st
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
 	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
+	// 弾オブジェクトをコライダーの所有者として設定
+	collider_->SetOwner(this);
 }
 
 void NorthPoleBullet::Update()
@@ -36,6 +40,11 @@ void NorthPoleBullet::OnCollision(const Collider* other)
 {
 	
 	if (other->GetName() == "Enemy") {
-		isAlive_ = false;
+		// コライダーの所有者から敵オブジェクトを取得
+		Enemy* enemy = static_cast<Enemy*>(other->GetOwner());
+		if (enemy) {
+			TypeManager::ApplyTypeChange(enemy, TypeManager::BulletType::North);
+		}
+		isAlive_ = false; // 弾を削除
 	}
 }

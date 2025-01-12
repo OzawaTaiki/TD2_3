@@ -154,6 +154,7 @@
     <ClCompile Include="Source\Scene\GameScene.cpp" />
     <ClCompile Include="Source\Scene\TitleScene.cpp" />
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
+    <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -172,6 +173,7 @@
     <ClInclude Include="Source\Scene\GameScene.h" />
     <ClInclude Include="Source\Scene\TitleScene.h" />
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
+    <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

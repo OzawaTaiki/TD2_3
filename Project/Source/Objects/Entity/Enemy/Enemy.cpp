@@ -19,12 +19,22 @@ void Enemy::Initialize(Camera* camera)
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
 	collider_->SetReferencePoint({ 1.0f, 1.0f, 1.0f });
+
+	// 敵オブジェクトをコライダーの所有者として設定
+	collider_->SetOwner(this);
 }
 
 void Enemy::Update()
 {
 	collider_->RegsterCollider();
 	oModel_->Update();
+	// ImGui デバッグ表示
+	if (ImGui::Begin("Enemy Debug")) {
+		ImGui::Text("Enemy Attributes");
+		ImGui::Text("Type: %s", GetCurrentTypeName().c_str());
+		ImGui::Text("Alive: %s", isAlive_ ? "Yes" : "No");
+	}
+	ImGui::End();
 }
 
 void Enemy::Draw(const Vector4& color)

@@ -8,7 +8,7 @@
 
 #include "../Objects/Entity/Player/Player.h"
 #include "../Objects/Entity/Enemy/EnemyManager.h"
-#include "../Camera/FollowCamera.h"
+#include "../System_TD/Camera/FollowCamera.h"
 #include <Physics/Collision/CollisionManager.h>
 #include "LoadScene.h"
     

@@ -66,7 +66,7 @@ protected:
 
 private:
 	// 静的メンバ変数
-	static const int32_t kLifeTime = 60 * 5; // 寿命<frm>
+	static const int32_t kLifeTime = 60 * 1; // 寿命<frm>
 	static inline const float rad = 1.0f;    // 半径
 
 };

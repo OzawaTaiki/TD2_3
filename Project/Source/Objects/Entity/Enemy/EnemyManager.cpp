@@ -1,5 +1,7 @@
 #include "EnemyManager.h"
 
+#include <random>
+
 void EnemyManager::Initialize(Camera* camera)
 {
     camera_ = camera;
@@ -33,7 +35,10 @@ void EnemyManager::AddEnemy()
 {
     // 新しい敵を追加
     auto newEnemy = std::make_unique<Enemy>();
-    newEnemy->Initialize(camera_);  // カメラを渡して初期化
+    // ランダムな初期位置を設定
+    Vector3 position = GenerateRandomPosition();
+    newEnemy->Initialize(camera_);
+    newEnemy->SetTranslate(position);
     enemies_.push_back(std::move(newEnemy));
 }
 
@@ -43,4 +48,15 @@ void EnemyManager::RemoveDeadEnemies()
     enemies_.remove_if([](const std::unique_ptr<Enemy>& enemy) {
         return !enemy->GetIsAlive();  
         });
+}
+
+Vector3 EnemyManager::GenerateRandomPosition()
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_real_distribution<float> distX(-10.0f, 10.0f); // X座標範囲
+    static std::uniform_real_distribution<float> distY(0.0f, 0.0f);     // Y座標範囲
+    static std::uniform_real_distribution<float> distZ(-10.0f, 10.0f); // Z座標範囲
+
+    return Vector3(distX(gen), distY(gen), distZ(gen));
 }

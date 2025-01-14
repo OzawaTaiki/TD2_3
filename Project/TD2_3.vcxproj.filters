@@ -13,26 +13,35 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{7066b019-73f9-4b3d-b60a-5af228a190a5}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{0272505c-829c-49b7-a21b-5d0f75162ca8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
+    <Filter Include="Source\Objects">
       <UniqueIdentifier>{0c78f603-365d-432e-80eb-25481bf05875}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Bullet">
+    <Filter Include="Source\Objects\Bullet">
       <UniqueIdentifier>{43b9a12e-4d54-4d6f-b738-fe15dcaa9747}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Camera">
-      <UniqueIdentifier>{ccd41e2e-7bbb-4503-ab74-65cab97ca956}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Entity">
+    <Filter Include="Source\Objects\Entity">
       <UniqueIdentifier>{4e668c5a-04cc-4df4-b259-118f92dc86a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Entity\Enemy">
+    <Filter Include="Source\Objects\Entity\Enemy">
       <UniqueIdentifier>{6564d73f-6ec7-4275-b1d2-13af4e217faf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Entity\Player">
+    <Filter Include="Source\Objects\Entity\Player">
       <UniqueIdentifier>{824e39e3-eb51-42a6-bc6c-33c07c4be0b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{7066b019-73f9-4b3d-b60a-5af228a190a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD">
+      <UniqueIdentifier>{da8f3e29-7c74-4a23-9201-bbe56491e613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD\Camera">
+      <UniqueIdentifier>{ccd41e2e-7bbb-4503-ab74-65cab97ca956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD\TypeManager">
+      <UniqueIdentifier>{ddb9ef8b-cea9-443f-994f-3bbdb01c9fd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,37 +49,40 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\GameScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\TitleScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\ResultScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Entity\Player\Player.cpp">
-      <Filter>Objects\Entity\Player</Filter>
+      <Filter>Source\Objects\Entity\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Bullet\NorthPoleBullet.cpp">
-      <Filter>Objects\Bullet</Filter>
+      <Filter>Source\Objects\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp">
-      <Filter>Objects\Bullet</Filter>
+      <Filter>Source\Objects\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Bullet\BaseBullet.cpp">
-      <Filter>Objects\Bullet</Filter>
+      <Filter>Source\Objects\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Camera\FollowCamera.cpp">
-      <Filter>Objects\Camera</Filter>
+    <ClCompile Include="Source\System_TD\Camera\FollowCamera.cpp">
+      <Filter>Source\System_TD\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Entity\Enemy\Enemy.cpp">
-      <Filter>Objects\Entity\Enemy</Filter>
+      <Filter>Source\Objects\Entity\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp">
-      <Filter>Objects\Entity</Filter>
+      <Filter>Source\Objects\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp">
-      <Filter>Objects\Entity\Enemy</Filter>
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp">
+      <Filter>Source\System_TD\TypeManager</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\LoadScene.cpp">
       <Filter>Scene</Filter>
@@ -78,37 +90,40 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\TitleScene.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\ResultScene.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Player\Player.h">
-      <Filter>Objects\Entity\Player</Filter>
+      <Filter>Source\Objects\Entity\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Bullet\BaseBullet.h">
-      <Filter>Objects\Bullet</Filter>
+      <Filter>Source\Objects\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Bullet\NorthPoleBullet.h">
-      <Filter>Objects\Bullet</Filter>
+      <Filter>Source\Objects\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h">
-      <Filter>Objects\Bullet</Filter>
+      <Filter>Source\Objects\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Camera\FollowCamera.h">
-      <Filter>Objects\Camera</Filter>
+    <ClInclude Include="Source\System_TD\Camera\FollowCamera.h">
+      <Filter>Source\System_TD\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Enemy\Enemy.h">
-      <Filter>Objects\Entity\Enemy</Filter>
+      <Filter>Source\Objects\Entity\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h">
-      <Filter>Objects\Entity</Filter>
+      <Filter>Source\Objects\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
-      <Filter>Objects\Entity\Enemy</Filter>
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h">
+      <Filter>Source\System_TD\TypeManager</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\LoadScene.h">
       <Filter>Scene</Filter>

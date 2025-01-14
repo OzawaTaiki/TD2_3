@@ -145,7 +145,7 @@
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\Enemy.cpp" />
-    <ClCompile Include="Source\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Source\System_TD\Camera\FollowCamera.cpp" />
     <ClCompile Include="Source\Objects\Bullet\BaseBullet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Objects\Bullet\NorthPoleBullet.cpp" />
@@ -155,6 +155,7 @@
     <ClCompile Include="Source\Scene\GameScene.cpp" />
     <ClCompile Include="Source\Scene\TitleScene.cpp" />
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
+    <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -165,7 +166,7 @@
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\Enemy.h" />
-    <ClInclude Include="Source\Camera\FollowCamera.h" />
+    <ClInclude Include="Source\System_TD\Camera\FollowCamera.h" />
     <ClInclude Include="Source\Objects\Bullet\BaseBullet.h" />
     <ClInclude Include="Source\Objects\Bullet\NorthPoleBullet.h" />
     <ClInclude Include="Source\Objects\Entity\Player\Player.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Source\Scene\GameScene.h" />
     <ClInclude Include="Source\Scene\TitleScene.h" />
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
+    <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

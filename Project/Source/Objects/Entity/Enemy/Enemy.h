@@ -57,7 +57,8 @@ private:
 
 public:
 
-
+	Vector3& GetTranslate() { return oModel_->translate_; }
+	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 	bool& GetIsAlive() { return isAlive_; }
 
 private:

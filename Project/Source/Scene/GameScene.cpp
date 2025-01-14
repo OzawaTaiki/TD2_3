@@ -50,11 +50,12 @@ void GameScene::Update()
 
 #ifdef _DEBUG
     if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN) &&
-        Input::GetInstance()->IsKeyPressed(DIK_RSHIFT))
+        Input::GetInstance()->IsKeyPressed(DIK_LSHIFT)) {
         enableDebugCamera_ = !enableDebugCamera_;
+    }
 #endif // _DEBUG
 
-
+    
     player_->Update();
     enemyManager_->Update();
 

@@ -32,8 +32,10 @@ public:
     /// </summary>
     void RemoveDeadEnemies();
 
+    Vector3 GenerateRandomPosition();
+
 private:
-    uint32_t enemyCount_ = 1;
+    uint32_t enemyCount_ = 3;
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;
 };

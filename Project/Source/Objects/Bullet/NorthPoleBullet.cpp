@@ -16,7 +16,7 @@ void NorthPoleBullet::Initialize(const std::string& directoryPath, const std::st
 	collider_->SetMask({ "Player" });
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
-	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
+
 	// 弾オブジェクトをコライダーの所有者として設定
 	collider_->SetOwner(this);
 }
@@ -31,7 +31,7 @@ void NorthPoleBullet::Update()
 
 void NorthPoleBullet::Draw(const Camera& camera, const Vector4& color)
 {
-	//collider_->Draw();
+	collider_->Draw();
 	if (!isAlive_) return; // 生存状態を確認
 	BaseBullet::Draw(camera, color);
 }

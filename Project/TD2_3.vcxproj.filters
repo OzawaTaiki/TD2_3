@@ -84,6 +84,9 @@
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp">
       <Filter>Source\System_TD\TypeManager</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene\LoadScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h">
       <Filter>Source\System_TD\TypeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\LoadScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

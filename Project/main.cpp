@@ -72,7 +72,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     SceneManager::RegisterScene("Load", LoadScene::Create);
 
 
-	SceneManager::GetInstance()->Initialize("Title");
+	SceneManager::GetInstance()->Initialize("Game");
 
 	Time::Initialize();
 

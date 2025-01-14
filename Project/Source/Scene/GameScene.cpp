@@ -119,7 +119,7 @@ void GameScene::Load()
 
     LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
 
-    Model::CreateFromObj("bunny.obj");
+    //Model::CreateFromObj("bunny.obj");
 
     Loading_ = false;
 

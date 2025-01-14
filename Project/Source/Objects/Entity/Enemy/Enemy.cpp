@@ -5,7 +5,7 @@ void Enemy::Initialize(Camera* camera)
 	camera_ = camera;
 
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Cube/cube.obj", "Enemy");
+	oModel_->Initialize("Sphere/sphere.obj", "Enemy");
 
 	/*===============================================================//
 					 　　	  コライダー設定
@@ -40,7 +40,24 @@ void Enemy::Update()
 void Enemy::Draw(const Vector4& color)
 {
 	collider_->Draw();
-	oModel_->Draw(camera_, color);
+	Vector4 typeColor;
+
+	// 弾のタイプに応じた色を設定
+	if (currentType_ == BulletType::None) {
+		typeColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 白
+	}
+	else if (currentType_ == BulletType::North) {
+		typeColor = Vector4(1.0f, 0.0f, 0.0f, 1.0f); // 赤
+	}
+	else if (currentType_ == BulletType::South) {
+		typeColor = Vector4(0.0f, 0.0f, 1.0f, 1.0f); // 青
+	}
+	else {
+		typeColor = Vector4(0.0f, 0.0f, 0.0f, 1.0f); // 黒
+	}
+
+	collider_->Draw();
+	oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
 }
 
 void Enemy::OnCollision(const Collider* other)

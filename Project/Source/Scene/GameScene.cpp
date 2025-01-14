@@ -30,7 +30,7 @@ void GameScene::Initialize()
     Loading_ = true;
 
     loadThread_ = std::make_unique <std::thread>(&GameScene::Load, this);
-    loadThread_->detach();
+    //loadThread_->detach();
 
 }
 

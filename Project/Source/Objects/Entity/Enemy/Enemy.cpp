@@ -29,8 +29,7 @@ void Enemy::Update()
 	collider_->RegsterCollider();
 	oModel_->Update();
 	// ImGui デバッグ表示
-	if (ImGui::Begin("Enemy Debug")) {
-		ImGui::Text("Enemy Attributes");
+	if (ImGui::Begin("Enemy Type")) {
 		ImGui::Text("Type: %s", GetCurrentTypeName().c_str());
 		ImGui::Text("Alive: %s", isAlive_ ? "Yes" : "No");
 	}

@@ -32,10 +32,20 @@ public:
     /// </summary>
     void RemoveDeadEnemies();
 
+    /// <summary>
+    /// 一定範囲内でランダム生成
+    /// </summary>
+    /// <returns></returns>
     Vector3 GenerateRandomPosition();
 
 private:
     uint32_t enemyCount_ = 3;
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;
+
+    // 追加: ランダム生成範囲を調整可能にする
+    float randomRangeXMin_ = -10.0f;
+    float randomRangeXMax_ = 10.0f;
+    float randomRangeZMin_ = -10.0f;
+    float randomRangeZMax_ = 10.0f;
 };

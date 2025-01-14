@@ -31,15 +31,11 @@ void EnemyManager::Update()
 
     AttractEnemy(attractRadius_);
 
+    // 一定時間で敵追加
+    TimeSpawnEnemy();
 
 
-    // 時間に基づいて敵を追加
-    auto currentTime = std::chrono::steady_clock::now();
-    std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
-    if (elapsed.count() >= spawnInterval_) {
-        AddEnemy();
-        lastSpawnTime_ = currentTime; // タイマーをリセット
-    }
+
 
 
 
@@ -96,6 +92,17 @@ void EnemyManager::AddEnemy()
     newEnemy->Initialize(camera_);
     newEnemy->SetTranslate(newPos);
     enemies_.push_back(std::move(newEnemy));
+}
+
+void EnemyManager::TimeSpawnEnemy()
+{
+    // 時間に基づいて敵を追加
+    auto currentTime = std::chrono::steady_clock::now();
+    std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
+    if (elapsed.count() >= spawnInterval_) {
+        AddEnemy();
+        lastSpawnTime_ = currentTime; // タイマーをリセット
+    }
 }
 
 void EnemyManager::RemoveDeadEnemies()

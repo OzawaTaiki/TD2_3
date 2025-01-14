@@ -37,6 +37,11 @@ private:
     void AddEnemy();
 
     /// <summary>
+    /// タイムでスポーン
+    /// </summary>
+    void TimeSpawnEnemy();
+
+    /// <summary>
     /// 敵を削除（デスフラグ付き）
     /// </summary>
     void RemoveDeadEnemies();

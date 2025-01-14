@@ -281,3 +281,13 @@ Vector3 Player::GetWorldPosition()
 
 	return worldPos;
 }
+
+Vector3 Player::GetCenterPosition()
+{
+	// ローカル座標でのオフセット
+	const Vector3 offset = { 0.0f, 0.0f, 0.0f };
+	// ワールド座標に変換
+	Vector3 worldPos = Transform(offset,oModel_->GetWorldTransform()->matWorld_);
+
+	return worldPos;
+}

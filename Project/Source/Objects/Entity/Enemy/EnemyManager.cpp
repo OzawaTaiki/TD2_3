@@ -1,4 +1,5 @@
 #include "EnemyManager.h"
+#include "../Player/Player.h"
 #include <imgui.h>
 #include <random>
 
@@ -22,7 +23,7 @@ void EnemyManager::Update()
         enemy->Update();
     }
 
-    AttractEnemy(typeRadius_);
+    AttractEnemy(attractRadius_);
 
 
     
@@ -45,11 +46,16 @@ void EnemyManager::ImGui()
 {
     // 追加: ImGui操作用インターフェース
     if (ImGui::Begin("Enemy Info")) {
+
         ImGui::Text("Enemy Controls");
         ImGui::SliderFloat("X Range Min", &randomRangeXMin_, -50.0f, 0.0f);
         ImGui::SliderFloat("X Range Max", &randomRangeXMax_, 0.0f, 50.0f);
         ImGui::SliderFloat("Z Range Min", &randomRangeZMin_, -50.0f, 0.0f);
         ImGui::SliderFloat("Z Range Max", &randomRangeZMax_, 0.0f, 50.0f);
+
+        ImGui::Text("Enemy Attract");
+        ImGui::SliderFloat("Attract Speed", &attractSpeed_, 0.0f, 0.5f);
+        ImGui::SliderFloat("Attract Radius", &attractRadius_, 0.0f, 10.0f);
 
         if (ImGui::Button("Add Enemy")) {
             AddEnemy();
@@ -62,9 +68,12 @@ void EnemyManager::AddEnemy()
 {
     // 新しい敵を追加
     auto newEnemy = std::make_unique<Enemy>();
-    Vector3 position = GenerateRandomPosition();
+    Vector3 randomPos= GenerateRandomPosition();
+    Vector3 playerPos = player_->GetCenterPosition();
+    Vector3 newPos = randomPos + playerPos;
+
     newEnemy->Initialize(camera_);
-    newEnemy->SetTranslate(position);
+    newEnemy->SetTranslate(newPos);
     enemies_.push_back(std::move(newEnemy));
 }
 
@@ -127,14 +136,13 @@ void EnemyManager::AttractEnemy(float range)
                 };
 
                 // 移動処理
-                float moveSpeed = 0.1f; // 移動速度
-                pos1.x += direction.x * moveSpeed;
-                pos1.y += direction.y * moveSpeed;
-                pos1.z += direction.z * moveSpeed;
+                pos1.x += direction.x * attractSpeed_ ;
+                pos1.y += direction.y * attractSpeed_ ;
+                pos1.z += direction.z * attractSpeed_ ;
 
-                pos2.x -= direction.x * moveSpeed;
-                pos2.y -= direction.y * moveSpeed;
-                pos2.z -= direction.z * moveSpeed;
+                pos2.x -= direction.x * attractSpeed_ ;
+                pos2.y -= direction.y * attractSpeed_ ;
+                pos2.z -= direction.z * attractSpeed_ ;
 
                 enemy1->SetTranslate(pos1);
                 enemy2->SetTranslate(pos2);

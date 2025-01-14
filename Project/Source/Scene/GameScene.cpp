@@ -33,7 +33,10 @@ void GameScene::Initialize()
     followCamera_.SetTarget(player_->GetWorldTransform());
 
     enemyManager_ = std::make_unique<EnemyManager>();
+    enemyManager_->SetPlayer(player_.get());
     enemyManager_->Initialize(&SceneCamera_);
+   
+
 
     lightGroup_.Initialize();
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);

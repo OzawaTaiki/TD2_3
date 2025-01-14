@@ -75,8 +75,8 @@ private:
     float threshold_ = 0.5f; // 消滅のしきい値
     float attractCoefficient_ = 1.0f; // 引き寄せの強さ
     float repelCoefficient_ = 1.0f;   // 反発の強さ
-
-
+  
+  
     std::chrono::steady_clock::time_point lastSpawnTime_; // 最後に敵を生成した時刻
     float spawnInterval_ = 5.0f; // 敵生成間隔（秒）
 

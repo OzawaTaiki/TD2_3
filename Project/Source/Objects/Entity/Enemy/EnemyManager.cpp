@@ -31,6 +31,7 @@ void EnemyManager::Update()
     AttractEnemy(attractRadius_);
 
 
+
     // 時間に基づいて敵を追加
     auto currentTime = std::chrono::steady_clock::now();
     std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
@@ -38,6 +39,7 @@ void EnemyManager::Update()
         AddEnemy();
         lastSpawnTime_ = currentTime; // タイマーをリセット
     }
+
 
 
 #ifdef _DEBUG

@@ -11,6 +11,11 @@ void EnemyManager::Initialize(Camera* camera)
     for (uint32_t i = 0; i < enemyCount_; ++i) {
         AddEnemy();
     }
+
+
+
+    lastSpawnTime_ = std::chrono::steady_clock::now();
+    spawnInterval_ = 1.5f; // デフォルトで5秒ごとに敵を生成
 }
 
 void EnemyManager::Update()
@@ -26,7 +31,14 @@ void EnemyManager::Update()
     AttractEnemy(attractRadius_);
 
 
-    
+    // 時間に基づいて敵を追加
+    auto currentTime = std::chrono::steady_clock::now();
+    std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
+    if (elapsed.count() >= spawnInterval_) {
+        AddEnemy();
+        lastSpawnTime_ = currentTime; // タイマーをリセット
+    }
+
 
 #ifdef _DEBUG
     ImGui();

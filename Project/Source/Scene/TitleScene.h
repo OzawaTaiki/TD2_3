@@ -2,6 +2,8 @@
 #include <Framework/eScene/BaseScene.h>
 #include <memory>
 
+#include <Rendering/LineDrawer/LineDrawer.h>
+
 class TitleScene : public BaseScene
 {
 public:
@@ -15,6 +17,9 @@ public:
     void Draw() override;
 
 private:
+    
+    Camera SceneCamera_ = {};
+    LineDrawer* lineDrawer_ = nullptr;
 
 #ifdef _DEBUG
     void ImGui();

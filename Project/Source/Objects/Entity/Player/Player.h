@@ -97,6 +97,8 @@ public:
 	/// </summary>
 	const WorldTransform& GetWorldTransform() {return *oModel_->GetWorldTransform();}
 
+	Vector3 GetCenterPosition();
+
 private:
 	/*===============================================================//
 							 　　ポインタなど

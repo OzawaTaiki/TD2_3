@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include <Framework/Camera/Camera.h>
 
+class Player;
 class EnemyManager
 {
 public:
@@ -51,7 +52,12 @@ private:
     /// <param name="range"></param>
     void AttractEnemy(float range);
 
+public:
+
+    void SetPlayer(Player* player) { player_ = player; }
+
 private:
+    Player* player_;
     uint32_t enemyCount_ = 3;
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;
@@ -62,6 +68,7 @@ private:
     float randomRangeZMin_ = -10.0f;
     float randomRangeZMax_ = 10.0f;
 
-    // 引き寄せ可能な範囲
-    float typeRadius_ = 10.0f;
+    // 引き寄せ処理
+    float attractSpeed_ = 0.1f;
+    float attractRadius_ = 10.0f;
 };

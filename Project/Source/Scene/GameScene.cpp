@@ -15,34 +15,33 @@ std::unique_ptr<BaseScene>GameScene::Create()
 
 GameScene::~GameScene()
 {
+    if (loadThread_ && loadThread_->joinable())
+    {
+        loadThread_->join();
+    }
+
+    delete loadScene_;
 }
 
 void GameScene::Initialize()
 {
-    SceneCamera_.Initialize();
-    SceneCamera_.translate_ = { 0,100,0 };
-    SceneCamera_.rotate_ = { DirectX::XMConvertToRadians(90.0f),0,0 };
-    SceneCamera_.UpdateMatrix();
-    debugCamera_.Initialize();
-    followCamera_.Initialize();
+    loadScene_ = new LoadScene();
+    loadScene_->Initialize();
+    Loading_ = true;
 
-    collisionManager_ = CollisionManager::GetInstance();
+    loadThread_ = std::make_unique <std::thread>(&GameScene::Load, this);
+    loadThread_->detach();
 
-    player_ = std::make_unique<Player>();
-    player_->Initialize(&SceneCamera_);
-    followCamera_.SetTarget(player_->GetWorldTransform());
-
-    enemyManager_ = std::make_unique<EnemyManager>();
-    enemyManager_->Initialize(&SceneCamera_);
-
-    lightGroup_.Initialize();
-    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
-
-    LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
 }
 
 void GameScene::Update()
 {
+    if (Loading_)
+    {
+        loadScene_->Update();
+        return;
+    }
+
     /*===============================================================//
                          　　    当たり判定
     //===============================================================*/
@@ -79,12 +78,47 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+    if (Loading_)
+    {
+        loadScene_->Draw();
+        return;
+    }
+
     ModelManager::GetInstance()->PreDrawForObjectModel();
 
     player_->Draw({ 1,1,1,1 });
     enemyManager_->Draw({ 1,1,1,1 });
 
     LineDrawer::GetInstance()->Draw();
+}
+
+void GameScene::Load()
+{
+    SceneCamera_.Initialize();
+    SceneCamera_.translate_ = { 0,100,0 };
+    SceneCamera_.rotate_ = { DirectX::XMConvertToRadians(90.0f),0,0 };
+    SceneCamera_.UpdateMatrix();
+    debugCamera_.Initialize();
+    followCamera_.Initialize();
+
+    collisionManager_ = CollisionManager::GetInstance();
+
+    player_ = std::make_unique<Player>();
+    player_->Initialize(&SceneCamera_);
+    followCamera_.SetTarget(player_->GetWorldTransform());
+
+    enemyManager_ = std::make_unique<EnemyManager>();
+    enemyManager_->Initialize(&SceneCamera_);
+
+    lightGroup_.Initialize();
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+
+    LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
+
+    Model::CreateFromObj("bunny.obj");
+
+    Loading_ = false;
+
 }
 
 #ifdef _DEBUG

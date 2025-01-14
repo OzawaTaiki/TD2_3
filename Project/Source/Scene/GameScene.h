@@ -10,6 +10,9 @@
 #include "../Objects/Entity/Enemy/EnemyManager.h"
 #include "../Camera/FollowCamera.h"
 #include <Physics/Collision/CollisionManager.h>
+#include "LoadScene.h"
+    
+#include <thread>
 
 class GameScene : public BaseScene
 {
@@ -24,6 +27,11 @@ public:
     void Draw() override;
 
 private:
+    void Load();
+
+    std::atomic<bool> Loading_ = true;
+    std::unique_ptr<std::thread> loadThread_;
+
     Camera SceneCamera_ = {};
     DebugCamera debugCamera_ = {};
     FollowCamera followCamera_ = {};
@@ -34,6 +42,8 @@ private:
     std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 
     LightGroup lightGroup_ = {};
+
+    LoadScene* loadScene_ = nullptr;
 
 #ifdef _DEBUG
     void ImGui();

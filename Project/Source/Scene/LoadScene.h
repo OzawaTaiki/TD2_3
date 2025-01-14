@@ -10,6 +10,7 @@ public:
     LoadScene() = default;
     ~LoadScene() = default;
 
+    static std::unique_ptr<BaseScene> Create();
 
     void Initialize() override;
     void Update() override;
@@ -17,6 +18,8 @@ public:
 
 
 private:
+
+    Sprite* sprite_ = nullptr;
 
 
 

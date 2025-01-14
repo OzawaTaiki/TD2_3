@@ -20,6 +20,7 @@
 #include "Source/Scene/TitleScene.h"
 #include "Source/Scene/GameScene.h"
 #include "Source/Scene/ResultScene.h"
+#include "Source/Scene/LoadScene.h"
 /*---------------*/
 
 
@@ -68,9 +69,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager::RegisterScene("Title", TitleScene::Create);
 	SceneManager::RegisterScene("Game", GameScene::Create);
 	SceneManager::RegisterScene("Result", ResultScene::Create);
+    SceneManager::RegisterScene("Load", LoadScene::Create);
 
 
-	SceneManager::GetInstance()->Initialize("Game");
+	SceneManager::GetInstance()->Initialize("Title");
 
 	Time::Initialize();
 

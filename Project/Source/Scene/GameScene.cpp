@@ -32,6 +32,15 @@ void GameScene::Initialize()
     loadThread_ = std::make_unique <std::thread>(&GameScene::Load, this);
     //loadThread_->detach();
 
+    enemyManager_ = std::make_unique<EnemyManager>();
+    enemyManager_->SetPlayer(player_.get());
+    enemyManager_->Initialize(&SceneCamera_);
+   
+
+    lightGroup_.Initialize();
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+
+    LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
 }
 
 void GameScene::Update()

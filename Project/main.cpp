@@ -28,7 +28,7 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	WinApp* winApp = WinApp::GetInstance();
-	winApp->Initilize();
+	winApp->Initilize(L"2304_プラマイショット");
 
 	DXCommon* dxCommon = DXCommon::GetInstance();
 	dxCommon->Initialize(winApp, WinApp::kWindowWidth_, WinApp::kWindowHeight_);

@@ -72,9 +72,13 @@ private:
     // 引き寄せ処理
     float attractSpeed_ = 0.1f;
     float attractRadius_ = 10.0f;
+
+    float repelCoefficient_ = 10.0f;    // 反発の基準係数
+    float attractCoefficient_ = 10.0f; // 引き寄せの基準係数
+    float maxRepelForce_ = 5.0f;        // 反発力の最大値
+    float maxAttractForce_ = 5.0f;      // 引き寄せ力の最大値
     float threshold_ = 0.5f; // 消滅のしきい値
-    float attractCoefficient_ = 1.0f; // 引き寄せの強さ
-    float repelCoefficient_ = 1.0f;   // 反発の強さ
+
   
   
     std::chrono::steady_clock::time_point lastSpawnTime_; // 最後に敵を生成した時刻

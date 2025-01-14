@@ -2,6 +2,7 @@
 #include "../Player/Player.h"
 #include <imgui.h>
 #include <random>
+#include <algorithm>
 
 void EnemyManager::Initialize(Camera* camera)
 {
@@ -71,6 +72,11 @@ void EnemyManager::ImGui()
         ImGui::SliderFloat("Attract Speed", &attractSpeed_, 0.0f, 0.5f);
         ImGui::SliderFloat("Attract Radius", &attractRadius_, 0.0f, 10.0f);
         ImGui::SliderFloat("Deth Distance", &threshold_, 0.0f, 1.0f);
+        ImGui::SliderFloat("Repel Coefficient", &repelCoefficient_, 0.0f, 10.0f);
+        ImGui::SliderFloat("Attract Coefficient", &attractCoefficient_, 0.0f, 10.0f);
+        ImGui::SliderFloat("Max Repel Force", &maxRepelForce_, 0.0f, 10.0f);
+        ImGui::SliderFloat("Max Attract Force", &maxAttractForce_, 0.0f, 10.0f);
+
 
         if (ImGui::Button("Add Enemy")) {
             AddEnemy();
@@ -153,9 +159,10 @@ void EnemyManager::AttractEnemy(float range)
                 direction.z /= distance;
             }
 
-            // 同じ属性かつ有効なタイプの場合: 強い反発
+            // 同じ属性かつ有効なタイプの場合: 強い反発（距離依存）
             if (isSameType && isTypeValid) {
-                float repelForce = repelCoefficient_ / distance; // 距離に応じて強く反発
+                float repelForce = (repelCoefficient_ / distanceSquared); // 距離の2乗に反比例
+                repelForce = (std::min)(repelForce, maxRepelForce_); // 最大反発力を制限
                 pos1.x -= direction.x * repelForce;
                 pos1.y -= direction.y * repelForce;
                 pos1.z -= direction.z * repelForce;
@@ -164,9 +171,10 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.y += direction.y * repelForce;
                 pos2.z += direction.z * repelForce;
             }
-            // 異なる属性の場合: 強く引き寄せ
+            // 異なる属性の場合: 強く引き寄せ（距離依存）
             else if (!isSameType && isTypeValid) {
-                float attractForce = attractCoefficient_ / distance; // 距離に応じて強く引き寄せ
+                float attractForce = (attractCoefficient_ / distanceSquared); // 距離の2乗に反比例
+                attractForce = (std::min)(attractForce, maxAttractForce_); // 最大引き寄せ力を制限
                 pos1.x += direction.x * attractForce;
                 pos1.y += direction.y * attractForce;
                 pos1.z += direction.z * attractForce;
@@ -188,6 +196,4 @@ void EnemyManager::AttractEnemy(float range)
         }
     }
 }
-
-
 

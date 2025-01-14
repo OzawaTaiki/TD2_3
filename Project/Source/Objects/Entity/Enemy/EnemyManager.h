@@ -71,4 +71,7 @@ private:
     // 引き寄せ処理
     float attractSpeed_ = 0.1f;
     float attractRadius_ = 10.0f;
+    float threshold_ = 0.5f; // 消滅のしきい値
+    float attractCoefficient_ = 1.0f; // 引き寄せの強さ
+    float repelCoefficient_ = 1.0f;   // 反発の強さ
 };

@@ -56,6 +56,7 @@ void EnemyManager::ImGui()
         ImGui::Text("Enemy Attract");
         ImGui::SliderFloat("Attract Speed", &attractSpeed_, 0.0f, 0.5f);
         ImGui::SliderFloat("Attract Radius", &attractRadius_, 0.0f, 10.0f);
+        ImGui::SliderFloat("Deth Distance", &threshold_, 0.0f, 1.0f);
 
         if (ImGui::Button("Add Enemy")) {
             AddEnemy();
@@ -104,59 +105,75 @@ void EnemyManager::AttractEnemy(float range)
             Enemy* enemy2 = it2->get();
             if (!enemy2 || !enemy2->GetIsAlive()) continue;
 
-            // 弾のタイプが正負でない場合はスキップ
-            if ((enemy1->GetCurrentType() == Enemy::BulletType::None) ||
-                (enemy2->GetCurrentType() == Enemy::BulletType::None)) {
-                continue;
-            }
-
-            // 同じ弾のタイプの場合はスキップ
-            if (enemy1->GetCurrentType() == enemy2->GetCurrentType()) {
-                continue;
-            }
-
-            // 円形当たり判定: 距離がそれぞれの半径の合計以下か判定
             Vector3 pos1 = enemy1->GetTranslate();
             Vector3 pos2 = enemy2->GetTranslate();
-            float radius1 = range; // Enemy1の半径
-            float radius2 = range; // Enemy2の半径
 
+            // 距離を計算
             float distanceSquared =
                 std::pow(pos1.x - pos2.x, 2) +
                 std::pow(pos1.y - pos2.y, 2) +
                 std::pow(pos1.z - pos2.z, 2);
 
-            float radiiSum = radius1 + radius2;
-            if (distanceSquared <= std::pow(radiiSum, 2)) {
-                // 引き寄せ開始
-                Vector3 direction = {
-                    (pos2.x - pos1.x),
-                    (pos2.y - pos1.y),
-                    (pos2.z - pos1.z)
-                };
+            float distance = std::sqrt(distanceSquared);
+            float radiiSum = range * 2; // 引き寄せまたは反発が作用する距離
+            if (distance > radiiSum) {
+                continue; // 範囲外
+            }
 
-                // 移動処理
-                pos1.x += direction.x * attractSpeed_ ;
-                pos1.y += direction.y * attractSpeed_ ;
-                pos1.z += direction.z * attractSpeed_ ;
+            // 属性を確認
+            bool isSameType = enemy1->GetCurrentType() == enemy2->GetCurrentType();
+            bool isTypeValid = enemy1->GetCurrentType() != Enemy::BulletType::None &&
+                enemy2->GetCurrentType() != Enemy::BulletType::None;
 
-                pos2.x -= direction.x * attractSpeed_ ;
-                pos2.y -= direction.y * attractSpeed_ ;
-                pos2.z -= direction.z * attractSpeed_ ;
+            // 力の方向を計算
+            Vector3 direction = {
+                (pos2.x - pos1.x),
+                (pos2.y - pos1.y),
+                (pos2.z - pos1.z)
+            };
 
-                enemy1->SetTranslate(pos1);
-                enemy2->SetTranslate(pos2);
+            // ベクトルの正規化
+            if (distance > 0.0f) {
+                direction.x /= distance;
+                direction.y /= distance;
+                direction.z /= distance;
+            }
 
-                // 引き寄せ後、位置が一致したら消滅
-                if (std::abs(pos1.x - pos2.x) < 0.01f &&
-                    std::abs(pos1.y - pos2.y) < 0.01f &&
-                    std::abs(pos1.z - pos2.z) < 0.01f) {
+            // 同じ属性かつ有効なタイプの場合: 強い反発
+            if (isSameType && isTypeValid) {
+                float repelForce = repelCoefficient_ / distance; // 距離に応じて強く反発
+                pos1.x -= direction.x * repelForce;
+                pos1.y -= direction.y * repelForce;
+                pos1.z -= direction.z * repelForce;
+
+                pos2.x += direction.x * repelForce;
+                pos2.y += direction.y * repelForce;
+                pos2.z += direction.z * repelForce;
+            }
+            // 異なる属性の場合: 強く引き寄せ
+            else if (!isSameType && isTypeValid) {
+                float attractForce = attractCoefficient_ / distance; // 距離に応じて強く引き寄せ
+                pos1.x += direction.x * attractForce;
+                pos1.y += direction.y * attractForce;
+                pos1.z += direction.z * attractForce;
+
+                pos2.x -= direction.x * attractForce;
+                pos2.y -= direction.y * attractForce;
+                pos2.z -= direction.z * attractForce;
+
+                // 引き寄せ後、一定距離以下で消滅
+                if (distanceSquared <= std::pow(threshold_, 2)) {
                     enemy1->GetIsAlive() = false;
                     enemy2->GetIsAlive() = false;
                 }
             }
+
+            // 新しい位置を更新
+            enemy1->SetTranslate(pos1);
+            enemy2->SetTranslate(pos2);
         }
     }
 }
+
 
 

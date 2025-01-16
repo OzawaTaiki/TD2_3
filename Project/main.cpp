@@ -65,14 +65,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	JsonHub::GetInstance()->Initialize("Resources/Data/");
 
-	SceneManager::RegisterScene("Sample", SampleScene::Create);
+	//SceneManager::RegisterScene("Sample", SampleScene::Create);
 	SceneManager::RegisterScene("Title", TitleScene::Create);
 	SceneManager::RegisterScene("Game", GameScene::Create);
 	SceneManager::RegisterScene("Result", ResultScene::Create);
-    SceneManager::RegisterScene("Load", LoadScene::Create);
+    //SceneManager::RegisterScene("Load", LoadScene::Create);
 
 
-	SceneManager::GetInstance()->Initialize("Game");
+	SceneManager::GetInstance()->Initialize("Title");
 
 	Time::Initialize();
 

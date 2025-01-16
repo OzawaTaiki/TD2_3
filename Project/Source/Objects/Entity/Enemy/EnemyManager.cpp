@@ -159,6 +159,13 @@ void EnemyManager::AttractEnemy(float range)
             bool isSameType = enemy1->GetCurrentType() == enemy2->GetCurrentType();
             bool isTypeValid = enemy1->GetCurrentType() != Enemy::BulletType::None && enemy2->GetCurrentType() != Enemy::BulletType::None;
 
+           
+
+
+            /*===============================================================//
+         　　	                        方向の計算
+            //===============================================================*/
+
             /// 力の方向を計算
             Vector3 direction = {
                 (pos2.x - pos1.x),
@@ -172,6 +179,13 @@ void EnemyManager::AttractEnemy(float range)
                 direction.y /= distance;
                 direction.z /= distance;
             }
+
+            /*===============================================================//
+　　	                                 各属性ごとの判定
+            //===============================================================*/
+
+            //if(isEnemyNone)
+
 
             /// 同じ属性かつ有効なタイプの場合: 強い反発（距離依存）
             /// 異なる属性の場合: 強く引き寄せ（距離依存）

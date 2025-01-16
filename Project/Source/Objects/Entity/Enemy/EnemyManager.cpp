@@ -10,30 +10,27 @@ void EnemyManager::Initialize(Camera* camera)
 {
     camera_ = camera;
 
-    // 初期状態で敵を追加
     for (uint32_t i = 0; i < enemyCount_; ++i) {
         AddEnemy();
     }
 
-
-
     lastSpawnTime_ = std::chrono::steady_clock::now();
-    spawnInterval_ = 1.5f; // デフォルトで5秒ごとに敵を生成
+    spawnInterval_ = 1.5f; // 1.5秒ごとに敵を生成
 }
 
 void EnemyManager::Update()
 {
-    // デスフラグの立った敵を削除
+    /// デスフラグの立った敵を削除
     RemoveDeadEnemies();
 
-    // 敵の更新
+    /// 敵の更新
     for (auto& enemy : enemies_) {
         enemy->Update();
     }
 
     AttractEnemy(attractRadius_);
 
-    // 一定時間で敵追加
+    /// 一定時間で敵追加
     TimeSpawnEnemy();
 
 
@@ -43,13 +40,13 @@ void EnemyManager::Update()
 
 #ifdef _DEBUG
     ImGui();
-#endif // _DEBUG
+#endif /// _DEBUG
 
 }
 
 void EnemyManager::Draw(const Vector4& color)
 {
-    // 敵の描画
+    /// 敵の描画
     for (auto& enemy : enemies_) {
         enemy->Draw(color);
         if (enemy->GetCurrentTypeName() != "None") {
@@ -62,7 +59,6 @@ void EnemyManager::Draw(const Vector4& color)
 
 void EnemyManager::ImGui()
 {
-    // 追加: ImGui操作用インターフェース
     if (ImGui::Begin("Enemy Info")) {
 
         ImGui::Text("Enemy Controls");
@@ -90,7 +86,7 @@ void EnemyManager::ImGui()
 
 void EnemyManager::AddEnemy()
 {
-    // 新しい敵を追加
+    /// 新しい敵を追加
     auto newEnemy = std::make_unique<Enemy>();
     Vector3 randomPos= GenerateRandomPosition();
     Vector3 playerPos = player_->GetCenterPosition();
@@ -103,12 +99,12 @@ void EnemyManager::AddEnemy()
 
 void EnemyManager::TimeSpawnEnemy()
 {
-    // 時間に基づいて敵を追加
+    /// 時間に基づいて敵を追加
     auto currentTime = std::chrono::steady_clock::now();
     std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
     if (elapsed.count() >= spawnInterval_) {
         AddEnemy();
-        lastSpawnTime_ = currentTime; // タイマーをリセット
+        lastSpawnTime_ = currentTime; /// タイマーをリセット
     }
 }
 
@@ -139,44 +135,51 @@ void EnemyManager::AttractEnemy(float range)
             Enemy* enemy2 = it2->get();
             if (!enemy2 || !enemy2->GetIsAlive()) continue;
 
+            /// ポジションを取得
             Vector3 pos1 = enemy1->GetTranslate();
             Vector3 pos2 = enemy2->GetTranslate();
 
-            // 距離を計算
+            /*===============================================================//
+                     　　	      当たった敵同士の距離を計算
+            //===============================================================*/
             float distanceSquared =
                 std::pow(pos1.x - pos2.x, 2) +
                 std::pow(pos1.y - pos2.y, 2) +
                 std::pow(pos1.z - pos2.z, 2);
 
             float distance = std::sqrt(distanceSquared);
-            float radiiSum = range * 2; // 引き寄せまたは反発が作用する距離
+            float radiiSum = range * 2; /// 引き寄せまたは反発が作用する距離
             if (distance > radiiSum) {
-                continue; // 範囲外
+                continue; /// 範囲外
             }
 
-            // 属性を確認
+            /*===============================================================//
+                     　　	       属性を確認するためのフラグ
+            //===============================================================*/
             bool isSameType = enemy1->GetCurrentType() == enemy2->GetCurrentType();
-            bool isTypeValid = enemy1->GetCurrentType() != Enemy::BulletType::None &&
-                enemy2->GetCurrentType() != Enemy::BulletType::None;
+            bool isTypeValid = enemy1->GetCurrentType() != Enemy::BulletType::None && enemy2->GetCurrentType() != Enemy::BulletType::None;
 
-            // 力の方向を計算
+            /// 力の方向を計算
             Vector3 direction = {
                 (pos2.x - pos1.x),
                 (pos2.y - pos1.y),
                 (pos2.z - pos1.z)
             };
 
-            // ベクトルの正規化
+            /// ベクトルの正規化
             if (distance > 0.0f) {
                 direction.x /= distance;
                 direction.y /= distance;
                 direction.z /= distance;
             }
 
-            // 同じ属性かつ有効なタイプの場合: 強い反発（距離依存）
+            /// 同じ属性かつ有効なタイプの場合: 強い反発（距離依存）
+            /// 異なる属性の場合: 強く引き寄せ（距離依存）
             if (isSameType && isTypeValid) {
-                float repelForce = (repelCoefficient_ / distanceSquared); // 距離の2乗に反比例
-                repelForce = (std::min)(repelForce, maxRepelForce_); // 最大反発力を制限
+
+                float repelForce = (repelCoefficient_ / distanceSquared); /// 距離の2乗に反比例
+                repelForce = (std::min)(repelForce, maxRepelForce_); /// 最大反発力を制限
+
                 pos1.x -= direction.x * repelForce;
                 pos1.y -= direction.y * repelForce;
                 pos1.z -= direction.z * repelForce;
@@ -184,11 +187,13 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.x += direction.x * repelForce;
                 pos2.y += direction.y * repelForce;
                 pos2.z += direction.z * repelForce;
+
             }
-            // 異なる属性の場合: 強く引き寄せ（距離依存）
             else if (!isSameType && isTypeValid) {
-                float attractForce = (attractCoefficient_ / distanceSquared); // 距離の2乗に反比例
-                attractForce = (std::min)(attractForce, maxAttractForce_); // 最大引き寄せ力を制限
+
+                float attractForce = (attractCoefficient_ / distanceSquared); /// 距離の2乗に反比例
+                attractForce = (std::min)(attractForce, maxAttractForce_); /// 最大引き寄せ力を制限
+
                 pos1.x += direction.x * attractForce;
                 pos1.y += direction.y * attractForce;
                 pos1.z += direction.z * attractForce;
@@ -197,7 +202,9 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.y -= direction.y * attractForce;
                 pos2.z -= direction.z * attractForce;
 
-                // 引き寄せ後、一定距離以下で消滅
+                /*===============================================================//
+                     　　	                  消滅
+                //===============================================================*/
                 if (distanceSquared <= std::pow(threshold_, 2)) {
                     enemy1->GetIsAlive() = false;
                     enemy2->GetIsAlive() = false;

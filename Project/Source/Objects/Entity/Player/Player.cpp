@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <DirectXMath.h>
 #include <Physics/Math/MatrixFunction.h>
+#include <Systems/JsonBinder/JsonHub.h>
 
 using namespace DirectX;
 void Player::Initialize(Camera* camera)
@@ -17,7 +18,6 @@ void Player::Initialize(Camera* camera)
 	oModel_ = std::make_unique<ObjectModel>();
 	oModel_->Initialize("Debug/Debug.obj", "Player");
 
-	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data");
 
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
@@ -31,9 +31,9 @@ void Player::Initialize(Camera* camera)
 	collider_->SetShape(oModel_->GetMin(),oModel_->GetMax());
 	collider_->SetAtrribute("Player");
 	collider_->SetMask({ "Player" });
-	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; }); 
-	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); }); 
-	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f }); 
+	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
+	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
+	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
 }
 
 void Player::Update()
@@ -81,6 +81,11 @@ void Player::OnCollision(const Collider* other)
 {
 
 	if (other->GetName() == "Enemy") {
+
+		hp_--;
+        if (hp_ <= 0) {
+            isAlive_ = false;
+        }
 
 	}
 }
@@ -259,7 +264,7 @@ void Player::Bulletdelete() {
 
 void Player::Save()
 {
-
+	jsonBinder_->Save();
 }
 
 void Player::ImGui()
@@ -268,6 +273,17 @@ void Player::ImGui()
 
 	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_);
 	ImGui::DragFloat("Speed", &kCharacterSpeed_,0.01f,1.0f);
+
+	ImGui::InputFloat("MaxHp", &maxHp_, 1.0f);
+    if(ImGui::InputFloat("HP", &hp_, 1.0f))
+	{
+		if (hp_ > maxHp_)            hp_ = maxHp_;
+	}
+
+	if(ImGui::Button("Save"))
+    {
+        Save();
+    }
 
 	ImGui::End();
 }
@@ -290,4 +306,14 @@ Vector3 Player::GetCenterPosition()
 	Vector3 worldPos = Transform(offset,oModel_->GetWorldTransform()->matWorld_);
 
 	return worldPos;
+}
+
+void Player::InitJsonBinder()
+{
+    //JsonHub::GetInstance()->SetDirectoryPathFromRoot("Resources/Data/Parameter/");
+
+	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data/Parameter");
+
+	jsonBinder_->RegisterVariable("MaxHP", &maxHp_);
+	jsonBinder_->RegisterVariable("characterSpeed", &kCharacterSpeed_);
 }

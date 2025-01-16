@@ -18,7 +18,7 @@
 class Player : public BaseEntity
 {
 public:
-	
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -81,6 +81,7 @@ private:
 
 	void Save();
 
+
 #ifdef _DEBUG
 	void ImGui();
 #endif // _DEBUG
@@ -99,6 +100,12 @@ public:
 
 	Vector3 GetCenterPosition();
 
+	/// <summary>
+	/// 生存フラグを取得
+	/// </summary>
+	/// <returns></returns>
+	bool IsAlive()const { return isAlive_; }
+
 private:
 	/*===============================================================//
 							 　　ポインタなど
@@ -113,14 +120,14 @@ private:
 
 	/*===============================================================//
 								コントローラー
-	//===============================================================*/	
+	//===============================================================*/
 
 	// デッドゾーンを設定
 	float kDeadZoneL_ = 7000.0f;
 	float kDeadZoneR_ = 10000.0f;
 	float kCharacterSpeed_ = 0.25f;
-	Vector3 rotation_; 
-	float kRotationSpeed_ = 0.05f; 
+	Vector3 rotation_;
+	float kRotationSpeed_ = 0.05f;
 
 
 
@@ -130,6 +137,20 @@ private:
 								 弾関連
 	//===============================================================*/
 	float bulletVelocity_ =  1.0f;
+
+
+    /*===============================================================//
+								HPなど
+    //===============================================================*/
+    float maxHp_ = 100.0f;
+    float hp_ = 100.0f;
+    bool isAlive_ = true;
+
+
+    /*===============================================================//
+                            Privateメンバ関数
+    //===============================================================*/
+    void InitJsonBinder();
 
 
 };

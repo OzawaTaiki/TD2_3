@@ -15,7 +15,7 @@ void FollowCamera::FollowProcess()
 {
     if (target_) {
         // 真上に配置するオフセット
-        Vector3 offset = { 0.0f, 50.0f, 0.0f }; // Y軸方向に100.0f分離れる
+        Vector3 offset = { 0.0f, 75.0f, 0.0f }; // Y軸方向に100.0f分離れる
 
         // 真下を向くようにカメラを回転
         rotate_ = { DirectX::XMConvertToRadians(90.0f), 0.0f, 0.0f }; // X軸回転 -90度

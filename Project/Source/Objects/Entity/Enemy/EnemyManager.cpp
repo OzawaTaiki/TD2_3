@@ -5,6 +5,8 @@
 #include <imgui.h>
 #include <random>
 #include <algorithm>
+#include <Physics/Math/MatrixFunction.h>
+#include <Physics/Math/VectorFunction.h>
 
 void EnemyManager::Initialize(Camera* camera)
 {
@@ -54,6 +56,9 @@ void EnemyManager::Draw(const Vector4& color)
         }
     }
    
+    
+
+
 
 }
 
@@ -125,6 +130,10 @@ Vector3 EnemyManager::GenerateRandomPosition()
     return Vector3(distX(gen), 0.0f, distZ(gen));
 }
 
+/// <summary>
+/// AttractEnemy
+/// </summary>
+/// <param name="range">敵同士が影響を及ぼし合う範囲</param>
 void EnemyManager::AttractEnemy(float range)
 {
     for (auto it1 = enemies_.begin(); it1 != enemies_.end(); ++it1) {
@@ -135,73 +144,51 @@ void EnemyManager::AttractEnemy(float range)
             Enemy* enemy2 = it2->get();
             if (!enemy2 || !enemy2->GetIsAlive()) continue;
 
-            /// ポジションを取得
+            // ------------------------------
+            // 距離計算
+            // ------------------------------
             Vector3 pos1 = enemy1->GetTranslate();
             Vector3 pos2 = enemy2->GetTranslate();
 
-            /*===============================================================//
-                     　　	            敵同士の距離を計算
-            //===============================================================*/
             float distanceSquared =
                 std::pow(pos1.x - pos2.x, 2) +
                 std::pow(pos1.y - pos2.y, 2) +
                 std::pow(pos1.z - pos2.z, 2);
-
             float distance = std::sqrt(distanceSquared);
-            float radiiSum = range * 2; /// 引き寄せまたは反発が作用する距離
+
+            float radiiSum = range * 2.0f;
             if (distance > radiiSum) {
-                continue; /// 範囲外
+                // 範囲外ならスキップ
+                continue;
             }
 
-            /*===============================================================//
-                     　　	       属性を確認するためのフラグ
-            //===============================================================*/
-            bool isSameType = enemy1->GetCurrentType() == enemy2->GetCurrentType();
-            bool isTypeValid = enemy1->GetCurrentType() != Enemy::BulletType::None && enemy2->GetCurrentType() != Enemy::BulletType::None;
+            // ------------------------------
+            // 属性のフラグ
+            // ------------------------------
+            bool isSameType = (enemy1->GetCurrentType() == enemy2->GetCurrentType());
+            bool isTypeValid = (enemy1->GetCurrentType() != Enemy::BulletType::None &&
+                enemy2->GetCurrentType() != Enemy::BulletType::None);
 
-           
-
-
-            /*===============================================================//
-         　　	                        方向の計算
-            //===============================================================*/
-
-            /// 力の方向を計算
+            // ------------------------------
+            // 方向の計算 (正規化)
+            // ------------------------------
             Vector3 direction = {
                 (pos2.x - pos1.x),
                 (pos2.y - pos1.y),
                 (pos2.z - pos1.z)
             };
-
-            /// 中心点を求めます
-            Vector3 centerpos = direction / 2.0f;
-
-
-            /// ベクトルの正規化
             if (distance > 0.0f) {
                 direction.x /= distance;
                 direction.y /= distance;
                 direction.z /= distance;
             }
 
-           
-
-
-
-
-
-            /*===============================================================//
-　　	                                 各属性ごとの判定
-            //===============================================================*/
-
-
-
-            /// 同じ属性かつ有効なタイプの場合: 強い反発（距離依存）
-            /// 異なる属性の場合: 強く引き寄せ（距離依存）
+            // ------------------------------
+            // 同じなら反発、異なるなら引き寄せ
+            // ------------------------------
             if (isSameType && isTypeValid) {
-
-                float repelForce = (repelCoefficient_ / distanceSquared); /// 距離の2乗に反比例
-                repelForce = (std::min)(repelForce, maxRepelForce_); /// 最大反発力を制限
+                float repelForce = (repelCoefficient_ / distanceSquared);
+                repelForce = (std::min)(repelForce, maxRepelForce_);
 
                 pos1.x -= direction.x * repelForce;
                 pos1.y -= direction.y * repelForce;
@@ -210,12 +197,10 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.x += direction.x * repelForce;
                 pos2.y += direction.y * repelForce;
                 pos2.z += direction.z * repelForce;
-
             }
             else if (!isSameType && isTypeValid) {
-
-                float attractForce = (attractCoefficient_ / distanceSquared); /// 距離の2乗に反比例
-                attractForce = (std::min)(attractForce, maxAttractForce_); /// 最大引き寄せ力を制限
+                float attractForce = (attractCoefficient_ / distanceSquared);
+                attractForce = (std::min)(attractForce, maxAttractForce_);
 
                 pos1.x += direction.x * attractForce;
                 pos1.y += direction.y * attractForce;
@@ -225,19 +210,136 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.y -= direction.y * attractForce;
                 pos2.z -= direction.z * attractForce;
 
-                /*===============================================================//
-                     　　	                  消滅
-                //===============================================================*/
+                // ある閾値内なら両者消滅
                 if (distanceSquared <= std::pow(threshold_, 2)) {
                     enemy1->GetIsAlive() = false;
                     enemy2->GetIsAlive() = false;
                 }
+
+                // ------------------------------
+                // North/South を含むペアだけ AABB→回転描画(OBB)
+                // ------------------------------
+                if ((enemy1->GetCurrentType() == Enemy::BulletType::North ||
+                    enemy1->GetCurrentType() == Enemy::BulletType::South) ||
+                    (enemy2->GetCurrentType() == Enemy::BulletType::North ||
+                        enemy2->GetCurrentType() == Enemy::BulletType::South))
+                {
+                    // AABB の min/max を計算
+                    Vector3 center1 = enemy1->GetCenterPosition();
+                    Vector3 center2 = enemy2->GetCenterPosition();
+
+                    float minX = (std::min)(center1.x, center2.x);
+                    float maxX = (std::max)(center1.x, center2.x);
+                    float minY = (std::min)(center1.y, center2.y);
+                    float maxY = (std::max)(center1.y, center2.y);
+                    float minZ = (std::min)(center1.z, center2.z);
+                    float maxZ = (std::max)(center1.z, center2.z);
+
+                    // AABB 8頂点
+                    Vector3 corners[8] = {
+                        { minX, minY, minZ }, // 0
+                        { maxX, minY, minZ }, // 1
+                        { minX, maxY, minZ }, // 2
+                        { maxX, maxY, minZ }, // 3,
+                        { minX, minY, maxZ }, // 4
+                        { maxX, minY, maxZ }, // 5
+                        { minX, maxY, maxZ }, // 6
+                        { maxX, maxY, maxZ }, // 7
+                    };
+
+                    // AABB中心
+                    Vector3 obbCenter = {
+                        (minX + maxX) * 0.5f,
+                        (minY + maxY) * 0.5f,
+                        (minZ + maxZ) * 0.5f
+                    };
+
+                    // ------------------------------
+                    // 回転行列を作成:
+                    // DirectionToDirection( from, to )
+                    //
+                    // 例として "Z軸(0,0,1)" → "(center2 - center1).Normalize()"
+                    // ------------------------------
+                    Vector3 from = Vector3(1, 0, 0);
+                    Vector3 to = (center2 - center1).Normalize();
+
+                    ///
+                    /// 
+                    /// 
+
+                    // 万が一 zeroベクトルならスキップするなど
+                    float aiai = Length(to);
+                    if (aiai < 1e-6f) {
+                        // ここでは何もしない
+                    }
+
+                    Matrix4x4 rotMatrix = DirectionToDirection(from, to);
+
+                    // ------------------------------
+                    // 回転後の頂点を入れる配列
+                    // ------------------------------
+                    Vector3 rotated[8];
+
+                    // 各頂点に回転を適用 (中心を原点に→行列適用→戻す)
+                    for (int i = 0; i < 8; i++) {
+                        // 中心を引く
+                        Vector3 localPos = corners[i] - obbCenter;
+
+                        // 4次元に拡張(w=1.0)
+                        Vector4 localPos4(localPos.x, localPos.y, localPos.z, 1.0f);
+
+                        // rotMatrixを掛け算 (環境に合わせて実装)
+                        Vector4 out4 = Vector4ooooo(rotMatrix, localPos4);
+
+                        // 3次元に戻す
+                        rotated[i] = Vector3(out4.x, out4.y, out4.z);
+
+                        // 再度中心を足してワールド座標へ
+                        rotated[i] += obbCenter;
+                    }
+
+                    // ------------------------------
+                    // ライン描画で OBB を可視化
+                    // ------------------------------
+                    // 下面
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[0], rotated[1]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[0], rotated[2]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[1], rotated[3]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[2], rotated[3]);
+
+                    // 上面
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[4], rotated[5]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[4], rotated[6]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[5], rotated[7]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[6], rotated[7]);
+
+                    // 側面
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[0], rotated[4]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[1], rotated[5]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[2], rotated[6]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[3], rotated[7]);
+
+                    // ------------------------------
+                    // (必要であれば) 回転OBB内の None 敵を探す…など
+                    // ------------------------------
+                    // ※ OBB上での厳密な内外判定は、
+                    //    さらに逆行列でローカル空間に変換する等が必要
+                }
             }
 
-            // 新しい位置を更新
+            // 計算後の位置を更新
             enemy1->SetTranslate(pos1);
             enemy2->SetTranslate(pos2);
         }
     }
 }
 
+Vector4 EnemyManager::Vector4ooooo(const Matrix4x4& m, const Vector4& v)
+{
+    Vector4 result;
+    result.x = m.m[0][0] * v.x + m.m[0][1] * v.y + m.m[0][2] * v.z + m.m[0][3] * v.w;
+    result.y = m.m[1][0] * v.x + m.m[1][1] * v.y + m.m[1][2] * v.z + m.m[1][3] * v.w;
+    result.z = m.m[2][0] * v.x + m.m[2][1] * v.y + m.m[2][2] * v.z + m.m[2][3] * v.w;
+    result.w = m.m[3][0] * v.x + m.m[3][1] * v.y + m.m[3][2] * v.z + m.m[3][3] * v.w;
+    return result;
+}

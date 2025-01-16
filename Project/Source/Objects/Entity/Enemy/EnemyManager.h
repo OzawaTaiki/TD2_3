@@ -57,6 +57,7 @@ private:
     /// </summary>
     /// <param name="range"></param>
     void AttractEnemy(float range);
+    Vector4 Vector4ooooo(const Matrix4x4& m, const Vector4& v);
 
 public:
 
@@ -85,6 +86,13 @@ private:
     float threshold_ = 2.0f; // 消滅のしきい値
 
   
+    float minX_;
+    float maxX_;
+    float minY_;
+    float maxY_;
+    float minZ_;
+    float maxZ_;
+    float rotateAngle_ = 0.0f;
   
     std::chrono::steady_clock::time_point lastSpawnTime_; // 最後に敵を生成した時刻
     float spawnInterval_ = 5.0f; // 敵生成間隔（秒）

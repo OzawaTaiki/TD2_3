@@ -26,7 +26,6 @@ void Enemy::Initialize(Camera* camera)
 
 void Enemy::Update()
 {
-	collider_->RegsterCollider();
 	oModel_->Update();
 	// ImGui デバッグ表示
 	if (ImGui::Begin("Enemy Type")) {
@@ -34,11 +33,12 @@ void Enemy::Update()
 		ImGui::Text("Alive: %s", isAlive_ ? "Yes" : "No");
 	}
 	ImGui::End();
+	collider_->RegsterCollider();
 }
 
 void Enemy::Draw(const Vector4& color)
 {
-	collider_->Draw();
+	//collider_->Draw();
 	Vector4 typeColor;
 
 	// 弾のタイプに応じた色を設定

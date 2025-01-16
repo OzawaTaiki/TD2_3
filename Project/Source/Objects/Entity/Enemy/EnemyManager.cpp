@@ -1,5 +1,7 @@
 #include "EnemyManager.h"
 #include "../Player/Player.h"
+#include "Rendering/LineDrawer/LineDrawer.h"
+
 #include <imgui.h>
 #include <random>
 #include <algorithm>
@@ -50,7 +52,12 @@ void EnemyManager::Draw(const Vector4& color)
     // 敵の描画
     for (auto& enemy : enemies_) {
         enemy->Draw(color);
+        if (enemy->GetCurrentTypeName() != "None") {
+            LineDrawer::GetInstance()->DrawCircle(enemy->GetTranslate(), attractRadius_);
+        }
     }
+   
+
 }
 
 void EnemyManager::ImGui()
@@ -67,7 +74,7 @@ void EnemyManager::ImGui()
         ImGui::Text("Enemy Attract");
         ImGui::SliderFloat("Attract Speed", &attractSpeed_, 0.0f, 0.5f);
         ImGui::SliderFloat("Attract Radius", &attractRadius_, 0.0f, 10.0f);
-        ImGui::SliderFloat("Deth Distance", &threshold_, 0.0f, 1.0f);
+        ImGui::SliderFloat("Deth Distance", &threshold_, 0.0f, 2.0f);
         ImGui::SliderFloat("Repel Coefficient", &repelCoefficient_, 0.0f, 10.0f);
         ImGui::SliderFloat("Attract Coefficient", &attractCoefficient_, 0.0f, 10.0f);
         ImGui::SliderFloat("Max Repel Force", &maxRepelForce_, 0.0f, 10.0f);

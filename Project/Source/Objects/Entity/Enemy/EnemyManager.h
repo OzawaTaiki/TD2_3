@@ -80,9 +80,9 @@ private:
 
     float repelCoefficient_ = 10.0f;    // 反発の基準係数
     float attractCoefficient_ = 10.0f; // 引き寄せの基準係数
-    float maxRepelForce_ = 5.0f;        // 反発力の最大値
-    float maxAttractForce_ = 5.0f;      // 引き寄せ力の最大値
-    float threshold_ = 0.5f; // 消滅のしきい値
+    float maxRepelForce_ = 3.0f;        // 反発力の最大値
+    float maxAttractForce_ = 3.0f;      // 引き寄せ力の最大値
+    float threshold_ = 2.0f; // 消滅のしきい値
 
   
   

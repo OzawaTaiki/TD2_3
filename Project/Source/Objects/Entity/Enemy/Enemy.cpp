@@ -57,6 +57,7 @@ void Enemy::Draw(const Vector4& color)
 
 	collider_->Draw();
 	oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
+
 }
 
 void Enemy::OnCollision(const Collider* other)

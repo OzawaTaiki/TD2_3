@@ -55,9 +55,13 @@ private:
 	void OnCollision(const Collider* other);
 
 
+
+
+
 public:
 
 	Vector3& GetTranslate() { return oModel_->translate_; }
+	Vector3 GetCenterPosition() const;
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 	bool& GetIsAlive() { return isAlive_; }
 

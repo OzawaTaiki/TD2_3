@@ -176,6 +176,7 @@ void EnemyManager::AttractEnemy(float range)
             /// 中心点を求めます
             Vector3 centerpos = direction / 2.0f;
 
+
             /// ベクトルの正規化
             if (distance > 0.0f) {
                 direction.x /= distance;

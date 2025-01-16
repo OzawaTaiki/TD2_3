@@ -140,7 +140,7 @@ void EnemyManager::AttractEnemy(float range)
             Vector3 pos2 = enemy2->GetTranslate();
 
             /*===============================================================//
-                     　　	      当たった敵同士の距離を計算
+                     　　	            敵同士の距離を計算
             //===============================================================*/
             float distanceSquared =
                 std::pow(pos1.x - pos2.x, 2) +

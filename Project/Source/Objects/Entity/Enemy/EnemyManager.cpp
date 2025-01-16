@@ -173,6 +173,9 @@ void EnemyManager::AttractEnemy(float range)
                 (pos2.z - pos1.z)
             };
 
+            /// 中心点を求めます
+            Vector3 centerpos = direction / 2.0f;
+
             /// ベクトルの正規化
             if (distance > 0.0f) {
                 direction.x /= distance;
@@ -180,11 +183,16 @@ void EnemyManager::AttractEnemy(float range)
                 direction.z /= distance;
             }
 
+           
+
+
+
+
+
             /*===============================================================//
 　　	                                 各属性ごとの判定
             //===============================================================*/
 
-            //if(isEnemyNone)
 
 
             /// 同じ属性かつ有効なタイプの場合: 強い反発（距離依存）

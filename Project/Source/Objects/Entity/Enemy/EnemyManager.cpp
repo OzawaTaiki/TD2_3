@@ -55,11 +55,6 @@ void EnemyManager::Draw(const Vector4& color)
             LineDrawer::GetInstance()->DrawCircle(enemy->GetTranslate(), attractRadius_);
         }
     }
-   
-    
-
-
-
 }
 
 void EnemyManager::ImGui()
@@ -151,11 +146,11 @@ void EnemyManager::AttractEnemy(float range)
             Vector3 pos2 = enemy2->GetTranslate();
 
             float distanceSquared =
-                std::pow(pos1.x - pos2.x, 2) +
-                std::pow(pos1.y - pos2.y, 2) +
-                std::pow(pos1.z - pos2.z, 2);
+                std::powf(pos1.x - pos2.x, 2) +
+                std::powf(pos1.y - pos2.y, 2) +
+                std::powf(pos1.z - pos2.z, 2);
 
-            float distance = std::sqrt(distanceSquared);
+            float distance = std::sqrtf(distanceSquared);
             float radiiSum = range * 2.0f;
             if (distance > radiiSum) {
                 continue; // 範囲外
@@ -208,7 +203,7 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.z -= direction.z * attractForce;
 
                 // 一定距離以下なら両者消滅
-                if (distanceSquared <= std::pow(threshold_, 2)) {
+                if (distanceSquared <= std::powf(threshold_, 2)) {
                     enemy1->GetIsAlive() = false;
                     enemy2->GetIsAlive() = false;
                 }
@@ -225,7 +220,43 @@ void EnemyManager::AttractEnemy(float range)
                     Vector3 center1 = enemy1->GetCenterPosition();
                     Vector3 center2 = enemy2->GetCenterPosition();
 
-                    float minX = (std::min)(center1.x, center2.x);
+                    // 2点間の距離
+                    Vector3 distance = center2 - center1;
+                    // 方向ベクトル
+                    Vector3 direction = distance.Normalize();
+                    float length = (center2 - center1).Length();
+
+                    // 2点間の中心
+                    Vector3 center = center1 + (direction * length * 0.5f);
+
+                    // OBBのサイズ xのみ変動
+                    Vector3 size = { length, 1.0f, 1.0f };
+
+                    // ここで二点間の中心を中心とした真横のOBBができる
+                    OBB obb(-size / 2.0f, size / 2.0f);
+
+                    // OBBのワールド行列を求める
+                    Matrix4x4 OBBWorldMat = Matrix4x4::Identity();
+
+                    // scaleはデフォ{size}
+                    Matrix4x4 scaleMat = MakeScaleMatrix(size);
+                    // 中心点はcenter
+                    Matrix4x4 translateMat = MakeTranslateMatrix(center);
+                    // 回転を求める
+                    Matrix4x4 rotMat = DirectionToDirection(Vector3(1, 0, 0), direction);
+
+                    // がったい
+                    OBBWorldMat = scaleMat * rotMat * translateMat;
+
+                    // 頂点計算してもらう
+                    obb.Calculate(OBBWorldMat);
+
+                    // 描画
+                    LineDrawer::GetInstance()->DrawOBB(OBBWorldMat);
+
+
+
+                    /*float minX = (std::min)(center1.x, center2.x);
                     float maxX = (std::max)(center1.x, center2.x);
                     float minY = (std::min)(center1.y, center2.y);
                     float maxY = (std::max)(center1.y, center2.y);
@@ -321,7 +352,7 @@ void EnemyManager::AttractEnemy(float range)
                     LineDrawer::GetInstance()->RegisterPoint(rotated[0], rotated[4]);
                     LineDrawer::GetInstance()->RegisterPoint(rotated[1], rotated[5]);
                     LineDrawer::GetInstance()->RegisterPoint(rotated[2], rotated[6]);
-                    LineDrawer::GetInstance()->RegisterPoint(rotated[3], rotated[7]);
+                    LineDrawer::GetInstance()->RegisterPoint(rotated[3], rotated[7]);*/
                 }
             }
 

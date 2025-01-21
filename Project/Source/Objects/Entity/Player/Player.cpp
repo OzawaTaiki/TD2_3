@@ -313,36 +313,53 @@ void Player::Save()
 	jsonBinder_->Save();
 }
 
+#ifdef _DEBUG
 void Player::ImGui()
 {
 	ImGui::Begin("Player");
 
-	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_);
-	ImGui::DragFloat("Speed", &kCharacterSpeed_,0.01f,1.0f);
+	// 入力系
+	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_, 100.0f, 0.0f, 50000.0f, "%.0f");
+	ImGui::DragFloat("Character Speed", &kCharacterSpeed_, 0.01f, 0.01f, 5.0f);
 
-
-	ImGui::InputFloat("MaxHp", &maxHp_, 1.0f);
-    if(ImGui::InputFloat("HP", &hp_, 1.0f))
+	// HP 関連
+	ImGui::InputFloat("MaxHP", &maxHp_, 1.0f);
+	if (ImGui::InputFloat("HP", &hp_, 1.0f))
 	{
-		if (hp_ > maxHp_)            hp_ = maxHp_;
+		if (hp_ > maxHp_) {
+			hp_ = maxHp_;
+		}
 	}
 
+	// 弾関連
+	ImGui::Text("Bullet Info");
+	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
+	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
 
-	ImGui::Text("Player Bullet Info");
-	ImGui::DragFloat("Velocity_", &bulletVelocity_, 0.01f, 1.0f);
-	ImGui::DragFloat("Acceleration", &bulletAcceleration_, 0.01f, 1.0f);
+	// ノックバック関連
+	ImGui::Separator();
+	ImGui::Text("Knockback Settings");
+	ImGui::DragFloat("Knockback Strength", (float*)&knockbackStrength_, 0.1f, 0.1f, 10.0f);
+	ImGui::DragFloat("Knockback Damping", (float*)&knockbackDamping_, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("Invincible Duration", (float*)&knockbackInvincibleDuration_, 0.1f, 0.0f, 5.0f);
 
+	// ※ 必要ならノックバックの現在の状態なども表示
+	ImGui::Text("Knockback Active: %s", isKnockbackActive_ ? "Yes" : "No");
+	ImGui::Text("Knockback Invincible Time: %.2f", knockbackInvincibleTime_);
 
+	// デバッグ用にプレイヤーの位置なども表示
+	Vector3 pos = GetWorldPosition();
+	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
 
-	if(ImGui::Button("Save"))
-    {
-       // Save();
-    }
-
-
+	//if (ImGui::Button("Save Settings"))
+	//{
+	//	Save();
+	//}
 
 	ImGui::End();
 }
+#endif
+
 
 Vector3 Player::GetWorldPosition()
 {

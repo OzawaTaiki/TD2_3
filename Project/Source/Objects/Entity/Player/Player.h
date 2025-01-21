@@ -123,12 +123,14 @@ private:
 	//===============================================================*/
 
 	// デッドゾーンを設定
+	Vector3 rotation_;
 	float kDeadZoneL_ = 7000.0f;
 	float kDeadZoneR_ = 10000.0f;
 	float kCharacterSpeed_ = 0.25f;
-	Vector3 rotation_;
 	float kRotationSpeed_ = 0.05f;
 
+	// 移動量を保存
+	Vector3 prePosition= { 0.0f,0.0f,0.0f };
 
 
 

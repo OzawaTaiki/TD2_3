@@ -86,12 +86,13 @@ void Player::OnCollision(const Collider* other)
         if (hp_ <= 0) {
             isAlive_ = false;
         }
-
+		oModel_->translate_ = prePosition;
 	}
 }
 
 void Player::Move()
 {
+	prePosition = oModel_->translate_;
 	// キャラクターの移動ベクトル
 	Vector3 move = { 0.0f, 0.0f, 0.0f };
 
@@ -125,7 +126,6 @@ void Player::Move()
 			}
 		}
 	}
-
 
 	// ワールド座標に移動を反映
 	oModel_->translate_ += move;

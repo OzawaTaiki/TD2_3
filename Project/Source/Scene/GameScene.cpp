@@ -22,6 +22,7 @@ GameScene::~GameScene()
     }
 
     delete loadScene_;
+    delete area_;
 }
 
 void GameScene::Initialize()
@@ -52,6 +53,9 @@ void GameScene::Update()
         Input::GetInstance()->IsKeyPressed(DIK_LSHIFT)) {
         enableDebugCamera_ = !enableDebugCamera_;
     }
+
+    lightGroup_.DrawDebugWindow();
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 #endif // _DEBUG
 
     if(!player_->IsAlive())
@@ -62,6 +66,7 @@ void GameScene::Update()
 
     player_->Update();
     enemyManager_->Update();
+    area_->Update(player_.get());
 
     if (enableDebugCamera_)
     {
@@ -91,6 +96,7 @@ void GameScene::Draw()
     }
 
     ModelManager::GetInstance()->PreDrawForObjectModel();
+    area_->Draw(&SceneCamera_);
 
     player_->Draw({ 1,1,1,1 });
     enemyManager_->Draw({ 1,1,1,1 });
@@ -123,6 +129,10 @@ void GameScene::Load()
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     LineDrawer::GetInstance()->SetCameraPtr(&SceneCamera_);
+
+
+    area_ = new Area();
+    area_->Initialize(50);
 
     //Model::CreateFromObj("bunny.obj");
 

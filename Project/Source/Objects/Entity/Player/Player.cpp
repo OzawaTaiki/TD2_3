@@ -133,21 +133,18 @@ void Player::Move()
 
 void Player::Rotate()
 {
-	/*===============================================================//
-						 　　  コントローラー
-	//===============================================================*/
 	if (input_->IsControllerConnected()) {
 		XINPUT_STATE xInputState;
 		ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
 		if (XInputGetState(0, &xInputState) == ERROR_SUCCESS) {
-			// 右スティックのX軸とY軸の値を取得（-32768 ～ 32767）
-			float thumbRX = static_cast<float>(xInputState.Gamepad.sThumbRX);
-			float thumbRY = static_cast<float>(xInputState.Gamepad.sThumbRY);
+			// 左スティックのX軸とY軸の値を取得（-32768 ～ 32767）
+			float thumbLX = static_cast<float>(xInputState.Gamepad.sThumbLX);
+			float thumbLY = static_cast<float>(xInputState.Gamepad.sThumbLY);
 
 			// デッドゾーンをチェック
-			if (fabs(thumbRX) > kDeadZoneR_ || fabs(thumbRY) > kDeadZoneR_) {
+			if (fabs(thumbLX) > kDeadZoneL_ || fabs(thumbLY) > kDeadZoneL_) {
 				// 目標角度を計算
-				float newYaw = std::atan2(thumbRX, thumbRY);
+				float newYaw = std::atan2(thumbLX, thumbLY);
 
 				// 現在の角度との誤差を計算
 				float diff = newYaw - rotation_.y;
@@ -156,21 +153,14 @@ void Player::Rotate()
 				while (diff < -std::numbers::pi) diff += std::numbers::pi * 2.0f;
 				while (diff > std::numbers::pi) diff -= std::numbers::pi * 2.0f;
 
-				// ここで「角度差が一定以上の場合のみ更新」する
+				// 角度差が一定以上の場合のみ更新
 				const float kAngleThreshold = 0.001f;
-				// 例: 0.015f は約 0.86°(度) に相当 (0.015 * 180 / π)
-
 				if (fabs(diff) > kAngleThreshold) {
-					// 角度差が大きい場合のみ更新するので、ガタガタしにくい
 					rotation_.y = newYaw;
 				}
 			}
 		}
 	}
-
-	/*===============================================================//
-					 　　		マウス
-	//===============================================================*/
 
 	oModel_->rotate_ = rotation_;
 }

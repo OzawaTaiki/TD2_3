@@ -1,0 +1,16 @@
+{
+    "PlayerData": {
+        "BulletAcceleration": 0.014999999664723873,
+        "BulletFireInterval": 1.0,
+        "BulletOffset": 2.0,
+        "BulletVelocity": 0.029999999329447746,
+        "CharacterSpeed": 0.25,
+        "HP": 98.0,
+        "KnockbackDamping": 0.8999999761581421,
+        "KnockbackInvincibleDuration": 0.5,
+        "KnockbackStrength": 1.0,
+        "L_Stick DeadZone": 7000.0,
+        "MaxHP": 100.0,
+        "characterSpeed": 0.25
+    }
+}

@@ -34,7 +34,7 @@ void EnemyManager::Update()
     AttractEnemy(attractRadius_);
 
     /// 一定時間で敵追加
-    //TimeSpawnEnemy();
+    TimeSpawnEnemy();
 
 
 

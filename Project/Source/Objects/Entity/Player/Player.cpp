@@ -49,6 +49,9 @@ void Player::Initialize(Camera* camera)
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
 	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
+
+
+	InitJsonBinder();
 }
 
 void Player::Update()
@@ -379,10 +382,10 @@ void Player::ImGui()
 	Vector3 pos = GetWorldPosition();
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
 
-	//if (ImGui::Button("Save Settings"))
-	//{
-	//	Save();
-	//}
+	if (ImGui::Button("Save Settings"))
+	{
+		Save();
+	}
 
 	ImGui::End();
 }
@@ -418,10 +421,26 @@ Vector3 Player::GetForwardVector() const
 
 void Player::InitJsonBinder()
 {
-    //JsonHub::GetInstance()->SetDirectoryPathFromRoot("Resources/Data/Parameter/");
+    
 
-	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data/Parameter");
+	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data/Parameter/");
 
+	// HP 関連
 	jsonBinder_->RegisterVariable("MaxHP", &maxHp_);
-	jsonBinder_->RegisterVariable("characterSpeed", &kCharacterSpeed_);
+	jsonBinder_->RegisterVariable("HP", &hp_);
+
+	// 移動関連
+	jsonBinder_->RegisterVariable("CharacterSpeed", &kCharacterSpeed_);
+	jsonBinder_->RegisterVariable("L_Stick DeadZone", &kDeadZoneL_);
+
+	// 弾関連
+	jsonBinder_->RegisterVariable("BulletVelocity", &bulletVelocity_);
+	jsonBinder_->RegisterVariable("BulletAcceleration", &bulletAcceleration_);
+	jsonBinder_->RegisterVariable("BulletOffset", &offset);
+	jsonBinder_->RegisterVariable("BulletFireInterval", &bulletFireInterval_);
+
+	// ノックバック関連
+	jsonBinder_->RegisterVariable("KnockbackStrength", const_cast<float*>(&knockbackStrength_));
+	jsonBinder_->RegisterVariable("KnockbackDamping", const_cast<float*>(&knockbackDamping_));
+	jsonBinder_->RegisterVariable("KnockbackInvincibleDuration", const_cast<float*>(&knockbackInvincibleDuration_));
 }

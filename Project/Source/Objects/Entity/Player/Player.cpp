@@ -50,8 +50,9 @@ void Player::Update()
 
 	UpdateBullet();
 
-	oModel_->Update();
+	Knockback();
 
+	oModel_->Update();
 
 
 #ifdef _DEBUG
@@ -79,6 +80,10 @@ void Player::Draw(const Vector4& color)
 
 void Player::OnCollision(const Collider* other)
 {
+	// 無敵状態中なら衝突判定を無視する
+	if (isKnockbackActive_) {
+		return;
+	}
 
 	if (other->GetName() == "Enemy") {
 
@@ -86,13 +91,26 @@ void Player::OnCollision(const Collider* other)
         if (hp_ <= 0) {
             isAlive_ = false;
         }
-		oModel_->translate_ = prePosition;
+		// プレイヤーの向いている方向（rotation_.y）から前方ベクトルを算出
+		float angle = rotation_.y;
+		Vector3 forward{ sinf(angle), 0.0f, cosf(angle) };
+
+		// 反対方向へノックバックさせる初期速度を与える
+		knockbackVelocity_ = forward * (-knockbackStrength_);
+		// ノックバック中にする＆無敵状態の時間を設定
+		isKnockbackActive_ = true;
+		knockbackInvincibleTime_ = knockbackInvincibleDuration_;
+
+		if (isKnockbackActive_) {
+			oModel_->translate_ = prePosition_;
+		}
+
 	}
 }
 
 void Player::Move()
 {
-	prePosition = oModel_->translate_;
+	prePosition_ = oModel_->translate_;
 	// キャラクターの移動ベクトル
 	Vector3 move = { 0.0f, 0.0f, 0.0f };
 
@@ -170,6 +188,31 @@ void Player::Fire()
 	NorthPoleBulletFire();
 
 	SouthPoleBulletFire();
+}
+
+void Player::Knockback()
+{
+	if (knockbackVelocity_.Length() > 0.01f) {
+		oModel_->translate_ += knockbackVelocity_;
+
+
+		knockbackVelocity_ *= knockbackDamping_;
+	}
+	else {
+		// 小さすぎる場合は0にリセット
+		knockbackVelocity_ = { 0.0f, 0.0f, 0.0f };
+	}
+
+	// 無敵状態中なら、経過時間分だけ invincibleTime_ を減らす
+	if (isKnockbackActive_) {
+		// Δt は1フレームあたりの経過時間（もしフレームレート依存なら調整）
+		const float deltaTime = 1.0f / 60.0f; // 例として60FPSの場合
+		knockbackInvincibleTime_ -= deltaTime;
+		if (knockbackInvincibleTime_ <= 0.0f) {
+			isKnockbackActive_ = false;
+		}
+	}
+
 }
 
 void Player::NorthPoleBulletFire()

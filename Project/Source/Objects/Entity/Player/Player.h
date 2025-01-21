@@ -57,6 +57,11 @@ private:
 	/// </summary>
 	void Fire();
 
+	/// <summary>
+	/// ノックバックの計算処理
+	/// </summary>
+	void Knockback();
+
 
 	/// <summary>
 	/// N極のタイプの弾
@@ -79,6 +84,7 @@ private:
 	void Bulletdelete();
 
 
+	void InitJsonBinder();
 	void Save();
 
 
@@ -130,7 +136,7 @@ private:
 	float kRotationSpeed_ = 0.05f;
 
 	// 移動量を保存
-	Vector3 prePosition= { 0.0f,0.0f,0.0f };
+	Vector3 prePosition_= { 0.0f,0.0f,0.0f };
 
 
 
@@ -148,11 +154,31 @@ private:
     float hp_ = 100.0f;
     bool isAlive_ = true;
 
+	/*===============================================================//
+							敵と当たった時の処理
+	//===============================================================*/	
 
-    /*===============================================================//
-                            Privateメンバ関数
-    //===============================================================*/
-    void InitJsonBinder();
+
+	//-----------------
+	// 
+	// 
+	// ノックバック関連
+	// 
+	// 
+	//----------
+	Vector3 knockbackVelocity_ = { 0.0f, 0.0f, 0.0f };
+	// イージングの減衰係数（0.0～1.0、1.0なら即刻停止、0.0なら全く減衰しない）
+	const float knockbackDamping_ = 0.9f;  
+	// ノックバックの強さ
+	const float knockbackStrength_ = 1.0f;
+
+	// ノックバック中かどうかを示すフラグ
+	bool isKnockbackActive_ = false;
+	// 無敵状態の残り時間
+	float knockbackInvincibleTime_ = 0.0f;
+	// 無敵状態の継続時間（調整可能）
+	const float knockbackInvincibleDuration_ = 0.5f; 
+  
 
 
 };

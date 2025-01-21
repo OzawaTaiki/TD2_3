@@ -75,6 +75,11 @@ private:
 	void SouthPoleBulletFire();
 
 	/// <summary>
+	/// 弾発射のクールタイム
+	/// </summary>
+	void CoolTimerBullet();
+
+	/// <summary>
 	/// 弾の更新
 	/// </summary>
 	void UpdateBullet();
@@ -105,7 +110,17 @@ public:
 	/// </summary>
 	const WorldTransform& GetWorldTransform() {return *oModel_->GetWorldTransform();}
 
+	/// <summary>
+	/// 中心点の取得
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetCenterPosition();
+
+	/// <summary>
+	/// プレイヤーの回転角度から前方ベクトルを計算して返す関数（XZ平面）
+	/// </summary>
+	/// <returns>前方への単位ベクトル</returns>
+	Vector3 GetForwardVector() const;
 
 	/// <summary>
 	/// 生存フラグを取得
@@ -145,8 +160,20 @@ private:
 	/*===============================================================//
 								 弾関連
 	//===============================================================*/
-	float bulletVelocity_ =  0.005f;
-	float bulletAcceleration_ = 0.008f;
+	float bulletVelocity_ =  0.03f;
+	float bulletAcceleration_ = 0.015f;
+	float offset = 2.0f;
+
+	//--------------- 弾のクールタイム ---------------//
+
+	// 弾の発射間隔
+	float bulletFireInterval_ = 1.0f; 
+
+	// 発射クールダウンタイマー
+	float northBulletCoolTimer_ = 0.0f;
+	float southBulletCoolTimer_ = 0.0f;
+
+
 
     /*===============================================================//
 								HPなど
@@ -156,19 +183,12 @@ private:
     bool isAlive_ = true;
 
 	/*===============================================================//
-							敵と当たった時の処理
+							ノックバックの処理
 	//===============================================================*/	
 
-
-	//-----------------
-	// 
-	// 
-	// ノックバック関連
-	// 
-	// 
-	//----------
+	// ノックバックの初期速度
 	Vector3 knockbackVelocity_ = { 0.0f, 0.0f, 0.0f };
-	// イージングの減衰係数（0.0～1.0、1.0なら即刻停止、0.0なら全く減衰しない）
+	// イージングの減衰係数		0.0～1.0、1.0なら即刻停止、0.0なら全く減衰しない
 	const float knockbackDamping_ = 0.9f;  
 	// ノックバックの強さ
 	const float knockbackStrength_ = 1.0f;

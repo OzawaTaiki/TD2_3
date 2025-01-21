@@ -1,6 +1,7 @@
 #include "TitleScene.h"
 
-#include "TitleScene.h"
+#include <Systems/Input/Input.h>
+#include <Framework/eScene/SceneManager.h>
 
 std::unique_ptr<BaseScene> TitleScene::Create()
 {
@@ -23,6 +24,12 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
+    if(Input::GetInstance()->IsKeyTriggered(DIK_TAB))
+    {
+        SceneManager::GetInstance()->ReserveScene("Game");
+    }
+
+
     lineDrawer_->DrawCircle({ 0,0,0 }, 1);
     SceneCamera_.Update();
     SceneCamera_.UpdateMatrix();

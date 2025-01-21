@@ -18,7 +18,7 @@
 class Player : public BaseEntity
 {
 public:
-	
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -57,6 +57,11 @@ private:
 	/// </summary>
 	void Fire();
 
+	/// <summary>
+	/// ノックバックの計算処理
+	/// </summary>
+	void Knockback();
+
 
 	/// <summary>
 	/// N極のタイプの弾
@@ -79,7 +84,9 @@ private:
 	void Bulletdelete();
 
 
+	void InitJsonBinder();
 	void Save();
+
 
 #ifdef _DEBUG
 	void ImGui();
@@ -99,6 +106,12 @@ public:
 
 	Vector3 GetCenterPosition();
 
+	/// <summary>
+	/// 生存フラグを取得
+	/// </summary>
+	/// <returns></returns>
+	bool IsAlive()const { return isAlive_; }
+
 private:
 	/*===============================================================//
 							 　　ポインタなど
@@ -113,15 +126,17 @@ private:
 
 	/*===============================================================//
 								コントローラー
-	//===============================================================*/	
+	//===============================================================*/
 
 	// デッドゾーンを設定
+	Vector3 rotation_;
 	float kDeadZoneL_ = 7000.0f;
 	float kDeadZoneR_ = 10000.0f;
 	float kCharacterSpeed_ = 0.25f;
-	Vector3 rotation_; 
-	float kRotationSpeed_ = 0.05f; 
+	float kRotationSpeed_ = 0.05f;
 
+	// 移動量を保存
+	Vector3 prePosition_= { 0.0f,0.0f,0.0f };
 
 
 
@@ -129,7 +144,41 @@ private:
 	/*===============================================================//
 								 弾関連
 	//===============================================================*/
-	float bulletVelocity_ =  1.0f;
+	float bulletVelocity_ =  0.005f;
+	float bulletAcceleration_ = 0.008f;
+
+    /*===============================================================//
+								HPなど
+    //===============================================================*/
+    float maxHp_ = 100.0f;
+    float hp_ = 100.0f;
+    bool isAlive_ = true;
+
+	/*===============================================================//
+							敵と当たった時の処理
+	//===============================================================*/	
+
+
+	//-----------------
+	// 
+	// 
+	// ノックバック関連
+	// 
+	// 
+	//----------
+	Vector3 knockbackVelocity_ = { 0.0f, 0.0f, 0.0f };
+	// イージングの減衰係数（0.0～1.0、1.0なら即刻停止、0.0なら全く減衰しない）
+	const float knockbackDamping_ = 0.9f;  
+	// ノックバックの強さ
+	const float knockbackStrength_ = 1.0f;
+
+	// ノックバック中かどうかを示すフラグ
+	bool isKnockbackActive_ = false;
+	// 無敵状態の残り時間
+	float knockbackInvincibleTime_ = 0.0f;
+	// 無敵状態の継続時間（調整可能）
+	const float knockbackInvincibleDuration_ = 0.5f; 
+  
 
 
 };

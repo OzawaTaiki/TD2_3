@@ -1,9 +1,10 @@
 #include "GameScene.h"
 
-#include <Framework/eScene/BaseScene.h>
+#include <Framework/eScene/SceneManager.h>
 #include <Rendering/Model/ModelManager.h>
 #include <Rendering/Light/LightingSystem.h>
 #include <Rendering/LineDrawer/LineDrawer.h>
+
 
 
 #include <DirectXMath.h>
@@ -53,7 +54,12 @@ void GameScene::Update()
     }
 #endif // _DEBUG
 
-    
+    if(!player_->IsAlive())
+    {
+        SceneManager::GetInstance()->ReserveScene("Result");
+    }
+
+
     player_->Update();
     enemyManager_->Update();
 
@@ -110,7 +116,7 @@ void GameScene::Load()
     enemyManager_ = std::make_unique<EnemyManager>();
     enemyManager_->SetPlayer(player_.get());
     enemyManager_->Initialize(&SceneCamera_);
-   
+
 
 
     lightGroup_.Initialize();

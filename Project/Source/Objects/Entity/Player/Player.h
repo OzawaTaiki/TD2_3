@@ -74,6 +74,11 @@ private:
 	void SouthPoleBulletFire();
 
 	/// <summary>
+	/// 弾発射のクールタイム
+	/// </summary>
+	void CoolTimerBullet();
+
+	/// <summary>
 	/// 弾の更新
 	/// </summary>
 	void UpdateBullet();
@@ -144,8 +149,8 @@ private:
 	/*===============================================================//
 								 弾関連
 	//===============================================================*/
-	float bulletVelocity_ =  0.005f;
-	float bulletAcceleration_ = 0.008f;
+	float bulletVelocity_ =  0.03f;
+	float bulletAcceleration_ = 0.015f;
 
 	//--------------- 弾のクールタイム ---------------//
 

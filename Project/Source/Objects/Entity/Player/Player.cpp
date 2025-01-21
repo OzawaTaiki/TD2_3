@@ -52,6 +52,8 @@ void Player::Update()
 
 	Knockback();
 
+	CoolTimerBullet();
+
 	oModel_->Update();
 
 
@@ -217,10 +219,13 @@ void Player::Knockback()
 
 void Player::NorthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_RB) /*|| input_->IsMouseTriggered(0)*/) {
+	if (input_->IsPadTriggered(PadButton::iPad_RB) && northBulletCoolTimer_ <= 0.0f) {
+
+		// くーつタイムリセット
+		northBulletCoolTimer_ = bulletFireInterval_;
 
 		// プレイヤーの向きから弾の初速度を計算
-		float direction = rotation_.y + std::numbers::pi_v<float> / 2.0f;
+		float direction = rotation_.y /*+ std::numbers::pi_v<float> / 2.0f*/;
 		Vector3 velocity(
 			sinf(direction) * bulletVelocity_,	// X方向の速度
 			0.0f,                               // Y方向の速度
@@ -234,11 +239,9 @@ void Player::NorthPoleBulletFire()
 		);
 
 		Vector3 pos = GetWorldPosition();
-
 		// 弾を生成し、初期化
 		NorthPoleBullet* newBullet = new NorthPoleBullet();
 		newBullet->Initialize("Sphere/sphere.obj", "North",pos,velocity,acceleration);
-
 		// 弾を登録する
 		bulletsNorth_.push_back(newBullet);
 
@@ -248,9 +251,12 @@ void Player::NorthPoleBulletFire()
 
 void Player::SouthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_LB) /*|| input_->IsMouseTriggered(1)*/) {
+	if (input_->IsPadTriggered(PadButton::iPad_LB) && southBulletCoolTimer_ <= 0.0f) {
+		// クールタイムのリセット
+		southBulletCoolTimer_ = bulletFireInterval_;
+
 		// プレイヤーの向きから弾の初速度を計算
-		float direction = rotation_.y + std::numbers::pi_v<float> / 2.0f;
+		float direction = rotation_.y /*+ std::numbers::pi_v<float> / 2.0f*/;
 		Vector3 velocity(
 			sinf(direction) * bulletVelocity_,	// X方向の速度
 			0.0f,                               // Y方向の速度
@@ -263,8 +269,8 @@ void Player::SouthPoleBulletFire()
 			cosf(direction) * bulletAcceleration_	// Z方向の速度
 		);
 
-		velocity *= -1.0f;
-		acceleration *= -1.0f;
+		//velocity *= -1.0f;
+		//acceleration *= -1.0f;
 		Vector3 pos = GetWorldPosition();
 
 		// 弾を生成し、初期化
@@ -275,6 +281,19 @@ void Player::SouthPoleBulletFire()
 		bulletsSouth_.push_back(newBullet);
 
 	}
+}
+
+void Player::CoolTimerBullet()
+{
+	// 発射のクールタイマーの更新
+	const float deltaTime = 1.0f / 60.0f;
+	if (northBulletCoolTimer_ > 0.0f) {
+		northBulletCoolTimer_ -= deltaTime;
+	}
+	if (southBulletCoolTimer_ > 0.0f) {
+		southBulletCoolTimer_ -= deltaTime;
+	}
+
 }
 
 void Player::UpdateBullet()
@@ -335,6 +354,13 @@ void Player::ImGui()
 	ImGui::Text("Bullet Info");
 	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
 	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
+
+	ImGui::Separator();
+
+	ImGui::Text("BulletCoolTime Info");
+	ImGui::DragFloat("BulletFire Interval", &bulletFireInterval_, 0.1f, 3.0f);
+	ImGui::DragFloat("NorthBullet CoolTime", &northBulletCoolTimer_, 0.0f, 1.0f);
+	ImGui::DragFloat("SouthBullet CoolTime", &southBulletCoolTimer_, 0.0f, 1.0f);
 
 	// ノックバック関連
 	ImGui::Separator();

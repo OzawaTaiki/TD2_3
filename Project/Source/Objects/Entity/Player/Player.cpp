@@ -219,35 +219,30 @@ void Player::Knockback()
 
 void Player::NorthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_RB) && northBulletCoolTimer_ <= 0.0f) {
-
-		// くーつタイムリセット
+	if (input_->IsPadTriggered(PadButton::iPad_RB) && northBulletCoolTimer_ <= 0.0f)
+	{
+		// クールタイムのリセット
 		northBulletCoolTimer_ = bulletFireInterval_;
 
-		// プレイヤーの向きから弾の初速度を計算
-		float direction = rotation_.y /*+ std::numbers::pi_v<float> / 2.0f*/;
-		Vector3 velocity(
-			sinf(direction) * bulletVelocity_,	// X方向の速度
-			0.0f,                               // Y方向の速度
-			cosf(direction) * bulletVelocity_	// Z方向の速度
-		);
+		// 前方ベクトルの取得
+		Vector3 forward = GetForwardVector();
 
-		Vector3 acceleration(
-			sinf(direction) * bulletAcceleration_,	// X方向の速度
-			0.0f,									// Y方向の速度
-			cosf(direction) * bulletAcceleration_	// Z方向の速度
-		);
+		// プレイヤーの前方に発射位置オフセット
+		float spawnOffset = offset;
+		Vector3 spawnPosition = GetWorldPosition() + forward * spawnOffset;
 
-		Vector3 pos = GetWorldPosition();
-		// 弾を生成し、初期化
+		// 速度・加速度の計算
+		Vector3 velocity = forward * bulletVelocity_;
+		Vector3 acceleration = forward * bulletAcceleration_;
+
+		// 弾の生成および初期化
 		NorthPoleBullet* newBullet = new NorthPoleBullet();
-		newBullet->Initialize("Sphere/sphere.obj", "North",pos,velocity,acceleration);
-		// 弾を登録する
+		newBullet->Initialize("Sphere/sphere.obj", "North", spawnPosition, velocity, acceleration);
+
 		bulletsNorth_.push_back(newBullet);
-
 	}
-
 }
+
 
 void Player::SouthPoleBulletFire()
 {
@@ -255,31 +250,22 @@ void Player::SouthPoleBulletFire()
 		// クールタイムのリセット
 		southBulletCoolTimer_ = bulletFireInterval_;
 
-		// プレイヤーの向きから弾の初速度を計算
-		float direction = rotation_.y /*+ std::numbers::pi_v<float> / 2.0f*/;
-		Vector3 velocity(
-			sinf(direction) * bulletVelocity_,	// X方向の速度
-			0.0f,                               // Y方向の速度
-			cosf(direction) * bulletVelocity_	// Z方向の速度
-		);
+		// 前方ベクトルの取得
+		Vector3 forward = GetForwardVector();
 
-		Vector3 acceleration(
-			sinf(direction) * bulletAcceleration_,	// X方向の速度
-			0.0f,									// Y方向の速度
-			cosf(direction) * bulletAcceleration_	// Z方向の速度
-		);
+		// プレイヤーの前方に発射位置オフセット
+		float spawnOffset = offset;
+		Vector3 spawnPosition = GetWorldPosition() + forward * spawnOffset;
 
-		//velocity *= -1.0f;
-		//acceleration *= -1.0f;
-		Vector3 pos = GetWorldPosition();
+		// 速度・加速度の計算
+		Vector3 velocity = forward * bulletVelocity_;
+		Vector3 acceleration = forward * bulletAcceleration_;
 
-		// 弾を生成し、初期化
+		// 弾の生成および初期化
 		SouthPoleBullet* newBullet = new SouthPoleBullet();
-		newBullet->Initialize("Sphere/sphere.obj", "South",pos, velocity,acceleration);
+		newBullet->Initialize("Sphere/sphere.obj", "South", spawnPosition, velocity, acceleration);
 
-		// 弾を登録する
 		bulletsSouth_.push_back(newBullet);
-
 	}
 }
 
@@ -354,9 +340,10 @@ void Player::ImGui()
 	ImGui::Text("Bullet Info");
 	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
 	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
-
+	ImGui::DragFloat("Bullet Offset", &offset, 1.0f, 1.0f,10.0f);
 	ImGui::Separator();
 
+	// 弾のクールダウンとインターバル
 	ImGui::Text("BulletCoolTime Info");
 	ImGui::DragFloat("BulletFire Interval", &bulletFireInterval_, 0.1f, 3.0f);
 	ImGui::DragFloat("NorthBullet CoolTime", &northBulletCoolTimer_, 0.0f, 1.0f);
@@ -405,6 +392,13 @@ Vector3 Player::GetCenterPosition()
 	Vector3 worldPos = Transform(offset,oModel_->GetWorldTransform()->matWorld_);
 
 	return worldPos;
+}
+
+Vector3 Player::GetForwardVector() const
+{
+	// rotation_.y をもとに計算（例：XZ平面）
+	float angle = rotation_.y;
+	return Vector3{ sinf(angle), 0.0f, cosf(angle) };
 }
 
 void Player::InitJsonBinder()

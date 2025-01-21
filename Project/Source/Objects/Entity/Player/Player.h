@@ -109,7 +109,17 @@ public:
 	/// </summary>
 	const WorldTransform& GetWorldTransform() {return *oModel_->GetWorldTransform();}
 
+	/// <summary>
+	/// 中心点の取得
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetCenterPosition();
+
+	/// <summary>
+	/// プレイヤーの回転角度から前方ベクトルを計算して返す関数（XZ平面）
+	/// </summary>
+	/// <returns>前方への単位ベクトル</returns>
+	Vector3 GetForwardVector() const;
 
 	/// <summary>
 	/// 生存フラグを取得
@@ -151,6 +161,7 @@ private:
 	//===============================================================*/
 	float bulletVelocity_ =  0.03f;
 	float bulletAcceleration_ = 0.015f;
+	float offset = 2.0f;
 
 	//--------------- 弾のクールタイム ---------------//
 

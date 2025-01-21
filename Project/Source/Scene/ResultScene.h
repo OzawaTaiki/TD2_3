@@ -2,13 +2,13 @@
 #include <Framework/eScene/BaseScene.h>
 #include <memory>
 
-class GameScene : public BaseScene
+class ResultScene: public BaseScene
 {
 public:
 
     static std::unique_ptr<BaseScene> Create();
 
-     ~GameScene() override;
+    ~ResultScene() override;
 
     void Initialize() override;
     void Update() override;

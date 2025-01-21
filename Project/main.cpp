@@ -16,6 +16,11 @@
 #include "Framework/eScene/SceneManager.h"
 #include "Framework/eScene/SampleScene.h"
 #include "Framework/eScene/ParticleTestScene.h"
+
+#include "Source/Scene/TitleScene.h"
+#include "Source/Scene/GameScene.h"
+#include "Source/Scene/ResultScene.h"
+#include "Source/Scene/LoadScene.h"
 /*---------------*/
 
 
@@ -23,7 +28,7 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	WinApp* winApp = WinApp::GetInstance();
-	winApp->Initilize();
+	winApp->Initilize(L"2304_プラマイショット");
 
 	DXCommon* dxCommon = DXCommon::GetInstance();
 	dxCommon->Initialize(winApp, WinApp::kWindowWidth_, WinApp::kWindowHeight_);
@@ -50,6 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Sprite::StaticInitialize(WinApp::kWindowWidth_, WinApp::kWindowHeight_);
 	ModelManager::GetInstance()->Initialize();
+    LightingSystem::GetInstance()->Initialize();
 
 	LineDrawer* lineDrawer = LineDrawer::GetInstance();
 	lineDrawer->Initialize();
@@ -59,11 +65,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	JsonHub::GetInstance()->Initialize("Resources/Data/");
 
-	SceneManager::RegisterScene("Sample", SampleScene::Create);
-	SceneManager::RegisterScene("ParticleTest", ParticleTestScene::Create);
+	//SceneManager::RegisterScene("Sample", SampleScene::Create);
+	SceneManager::RegisterScene("Title", TitleScene::Create);
+	SceneManager::RegisterScene("Game", GameScene::Create);
+	SceneManager::RegisterScene("Result", ResultScene::Create);
+    //SceneManager::RegisterScene("Load", LoadScene::Create);
 
 
-	SceneManager::GetInstance()->Initialize("Sample");
+	SceneManager::GetInstance()->Initialize("Title");
 
 	Time::Initialize();
 
@@ -109,7 +118,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 	imguiManager->Finalize();
 
-	winApp->Filalze();
+	winApp->Finalize();
 
 
 	return 0;

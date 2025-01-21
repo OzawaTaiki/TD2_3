@@ -118,7 +118,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 	imguiManager->Finalize();
 
-	winApp->Filalze();
+	winApp->Finalize();
 
 
 	return 0;

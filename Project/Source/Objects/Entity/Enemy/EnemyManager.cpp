@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "../Player/Player.h"
 #include "Rendering/LineDrawer/LineDrawer.h"
+#include <Physics/Collision/CollisionManager.h>
 
 #include <imgui.h>
 #include <random>
@@ -33,7 +34,7 @@ void EnemyManager::Update()
     AttractEnemy(attractRadius_);
 
     /// 一定時間で敵追加
-    TimeSpawnEnemy();
+    //TimeSpawnEnemy();
 
 
 
@@ -230,7 +231,7 @@ void EnemyManager::AttractEnemy(float range)
                     Vector3 center = center1 + (direction * length * 0.5f);
 
                     // OBBのサイズ xのみ変動
-                    Vector3 size = { length, 1.0f, 2.0f };
+                    Vector3 size = { length - 2, 1.0f, 1.0f };
                     // ここで二点間の中心を中心とした真横のOBBができる
                     OBB obb(-size / 2.0f, size / 2.0f);
 
@@ -250,9 +251,73 @@ void EnemyManager::AttractEnemy(float range)
                     // 頂点計算してもらう
                     obb.Calculate(OBBWorldMat);
 
-                    // 描画
+#ifdef _DEBUG
+                    // デバッグ時だけ描画
                     LineDrawer::GetInstance()->DrawOBB(OBBWorldMat);
+#endif // _DEBUG
 
+                    // OBBのサイズが一定以下のときに当たっている敵をマーク
+                    // 引き寄せあってるやつらが消滅した時マークした敵を消す
+
+                    const float kMaxSize = (std::max)(size.x, size.z);
+
+
+                    // 衝突判定前に大きめサイズで事前チェック
+                    // OBB中心 敵中心 で距離計算
+                    // 一定範囲 (kMaxSize + enemySize ) * 2
+
+                    for (auto it = enemies_.begin(); it != enemies_.end(); ++it)
+                    {
+                        Enemy* enemy = it->get();
+                        // 既に消滅している敵 引き寄せあってる敵 マーク済みの敵 はスキップ
+                        if (!enemy->GetIsAlive() || enemy == enemy1 || enemy == enemy2 || enemy->GetMarkForRemoval()) continue;
+
+                            // 対象間距離を求める
+                        Vector3 enemyCenter = enemy->GetCenterPosition();
+                        Vector3 obb2enemydistance = enemyCenter - center;
+                        float distanceLength = obb2enemydistance.Length();
+
+                            // 一定範囲内にいる
+                        if (distanceLength <= (kMaxSize + 1.0f) * 2.0f)
+                        {
+                            if (size.x <= kSizeThreshold)
+                            {
+                                if (CollisionManager::GetInstance()->IsCollision(obb, enemy->getcoll()->GetShape<OBB>()))
+                                    enemy->GetIsAlive() = false;
+                            }
+                            // サイズがまだ大きいとき
+                            else
+                            {
+                                // 敵より中心に近くないときはcontinue
+                                Vector3 enemy1ToCenter = center - center1;
+                                Vector3 enemy2ToCenter = center - center2;
+
+                                Vector3 enemy1ToEnemy = enemyCenter - center1;
+                                Vector3 enemy2ToEnemy = enemyCenter - center2;
+
+                                // Dotで方向を求める
+                                // どちらも＋なら敵の外側にいる
+                                if (Dot(enemy1ToCenter.Normalize(), enemy1ToEnemy.Normalize()) < 0.0f ||
+                                    Dot(enemy2ToCenter.Normalize(), enemy2ToEnemy.Normalize()) < 0.0f)
+                                {
+                                    continue;
+                                }
+
+                                if (CollisionManager::GetInstance()->IsCollision(enemy1->getcoll()->GetShape<OBB>(), enemy->getcoll()->GetShape<OBB>()))
+                                {
+
+                                    Vector3 trans = enemy->GetTranslate() - obb2enemydistance.Normalize() * attractForce;
+                                    enemy->SetTranslate(trans);
+                                }
+                                else if (CollisionManager::GetInstance()->IsCollision(enemy2->getcoll()->GetShape<OBB>(), enemy->getcoll()->GetShape<OBB>()))
+                                {
+
+                                    Vector3 trans = enemy->GetTranslate() - obb2enemydistance.Normalize() * attractForce;
+                                    enemy->SetTranslate(trans);
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -263,6 +328,15 @@ void EnemyManager::AttractEnemy(float range)
     }
 }
 
+
+void EnemyManager::RemoveMarkedEnemies()
+{/*
+    for (auto it : markedForRemovalEnemies_)
+    {
+        enemies_.erase(it);
+    }
+    markedForRemovalEnemies_.clear();*/
+}
 
 Vector4 EnemyManager::Vector4ooooo(const Matrix4x4& m, const Vector4& v)
 {

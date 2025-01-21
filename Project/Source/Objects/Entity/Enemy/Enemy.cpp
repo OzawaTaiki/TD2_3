@@ -23,6 +23,8 @@ void Enemy::Initialize(Camera* camera)
 
 	// 敵オブジェクトをコライダーの所有者として設定
 	collider_->SetOwner(this);
+
+    markForRemoval_ = false;
 }
 
 void Enemy::Update()

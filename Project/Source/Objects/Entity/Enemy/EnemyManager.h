@@ -57,6 +57,12 @@ private:
     /// </summary>
     /// <param name="range"></param>
     void AttractEnemy(float range);
+
+    /// <summary>
+    /// マークした敵を消滅させる
+    /// </summary>
+    void RemoveMarkedEnemies();
+
     Vector4 Vector4ooooo(const Matrix4x4& m, const Vector4& v);
 
 public:
@@ -85,6 +91,9 @@ private:
     float maxAttractForce_ = 3.0f;      // 引き寄せ力の最大値
     float threshold_ = 2.0f; // 消滅のしきい値
 
+
+    float kSizeThreshold = 2.0f; // 敵を消滅させるOBBのサイズ x
+    std::list<std::list<std::unique_ptr<Enemy>>::iterator> markedForRemovalEnemies_;// 消滅させる敵のリスト
   
     float minX_;
     float maxX_;

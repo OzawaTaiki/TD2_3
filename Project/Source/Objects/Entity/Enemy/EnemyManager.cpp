@@ -231,7 +231,7 @@ void EnemyManager::AttractEnemy(float range)
                     Vector3 center = center1 + (direction * length * 0.5f);
 
                     // OBBのサイズ xのみ変動
-                    Vector3 size = { length - 2, 1.0f, 1.0f };
+                    Vector3 size = { length - 2, 1.0f, 2.0f };
                     // ここで二点間の中心を中心とした真横のOBBができる
                     OBB obb(-size / 2.0f, size / 2.0f);
 

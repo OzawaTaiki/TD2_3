@@ -10,6 +10,21 @@
 #include <Systems/JsonBinder/JsonHub.h>
 
 using namespace DirectX;
+Player::~Player()
+{
+	// 弾削除
+    for (NorthPoleBullet* bullet : bulletsNorth_) {
+        delete bullet;
+    }
+    bulletsNorth_.clear();
+
+    for (SouthPoleBullet* bullet : bulletsSouth_) {
+        delete bullet;
+    }
+    bulletsSouth_.clear();
+
+}
+
 void Player::Initialize(Camera* camera)
 {
 	camera_ = camera;

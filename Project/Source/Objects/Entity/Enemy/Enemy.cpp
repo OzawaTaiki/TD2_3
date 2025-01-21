@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include <Physics/Math/VectorFunction.h>
 
 void Enemy::Initialize(Camera* camera)
 {
@@ -22,6 +23,8 @@ void Enemy::Initialize(Camera* camera)
 
 	// 敵オブジェクトをコライダーの所有者として設定
 	collider_->SetOwner(this);
+
+    markForRemoval_ = false;
 }
 
 void Enemy::Update()
@@ -57,6 +60,7 @@ void Enemy::Draw(const Vector4& color)
 
 	collider_->Draw();
 	oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
+
 }
 
 void Enemy::OnCollision(const Collider* other)
@@ -74,4 +78,12 @@ void Enemy::OnCollision(const Collider* other)
 
 
 	}
+}
+
+Vector3 Enemy::GetCenterPosition() const {
+	// 見た目上の中心点のオフセット（モデル座標系）
+	const Vector3 offset = { 0.0f, 0.0f, 0.0f };
+	// ワールド座標系に変換
+	Vector3 worldPos = Transform(offset, oModel_->GetWorldTransform()->matWorld_);
+	return worldPos;
 }

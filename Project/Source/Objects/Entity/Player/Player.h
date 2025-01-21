@@ -18,6 +18,7 @@
 class Player : public BaseEntity
 {
 public:
+	~Player();
 
 	/// <summary>
 	/// 初期化

@@ -35,7 +35,6 @@ public:
 	void SetCurrentType(BulletType type) { currentType_ = type; }
 
 
-
 	// デバッグ用: 現在の弾タイプを文字列で取得
 	std::string GetCurrentTypeName() const {
 		switch (currentType_) {
@@ -55,11 +54,17 @@ private:
 	void OnCollision(const Collider* other);
 
 
+
+
+
 public:
 
 	Vector3& GetTranslate() { return oModel_->translate_; }
+	Vector3 GetCenterPosition() const;
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 	bool& GetIsAlive() { return isAlive_; }
+    bool& GetMarkForRemoval() { return markForRemoval_; }
+    Collider* getcoll() { return collider_.get(); }
 
 private:
 	
@@ -69,6 +74,10 @@ private:
 
 	std::unique_ptr<Collider> collider_ = nullptr;
 	bool isAlive_ = true;
+
+    // マークされているか
+	// 消滅するか
+    bool markForRemoval_ = false;
 
 	// 現在の弾タイプ
 	BulletType currentType_ = BulletType::None;

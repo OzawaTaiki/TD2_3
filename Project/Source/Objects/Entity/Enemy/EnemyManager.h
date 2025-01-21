@@ -37,6 +37,11 @@ private:
     void AddEnemy();
 
     /// <summary>
+    /// タイムでスポーン
+    /// </summary>
+    void TimeSpawnEnemy();
+
+    /// <summary>
     /// 敵を削除（デスフラグ付き）
     /// </summary>
     void RemoveDeadEnemies();
@@ -52,6 +57,13 @@ private:
     /// </summary>
     /// <param name="range"></param>
     void AttractEnemy(float range);
+
+    /// <summary>
+    /// マークした敵を消滅させる
+    /// </summary>
+    void RemoveMarkedEnemies();
+
+    Vector4 Vector4ooooo(const Matrix4x4& m, const Vector4& v);
 
 public:
 
@@ -72,10 +84,24 @@ private:
     // 引き寄せ処理
     float attractSpeed_ = 0.1f;
     float attractRadius_ = 10.0f;
-    float threshold_ = 0.5f; // 消滅のしきい値
-    float attractCoefficient_ = 1.0f; // 引き寄せの強さ
-    float repelCoefficient_ = 1.0f;   // 反発の強さ
+
+    float repelCoefficient_ = 10.0f;    // 反発の基準係数
+    float attractCoefficient_ = 10.0f; // 引き寄せの基準係数
+    float maxRepelForce_ = 3.0f;        // 反発力の最大値
+    float maxAttractForce_ = 3.0f;      // 引き寄せ力の最大値
+    float threshold_ = 2.0f; // 消滅のしきい値
+
+
+    float kSizeThreshold = 2.0f; // 敵を消滅させるOBBのサイズ x
+    std::list<std::list<std::unique_ptr<Enemy>>::iterator> markedForRemovalEnemies_;// 消滅させる敵のリスト
   
+    float minX_;
+    float maxX_;
+    float minY_;
+    float maxY_;
+    float minZ_;
+    float maxZ_;
+    float rotateAngle_ = 0.0f;
   
     std::chrono::steady_clock::time_point lastSpawnTime_; // 最後に敵を生成した時刻
     float spawnInterval_ = 5.0f; // 敵生成間隔（秒）

@@ -1,4 +1,5 @@
 #include "BaseBullet.h"
+#include <Physics/Math/MyLib.h>
 
 void BaseBullet::Initialize(const std::string& directoryPath, const std::string& name, 
 	const Vector3& translate, const Vector3& velocity, const Vector3& acceleration)
@@ -19,9 +20,16 @@ void BaseBullet::Update()
 	if (--deathTimer_ <= 0) {
 		isAlive_ = false;
 	}
-	velocity_ += acceleration_;
+	
+	Vector3 targetVelocity = velocity_ + acceleration_;
+	velocity_ = Lerp(velocity_, targetVelocity, easeRate_);
+
+	// 更新された速度で位置を更新
 	oModel_->translate_ += velocity_;
 	oModel_->Update();
+
+
+
 }
 
 void BaseBullet::Draw(const Camera& camera, const Vector4& color)

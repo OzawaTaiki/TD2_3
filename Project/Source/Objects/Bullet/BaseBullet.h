@@ -64,7 +64,8 @@ protected:
 	int32_t deathTimer_ = kLifeTime;
 	// 生存フラグ
 	bool isAlive_ = true;
-
+	// 一定割合で補間する。
+	float easeRate_ = 1.2f; 
 
 private:
 	// 静的メンバ変数

@@ -9,13 +9,19 @@
 #include <Physics/Math/MatrixFunction.h>
 #include <Physics/Math/VectorFunction.h>
 
+
 void EnemyManager::Initialize(Camera* camera)
 {
     camera_ = camera;
 
-    for (uint32_t i = 0; i < enemyCount_; ++i) {
-        AddEnemy();
-    }
+ 
+    // コールバック関数の登録
+    spawnLoader_.SetSpawnCallback([this](Vector3& position) {
+        this->SpawnEnemy(position);
+        });
+
+    // スポーンデータの読み込み
+    spawnLoader_.LoadEnemyPopData();
 
     lastSpawnTime_ = std::chrono::steady_clock::now();
     spawnInterval_ = 1.5f; // 1.5秒ごとに敵を生成
@@ -23,6 +29,8 @@ void EnemyManager::Initialize(Camera* camera)
 
 void EnemyManager::Update()
 {
+    spawnLoader_.UpdateEnemyPopCommands();
+
     /// デスフラグの立った敵を削除
     RemoveDeadEnemies();
 
@@ -34,7 +42,7 @@ void EnemyManager::Update()
     AttractEnemy(attractRadius_);
 
     /// 一定時間で敵追加
-    TimeSpawnEnemy();
+    //TimeSpawnEnemy();
 
 
 
@@ -87,26 +95,28 @@ void EnemyManager::ImGui()
 
 void EnemyManager::AddEnemy()
 {
-    /// 新しい敵を追加
-    auto newEnemy = std::make_unique<Enemy>();
-    Vector3 randomPos= GenerateRandomPosition();
-    Vector3 playerPos = player_->GetCenterPosition();
-    Vector3 newPos = randomPos + playerPos;
+    //if (currentSpawnIndex_ >= spawnDataList_.size()) {
+    //    return; // データが終わった場合
+    //}
 
-    newEnemy->Initialize(camera_);
-    newEnemy->SetTranslate(newPos);
-    enemies_.push_back(std::move(newEnemy));
+    //auto [x, y, z] = spawnDataList_[currentSpawnIndex_];
+    //currentSpawnIndex_++;
+
+    //// 新しい敵を追加
+    //auto newEnemy = std::make_unique<Enemy>();
+    //Vector3 spawnPosition = { x, y, z };
+
+    //newEnemy->Initialize(camera_);
+    //newEnemy->SetTranslate(spawnPosition);
+    //enemies_.push_back(std::move(newEnemy));
 }
 
-void EnemyManager::TimeSpawnEnemy()
+void EnemyManager::SpawnEnemy(Vector3& pos)
 {
-    /// 時間に基づいて敵を追加
-    auto currentTime = std::chrono::steady_clock::now();
-    std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
-    if (elapsed.count() >= spawnInterval_) {
-        AddEnemy();
-        lastSpawnTime_ = currentTime; /// タイマーをリセット
-    }
+    auto newEnemy = std::make_unique<Enemy>();
+    newEnemy->Initialize(camera_);
+    newEnemy->SetTranslate(pos);
+    enemies_.push_back(std::move(newEnemy));
 }
 
 void EnemyManager::RemoveDeadEnemies()

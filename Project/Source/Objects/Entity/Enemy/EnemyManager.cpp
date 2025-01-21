@@ -126,9 +126,9 @@ Vector3 EnemyManager::GenerateRandomPosition()
 }
 
 /// <summary>
-/// AttractEnemy
+/// 2点間に生成したOBBのZ軸方向サイドに「None」属性の敵が触れているか判定し、
+/// 触れている場合は押し出して最後は消滅させる処理を追加するサンプル実装例
 /// </summary>
-/// <param name="range">敵同士が影響を及ぼし合う範囲</param>
 void EnemyManager::AttractEnemy(float range)
 {
     for (auto it1 = enemies_.begin(); it1 != enemies_.end(); ++it1) {
@@ -209,50 +209,112 @@ void EnemyManager::AttractEnemy(float range)
                 }
 
                 // ------------------------------
-                // North/Southを含むペア → AABB回転描画(OBB)
+                // North/Southを含むペア → OBB生成
                 // ------------------------------
                 if ((enemy1->GetCurrentType() == Enemy::BulletType::North ||
                     enemy1->GetCurrentType() == Enemy::BulletType::South) ||
                     (enemy2->GetCurrentType() == Enemy::BulletType::North ||
                         enemy2->GetCurrentType() == Enemy::BulletType::South))
                 {
-                    // AABB算出
+                    // AABB算出用の中心座標
                     Vector3 center1 = enemy1->GetCenterPosition();
                     Vector3 center2 = enemy2->GetCenterPosition();
 
-                    // 2点間の距離
-                    Vector3 distance = center2 - center1;
-                    // 方向ベクトル
-                    Vector3 direction = distance.Normalize();
-                    float length = (center2 - center1).Length();
+                    // 2点間の距離ベクトルと長さを求める
+                    Vector3 distanceVec = center2 - center1;
+                    Vector3 dirNormalize = distanceVec.Normalize();
+                    float length = distanceVec.Length();
 
                     // 2点間の中心
-                    Vector3 center = center1 + (direction * length * 0.5f);
+                    Vector3 center = center1 + (dirNormalize * length * 0.5f);
 
-                    // OBBのサイズ xのみ変動
+                    // OBBのサイズ（例として xのみ敵同士の距離、y=1, z=2）
                     Vector3 size = { length, 1.0f, 2.0f };
 
-                    // ここで二点間の中心を中心とした真横のOBBができる
+                    // OBBをローカル座標(-size/2 ～ size/2)で定義
                     OBB obb(-size / 2.0f, size / 2.0f);
 
-                    // OBBのワールド行列を求める
+                    // ワールド行列
                     Matrix4x4 OBBWorldMat = Matrix4x4::Identity();
 
-                    // scaleはデフォ{size}
+                    // スケーリング行列
                     Matrix4x4 scaleMat = MakeScaleMatrix(size);
-                    // 中心点はcenter
+                    // 回転行列（X軸→directionベクトルへ向ける）
+                    Matrix4x4 rotMat = DirectionToDirection(Vector3(1, 0, 0), dirNormalize);
+                    // 並行移動行列（中心へ移動）
                     Matrix4x4 translateMat = MakeTranslateMatrix(center);
-                    // 回転を求める
-                    Matrix4x4 rotMat = DirectionToDirection(Vector3(1, 0, 0), direction);
 
-                    // がったい
                     OBBWorldMat = scaleMat * rotMat * translateMat;
 
-                    // 頂点計算してもらう
+                    // OBBの頂点計算
                     obb.Calculate(OBBWorldMat);
 
-                    // 描画
+                    // デバッグ描画（LineDrawerなどで）
                     LineDrawer::GetInstance()->DrawOBB(OBBWorldMat);
+
+                    // ------------------------------
+                    // None属性の敵がOBBの「Z軸サイド」に触れていたら押し出して消滅させる
+                    // ------------------------------
+                    // ※「内部にいる」ではなく、「Z軸のサイドに当たっているか」判定を行い
+                    //   そこから押し出すロジックのサンプル
+                    //   簡易的には OBBのローカル座標に変換して「Z軸側面との交差判定」を行う。
+                    // ------------------------------
+                    for (auto& enemy : enemies_) {
+                        Enemy* targetEnemy = enemy.get();
+                        if (!targetEnemy || !targetEnemy->GetIsAlive() ||
+                            targetEnemy->GetCurrentType() != Enemy::BulletType::None)
+                        {
+                            continue;
+                        }
+
+                        Vector3 targetPos = targetEnemy->GetTranslate();
+                        // ターゲット位置をOBBのローカル座標に変換
+                        Vector3 localPos = obb.WorldToLocal(targetPos);
+
+                        // ローカル座標系でのサイド判定(例: z=±size.z/2付近にいるかどうか)
+                        // ここで「面」に触れているかどうかを判定するイメージ
+                        float halfZ = (size.z * 0.5f);
+                        float halfX = (size.x * 0.5f);
+                        float halfY = (size.y * 0.5f);
+
+                        // zがほぼ±halfZ付近(誤差内)に居る & x,yはOBB内に収まっているか
+                        // ※誤差として0.1fなど適当に設定
+                        float epsilon = 0.1f;
+
+                        // Z軸の正面側に接触しているか
+                        bool touchPlusZ = (std::fabs(localPos.z - halfZ) <= epsilon);
+                        // Z軸の背面側に接触しているか
+                        bool touchMinusZ = (std::fabs(localPos.z + halfZ) <= epsilon);
+
+                        // XとYの範囲が内部ならばサイドに接触しているとみなす
+                        bool insideX = (localPos.x >= -halfX && localPos.x <= halfX);
+                        bool insideY = (localPos.y >= -halfY && localPos.y <= halfY);
+
+                        if ((touchPlusZ || touchMinusZ) && insideX && insideY)
+                        {
+                            // どちらの面に触れているかで押し出し方向を変える
+                            // (OBBのローカルZ軸で±どちらか)
+                            float pushDirLocalZ = touchPlusZ ? 1.0f : -1.0f;
+
+                            // 押し出しベクトルをローカル座標系で作成
+                            Vector3 pushLocalDir(0.0f, 0.0f, pushDirLocalZ);
+
+                            // ローカル→ワールドへ向きベクトル変換
+                            Vector3 pushWorldDir = obb.LocalVectorToWorld(pushLocalDir);
+                            pushWorldDir = pushWorldDir.Normalize();
+
+                            // 押し出し
+                            float pushForce = maxAttractForce_; // 適宜調整
+                            Vector3 newPos = targetPos + (pushWorldDir * pushForce);
+                            targetEnemy->SetTranslate(newPos);
+
+                            // 最終的に消滅させたい場合（押し出し後に条件付きで）
+                            // 例えば、ある程度遠くへ押し出したら消滅など
+                            if (/* 何らかの条件 */ false) {
+                                targetEnemy->GetIsAlive() = false;
+                            }
+                        }
+                    }
                 }
             }
 

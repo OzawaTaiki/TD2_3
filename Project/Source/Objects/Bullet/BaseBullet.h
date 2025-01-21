@@ -15,7 +15,7 @@ public:
 	/// 初期化
 	/// </summary>
 	virtual void Initialize(const std::string& directoryPath, const std::string& name,
-		const Vector3& translate, const Vector3& velocity);
+		const Vector3& translate, const Vector3& velocity,const Vector3& acceleration);
 
 	/// <summary>
 	/// 更新
@@ -58,6 +58,8 @@ protected:
 
 	// 移動速度
 	Vector3 velocity_ = Vector3(0.0f, 0.0f, 0.0f);
+	// 加速度
+	Vector3 acceleration_ = Vector3(0.0f, 0.0f, 0.0f);
 	// デスタイマー
 	int32_t deathTimer_ = kLifeTime;
 	// 生存フラグ
@@ -66,7 +68,7 @@ protected:
 
 private:
 	// 静的メンバ変数
-	static const int32_t kLifeTime = 60 * 1; // 寿命<frm>
+	static const int32_t kLifeTime = 60 * 5; // 寿命<frm>
 	static inline const float rad = 1.0f;    // 半径
 
 };

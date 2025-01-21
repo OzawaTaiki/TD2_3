@@ -1,7 +1,7 @@
 #include "BaseBullet.h"
 
 void BaseBullet::Initialize(const std::string& directoryPath, const std::string& name, 
-	const Vector3& translate, const Vector3& velocity)
+	const Vector3& translate, const Vector3& velocity, const Vector3& acceleration)
 {
 	oModel_ = std::make_unique<ObjectModel>();
 	oModel_->Initialize(directoryPath, name);
@@ -11,6 +11,7 @@ void BaseBullet::Initialize(const std::string& directoryPath, const std::string&
 	//----------------------------------------------------//
 	oModel_->translate_ = translate;
 	velocity_ = velocity;
+	acceleration_ = acceleration;
 }
 
 void BaseBullet::Update()
@@ -18,6 +19,7 @@ void BaseBullet::Update()
 	if (--deathTimer_ <= 0) {
 		isAlive_ = false;
 	}
+	velocity_ += acceleration_;
 	oModel_->translate_ += velocity_;
 	oModel_->Update();
 }

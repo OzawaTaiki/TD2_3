@@ -2,9 +2,9 @@
 #include "../Entity/Enemy/Enemy.h"
 #include "../../System_TD/TypeManager/TypeManager.h"
 
-void SouthPoleBullet::Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity)
+void SouthPoleBullet::Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity, const Vector3& acceleration)
 {
-	BaseBullet::Initialize(directoryPath, name, translate, velocity);
+	BaseBullet::Initialize(directoryPath, name, translate, velocity,acceleration);
 
 	/*===============================================================//
 					 　　  コライダー設定
@@ -33,7 +33,7 @@ void SouthPoleBullet::Update()
 void SouthPoleBullet::Draw(const Camera& camera, const Vector4& color)
 {
 	if (!isAlive_) return; // 生存状態を確認
-	collider_->Draw();
+	//collider_->Draw();
 	BaseBullet::Draw(camera, color);
 }
 

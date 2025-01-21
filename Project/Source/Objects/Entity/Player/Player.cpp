@@ -177,18 +177,24 @@ void Player::NorthPoleBulletFire()
 	if (input_->IsPadTriggered(PadButton::iPad_RB) /*|| input_->IsMouseTriggered(0)*/) {
 
 		// プレイヤーの向きから弾の初速度を計算
-		float direction = rotation_.y + std::numbers::pi / 2.0f;
+		float direction = rotation_.y + std::numbers::pi_v<float> / 2.0f;
 		Vector3 velocity(
-			sin(direction) * bulletVelocity_, // X方向の速度
+			sinf(direction) * bulletVelocity_,	// X方向の速度
 			0.0f,                               // Y方向の速度
-			cos(direction) * bulletVelocity_  // Z方向の速度
+			cosf(direction) * bulletVelocity_	// Z方向の速度
+		);
+
+		Vector3 acceleration(
+			sinf(direction) * bulletAcceleration_,	// X方向の速度
+			0.0f,									// Y方向の速度
+			cosf(direction) * bulletAcceleration_	// Z方向の速度
 		);
 
 		Vector3 pos = GetWorldPosition();
 
 		// 弾を生成し、初期化
 		NorthPoleBullet* newBullet = new NorthPoleBullet();
-		newBullet->Initialize("Sphere/sphere.obj", "North",pos,velocity);
+		newBullet->Initialize("Sphere/sphere.obj", "North",pos,velocity,acceleration);
 
 		// 弾を登録する
 		bulletsNorth_.push_back(newBullet);
@@ -200,20 +206,27 @@ void Player::NorthPoleBulletFire()
 void Player::SouthPoleBulletFire()
 {
 	if (input_->IsPadTriggered(PadButton::iPad_LB) /*|| input_->IsMouseTriggered(1)*/) {
-		float direction = rotation_.y + std::numbers::pi / 2.0f;
 		// プレイヤーの向きから弾の初速度を計算
+		float direction = rotation_.y + std::numbers::pi_v<float> / 2.0f;
 		Vector3 velocity(
-			sin(direction) * bulletVelocity_, // X方向の速度
+			sinf(direction) * bulletVelocity_,	// X方向の速度
 			0.0f,                               // Y方向の速度
-			cos(direction) * bulletVelocity_  // Z方向の速度
+			cosf(direction) * bulletVelocity_	// Z方向の速度
+		);
+
+		Vector3 acceleration(
+			sinf(direction) * bulletAcceleration_,	// X方向の速度
+			0.0f,									// Y方向の速度
+			cosf(direction) * bulletAcceleration_	// Z方向の速度
 		);
 
 		velocity *= -1.0f;
+		acceleration *= -1.0f;
 		Vector3 pos = GetWorldPosition();
 
 		// 弾を生成し、初期化
 		SouthPoleBullet* newBullet = new SouthPoleBullet();
-		newBullet->Initialize("Sphere/sphere.obj", "South",pos, velocity);
+		newBullet->Initialize("Sphere/sphere.obj", "South",pos, velocity,acceleration);
 
 		// 弾を登録する
 		bulletsSouth_.push_back(newBullet);
@@ -264,16 +277,26 @@ void Player::ImGui()
 	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_);
 	ImGui::DragFloat("Speed", &kCharacterSpeed_,0.01f,1.0f);
 
+
 	ImGui::InputFloat("MaxHp", &maxHp_, 1.0f);
     if(ImGui::InputFloat("HP", &hp_, 1.0f))
 	{
 		if (hp_ > maxHp_)            hp_ = maxHp_;
 	}
 
+
+	ImGui::Text("Player Bullet Info");
+	ImGui::DragFloat("Velocity_", &bulletVelocity_, 0.01f, 1.0f);
+	ImGui::DragFloat("Acceleration", &bulletAcceleration_, 0.01f, 1.0f);
+
+
+
 	if(ImGui::Button("Save"))
     {
         Save();
     }
+
+
 
 	ImGui::End();
 }

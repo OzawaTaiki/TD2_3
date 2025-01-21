@@ -8,7 +8,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity) override;
+	void Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity, const Vector3& acceleration) override;
 
 	/// <summary>
 	/// 更新

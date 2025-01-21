@@ -2,9 +2,9 @@
 #include "../Entity/Enemy/Enemy.h"
 #include "../../System_TD/TypeManager/TypeManager.h"
 
-void NorthPoleBullet::Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity)
+void NorthPoleBullet::Initialize(const std::string& directoryPath, const std::string& name, const Vector3& translate, const Vector3& velocity, const Vector3& acceleration)
 {
-	BaseBullet::Initialize(directoryPath, name,translate, velocity);
+	BaseBullet::Initialize(directoryPath, name,translate, velocity,acceleration);
 
 	/*===============================================================//
 				 　　  コライダー設定
@@ -31,7 +31,7 @@ void NorthPoleBullet::Update()
 
 void NorthPoleBullet::Draw(const Camera& camera, const Vector4& color)
 {
-	collider_->Draw();
+	//collider_->Draw();
 	if (!isAlive_) return; // 生存状態を確認
 	BaseBullet::Draw(camera, color);
 }

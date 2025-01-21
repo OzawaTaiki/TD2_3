@@ -44,9 +44,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ParticleManager* particle = ParticleManager::GetInstance();
 	particle->Initialize();
 
-	//ConfigManager::GetInstance()->Initialize();
-	//ConfigManager::GetInstance()->LoadData();
-
 
 	TextureManager::GetInstance()->Initialize();
 	TextureManager::GetInstance()->Load("white.png");

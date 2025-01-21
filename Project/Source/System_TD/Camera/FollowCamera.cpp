@@ -21,7 +21,7 @@ void FollowCamera::FollowProcess()
 	if (target_) {
 
 		// 真下を向くようにカメラを回転
-		rotate_ = { DirectX::XMConvertToRadians(90.0f), 0.0f, 0.0f }; // X軸回転 -90度
+		rotate_ = { DirectX::XMConvertToRadians(90), 0.0f, 0.0f }; // X軸回転 -90度
 
 		// ターゲット位置にオフセットを加算
 		translate_ = target_->transform_ + offset_;

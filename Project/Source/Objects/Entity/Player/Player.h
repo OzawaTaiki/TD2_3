@@ -128,6 +128,12 @@ public:
 	/// <returns></returns>
 	bool IsAlive()const { return isAlive_; }
 
+    /// <summary>
+    /// プレイヤーの座標を設定
+    /// </summary>
+    /// <param name="_translate"></param>
+    void SetTranslate(const Vector3& _translate) { oModel_->translate_ = _translate; }
+
 private:
 	/*===============================================================//
 							 　　ポインタなど

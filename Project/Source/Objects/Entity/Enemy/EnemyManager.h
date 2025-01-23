@@ -105,7 +105,9 @@ private:
     //===============================================================*/
 
     float kSizeThreshold = 2.0f; // 敵を消滅させるOBBのサイズ x
-    std::list<std::list<std::unique_ptr<Enemy>>::iterator> markedForRemovalEnemies_;// 消滅させる敵のリスト
+
+    // 消滅させる敵のリスト
+    std::list<std::list<std::unique_ptr<Enemy>>::iterator> markedForRemovalEnemies_;
   
     float minX_;
     float maxX_;
@@ -114,6 +116,9 @@ private:
     float minZ_;
     float maxZ_;
     float rotateAngle_ = 0.0f;
+
+    // 時間経過でNone状態に戻す
+
   
 
     /*===============================================================//

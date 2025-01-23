@@ -35,9 +35,13 @@ void FollowCamera::FollowProcess()
 void FollowCamera::GetViewProjection() const
 {
 }
-
+#ifdef _DEBUG
 void FollowCamera::ImGui()
 {
+
+
+
+
 	ImGui::Begin("FollowCamera Info");
 	ImGui::DragFloat3("OffSet", offset_);
 
@@ -49,3 +53,4 @@ void FollowCamera::ImGui()
 
 	ImGui::End();
 }
+#endif // _DEBUG

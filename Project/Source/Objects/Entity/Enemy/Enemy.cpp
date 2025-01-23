@@ -62,6 +62,21 @@ void Enemy::Draw(const Vector4& color)
 
 }
 
+void Enemy::ChangeType(float deltaTime)
+{
+	if (currentType_ != BulletType::None) {
+		typeChangeCount_+= deltaTime;
+		if (typeChangeCount_ >= typeChangeTime_) {
+			SetCurrentType(BulletType::None);  // None状態に変更
+			typeChangeCount_ = 0.0f;   // タイマーをリセット
+		}
+	}
+	else {
+		typeChangeCount_ = 0.0f;  // Noneのときはタイマーをリセット
+	}
+
+}
+
 void Enemy::Move(float& deltaTime)
 {
 	if (!isAlive_) return;
@@ -112,7 +127,7 @@ void Enemy::ImGui()
 {
 #ifdef _DEBUG
 	ImGui::Begin("Enemy Para");
-	ImGui::DragFloat3("Velocity", &velocity_.x);
+	
 
 
 	ImGui::End();

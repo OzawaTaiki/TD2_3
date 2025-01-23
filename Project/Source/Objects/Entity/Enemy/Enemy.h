@@ -35,6 +35,17 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+	/// <summary>
+	/// 属性の切り替え
+	/// </summary>
+	/// <param name="deltaTime"></param>
+	void ChangeType(float deltaTime);
+
+
+	/// <summary>
+	/// 移動
+	/// </summary>
+	/// <param name="deltaTime"></param>
 	void Move(float& deltaTime);
 
 
@@ -44,7 +55,7 @@ public:
 	void SetCurrentType(BulletType type) { currentType_ = type; }
 
 
-	// デバッグ用: 現在の弾タイプを文字列で取得
+	// 現在の弾タイプを文字列で取得
 	std::string GetCurrentTypeName() const {
 		switch (currentType_) {
 		case BulletType::None:  return "None";
@@ -54,6 +65,7 @@ public:
 		return "Unknown";
 	}
 
+	// 移動のタイプをセット
 	void SetMoveType(const std::string& moveType) {
 		if (moveType == "Direct") {
 			moveType_ = MoveType::Direct;
@@ -65,7 +77,6 @@ public:
 			moveType_ = MoveType::Direct; // デフォルト
 		}
 	};
-	void SetPlayer(Player* player) { player_ = player; }
 
 private:
 
@@ -83,21 +94,19 @@ private:
 public:
 
 	Vector3& GetTranslate() { return oModel_->translate_; }
-	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
-
 	Vector3 GetCenterPosition() const;
 
+	void SetPlayer(Player* player) { player_ = player; }
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
 	void SetSpeed(const float& speed) { speed_ = speed; }
 	void SetGoal(const Vector3& goal) { goal_ = goal; }
+	void SetIsAlive(bool alive) { isAlive_ = alive; }
+	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 
 	bool& GetIsAlive() { return isAlive_; }
-	void SetIsAlive(bool alive) { isAlive_ = alive; }
-
-    Collider* getcoll() { return collider_.get(); }
-
-	
 	bool& GetMarkForRemoval() { return markForRemoval_; }
+	
+    Collider* getcoll() { return collider_.get(); }
 
 private:
 	
@@ -122,5 +131,8 @@ private:
 	float speed_;
 	Vector3 goal_;
 	bool isAlive_ = true;
+
+	float typeChangeCount_ = 0.0f;
+	const float typeChangeTime_ = 4.0f;
 };
 

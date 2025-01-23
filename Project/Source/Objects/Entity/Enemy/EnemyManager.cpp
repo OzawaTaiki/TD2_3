@@ -40,21 +40,16 @@ void EnemyManager::Update()
     for (auto& enemy : enemies_) {
         enemy->Update();
         enemy->Move(deltaTime);
+       
+        enemy->ChangeType(deltaTime);
     }
 
     AttractEnemy(attractRadius_);
 
-    /// 一定時間で敵追加
-    //TimeSpawnEnemy();
-
-
-
-
-
-
+ 
 #ifdef _DEBUG
     ImGui();
-#endif /// _DEBUG
+#endif 
 
 }
 
@@ -91,6 +86,7 @@ void EnemyManager::ImGui()
     }
     ImGui::End();
 }
+
 
 
 

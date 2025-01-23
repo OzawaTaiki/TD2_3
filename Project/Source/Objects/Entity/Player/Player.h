@@ -89,7 +89,14 @@ private:
 	/// </summary>
 	void Bulletdelete();
 
+    /// <summary>
+    /// カメラシェイク
+    /// </summary>
+    void CameraShake();
 
+    /// <summary>
+    /// JsonBinderの初期化
+    /// </summary>
 	void InitJsonBinder();
 	void Save();
 
@@ -210,7 +217,13 @@ private:
 	// 無敵状態の継続時間（調整可能）
 	const float knockbackInvincibleDuration_ = 0.5f;
 
-
+    //===============================================================//
+	//					カメラシェイクのパラメータ						 //
+    //===============================================================//
+    Vector2 shakeRangeMin_ = { -0.1f, -0.1f };
+    Vector2 shakeRangeMax_ = { 0.1f, 0.1f };
+    float shakeTime_ = 0.1f;
+    bool enableShake_ = false;
 
 	// ライト参照用 ワールド座標
 	Vector3 worldPosition_ = {};

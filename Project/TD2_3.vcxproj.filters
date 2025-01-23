@@ -43,6 +43,9 @@
     <Filter Include="Source\System_TD\TypeManager">
       <UniqueIdentifier>{ddb9ef8b-cea9-443f-994f-3bbdb01c9fd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System_TD\Math">
+      <UniqueIdentifier>{311cf529-2169-4c20-8de2-4fba8bde8609}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Objects\Area">
       <UniqueIdentifier>{e00173b7-de6a-41a0-86bd-4a5b79404c5a}</UniqueIdentifier>
     </Filter>
@@ -90,7 +93,10 @@
     <ClCompile Include="Source\Scene\LoadScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="TD_Math.cpp">
+    <ClCompile Include="Source\System_TD\Math\TD_Math.cpp">
+      <Filter>Source\System_TD\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Area\Area.cpp">
@@ -137,7 +143,10 @@
     <ClInclude Include="Source\Scene\LoadScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="TD_Math.h">
+    <ClInclude Include="Source\System_TD\Math\TD_Math.h">
+      <Filter>Source\System_TD\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Area\Area.h">

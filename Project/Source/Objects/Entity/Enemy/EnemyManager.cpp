@@ -9,26 +9,37 @@
 #include <Physics/Math/MatrixFunction.h>
 #include <Physics/Math/VectorFunction.h>
 
+
 void EnemyManager::Initialize(Camera* camera)
 {
     camera_ = camera;
 
-    for (uint32_t i = 0; i < enemyCount_; ++i) {
-        AddEnemy();
-    }
+ 
+    // コールバック関数の登録
+    spawnLoader_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal,std::string& moveType) {
+        this->SpawnEnemy(position,speed,goal, moveType);
+        });
 
-    lastSpawnTime_ = std::chrono::steady_clock::now();
-    spawnInterval_ = 1.5f; // 1.5秒ごとに敵を生成
+    // スポーンデータの読み込み
+    spawnLoader_.LoadEnemyPopData();
+
+    gameTime_ = GameTime::GetInstance();
 }
 
 void EnemyManager::Update()
 {
+
+    //gameTime_->GetChannel("default").SetGameSpeed(5.0f);
+    float deltaTime = gameTime_->GetChannel("default").GetDeltaTime<float>();
+    spawnLoader_.UpdateEnemyPopCommands();
+
     /// デスフラグの立った敵を削除
     RemoveDeadEnemies();
 
     /// 敵の更新
     for (auto& enemy : enemies_) {
         enemy->Update();
+        enemy->Move(deltaTime);
     }
 
     AttractEnemy(attractRadius_);
@@ -77,36 +88,22 @@ void EnemyManager::ImGui()
         ImGui::SliderFloat("Max Repel Force", &maxRepelForce_, 0.0f, 10.0f);
         ImGui::SliderFloat("Max Attract Force", &maxAttractForce_, 0.0f, 10.0f);
 
-
-        if (ImGui::Button("Add Enemy")) {
-            AddEnemy();
-        }
     }
     ImGui::End();
 }
 
-void EnemyManager::AddEnemy()
+
+
+void EnemyManager::SpawnEnemy(Vector3& position, float& speed, Vector3& goal, std::string& moveType)
 {
-    /// 新しい敵を追加
     auto newEnemy = std::make_unique<Enemy>();
-    Vector3 randomPos= GenerateRandomPosition();
-    Vector3 playerPos = player_->GetCenterPosition();
-    Vector3 newPos = randomPos + playerPos;
-
     newEnemy->Initialize(camera_);
-    newEnemy->SetTranslate(newPos);
+    newEnemy->SetTranslate(position);
+    newEnemy->SetSpeed(speed);
+    newEnemy->SetGoal(goal);
+    newEnemy->SetPlayer(player_);
+    newEnemy->SetMoveType(moveType);
     enemies_.push_back(std::move(newEnemy));
-}
-
-void EnemyManager::TimeSpawnEnemy()
-{
-    /// 時間に基づいて敵を追加
-    auto currentTime = std::chrono::steady_clock::now();
-    std::chrono::duration<float> elapsed = currentTime - lastSpawnTime_;
-    if (elapsed.count() >= spawnInterval_) {
-        AddEnemy();
-        lastSpawnTime_ = currentTime; /// タイマーをリセット
-    }
 }
 
 void EnemyManager::RemoveDeadEnemies()

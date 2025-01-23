@@ -397,10 +397,10 @@ void Player::ImGui()
 	Vector3 pos = GetWorldPosition();
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
 
-    ImGui::SeparatorText("Camera Shake");
-    ImGui::DragFloat("time", &shakeTime_, 0.01f);
-    ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
-    ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
+  ImGui::SeparatorText("Camera Shake");
+  ImGui::DragFloat("time", &shakeTime_, 0.01f);
+  ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
+  ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
 
 
 	ImGui::Separator();
@@ -536,16 +536,30 @@ void Player::UpdateDeathEffect()
 
 void Player::InitJsonBinder()
 {
-    //JsonHub::GetInstance()->SetDirectoryPathFromRoot("Resources/Data/Parameter/");
+    
 
-	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data/Parameter");
+	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data/Parameter/");
 
+	// HP 関連
 	jsonBinder_->RegisterVariable("MaxHP", &maxHp_);
+	jsonBinder_->RegisterVariable("HP", &hp_);
+	// 移動関連
+	jsonBinder_->RegisterVariable("CharacterSpeed", &kCharacterSpeed_);
+	jsonBinder_->RegisterVariable("L_Stick DeadZone", &kDeadZoneL_);
+	// 弾関連
+	jsonBinder_->RegisterVariable("BulletVelocity", &bulletVelocity_);
+	jsonBinder_->RegisterVariable("BulletAcceleration", &bulletAcceleration_);
+	jsonBinder_->RegisterVariable("BulletOffset", &offset);
+	jsonBinder_->RegisterVariable("BulletFireInterval", &bulletFireInterval_);
+	// ノックバック関連
+	jsonBinder_->RegisterVariable("KnockbackStrength", const_cast<float*>(&knockbackStrength_));
+	jsonBinder_->RegisterVariable("KnockbackDamping", const_cast<float*>(&knockbackDamping_));
+	jsonBinder_->RegisterVariable("KnockbackInvincibleDuration", const_cast<float*>(&knockbackInvincibleDuration_));
 	jsonBinder_->RegisterVariable("characterSpeed", &kCharacterSpeed_);
 
-    jsonBinder_->RegisterVariable("ShakeTime", &shakeTime_);
-    jsonBinder_->RegisterVariable("ShakeRangeMin", &shakeRangeMin_);
-    jsonBinder_->RegisterVariable("ShakeRangeMax", &shakeRangeMax_);
+  jsonBinder_->RegisterVariable("ShakeTime", &shakeTime_);
+  jsonBinder_->RegisterVariable("ShakeRangeMin", &shakeRangeMin_);
+  jsonBinder_->RegisterVariable("ShakeRangeMax", &shakeRangeMax_);
 }
 
 void Player::Save()

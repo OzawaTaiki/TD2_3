@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp" />
     <ClCompile Include="Source\Objects\Area\Area.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp" />
@@ -157,7 +158,7 @@
     <ClCompile Include="Source\Scene\TitleScene.cpp" />
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
-    <ClCompile Include="TD_Math.cpp" />
+    <ClCompile Include="Source\System_TD\Math\TD_Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -165,6 +166,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h" />
     <ClInclude Include="Source\Objects\Area\Area.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h" />
@@ -179,7 +181,7 @@
     <ClInclude Include="Source\Scene\TitleScene.h" />
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
-    <ClInclude Include="TD_Math.h" />
+    <ClInclude Include="Source\System_TD\Math\TD_Math.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

@@ -29,13 +29,11 @@ void Enemy::Initialize(Camera* camera)
 
 void Enemy::Update()
 {
+
+	if (!isAlive_) return;
+
+	ImGui();
 	oModel_->Update();
-	// ImGui デバッグ表示
-	if (ImGui::Begin("Enemy Type")) {
-		ImGui::Text("Type: %s", GetCurrentTypeName().c_str());
-		ImGui::Text("Alive: %s", isAlive_ ? "Yes" : "No");
-	}
-	ImGui::End();
 	collider_->RegsterCollider();
 }
 
@@ -63,6 +61,19 @@ void Enemy::Draw(const Vector4& color)
 
 }
 
+void Enemy::Move(float& deltaTime)
+{
+	if (!isAlive_) return;
+	// 速度に基づいて位置を更新
+	oModel_->translate_ += velocity_ * deltaTime;
+
+	// 目的地に到達したら生存フラグを下げる
+	if ((oModel_->translate_ - goal_).Length() < 0.1f) {
+		isAlive_ = false;
+	}
+
+}
+
 void Enemy::OnCollision(const Collider* other)
 {
 
@@ -78,6 +89,20 @@ void Enemy::OnCollision(const Collider* other)
 
 
 	}
+}
+
+void Enemy::ImGui()
+{
+#ifdef _DEBUG
+	ImGui::Begin("Enemy Para");
+	ImGui::DragFloat3("Velocity", &velocity_.x);
+
+
+	ImGui::End();
+
+#endif // _DEBUG
+
+
 }
 
 Vector3 Enemy::GetCenterPosition() const {

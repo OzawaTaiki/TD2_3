@@ -29,6 +29,7 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+	void Move(float& deltaTime);
 
 	// 現在の弾タイプを取得または設定
 	BulletType GetCurrentType() const { return currentType_; }
@@ -53,18 +54,29 @@ private:
 	/// </summary>
 	void OnCollision(const Collider* other);
 
-
-
+	/// <summary>
+	/// ImGui
+	/// </summary>
+	void ImGui();
 
 
 public:
 
 	Vector3& GetTranslate() { return oModel_->translate_; }
-	Vector3 GetCenterPosition() const;
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
+
+	Vector3 GetCenterPosition() const;
+
+	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+	void SetGoal(const Vector3& goal) { goal_ = goal; }
+
 	bool& GetIsAlive() { return isAlive_; }
-    bool& GetMarkForRemoval() { return markForRemoval_; }
+	void SetIsAlive(bool alive) { isAlive_ = alive; }
+
     Collider* getcoll() { return collider_.get(); }
+
+	
+	bool& GetMarkForRemoval() { return markForRemoval_; }
 
 private:
 	
@@ -73,13 +85,19 @@ private:
 	//===============================================================*/
 
 	std::unique_ptr<Collider> collider_ = nullptr;
-	bool isAlive_ = true;
 
-    // マークされているか
-	// 消滅するか
-    bool markForRemoval_ = false;
 
-	// 現在の弾タイプ
+
+	/*===============================================================//
+					 　　		敵の情報
+	//===============================================================*/
+
+	//敵タイプ
 	BulletType currentType_ = BulletType::None;
+	// 消滅するか
+	bool markForRemoval_ = false;
+	Vector3 velocity_;
+	Vector3 goal_;
+	bool isAlive_ = true;
 };
 

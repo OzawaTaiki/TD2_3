@@ -6,7 +6,7 @@
 #include <chrono>
 
 #include "../../../System_TD/Loader/EnemySpawnLoader.h"
-
+#include <Systems/Time/GameTime.h>
 class Player;
 class EnemyManager
 {
@@ -36,7 +36,7 @@ private:
     /// <summary>
     /// タイムでスポーン
     /// </summary>
-    void SpawnEnemy(Vector3& pos);
+    void SpawnEnemy(Vector3& position,Vector3& velocity,Vector3& goal);
 
     /// <summary>
     /// 敵を削除（デスフラグ付き）
@@ -74,6 +74,7 @@ private:
     uint32_t enemyCount_ = 3;
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;
+    GameTime* gameTime_ = nullptr;
 
     /*===============================================================//
                              ランダム生成
@@ -122,6 +123,5 @@ private:
     std::chrono::steady_clock::time_point lastSpawnTime_; // 最後に敵を生成した時刻
     float spawnInterval_ = 5.0f; // 敵生成間隔
     EnemySpawnLoader spawnLoader_;
-
 
 };

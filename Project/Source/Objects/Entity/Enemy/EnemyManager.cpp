@@ -16,19 +16,21 @@ void EnemyManager::Initialize(Camera* camera)
 
  
     // コールバック関数の登録
-    spawnLoader_.SetSpawnCallback([this](Vector3& position) {
-        this->SpawnEnemy(position);
+    spawnLoader_.SetSpawnCallback([this](Vector3& position,Vector3& velocity,Vector3& goal) {
+        this->SpawnEnemy(position,velocity,goal);
         });
 
     // スポーンデータの読み込み
     spawnLoader_.LoadEnemyPopData();
 
-    lastSpawnTime_ = std::chrono::steady_clock::now();
-    spawnInterval_ = 1.5f; // 1.5秒ごとに敵を生成
+    gameTime_ = GameTime::GetInstance();
 }
 
 void EnemyManager::Update()
 {
+
+    //gameTime_->GetChannel("default").SetGameSpeed(5.0f);
+    float deltaTime = gameTime_->GetChannel("default").GetDeltaTime<float>();
     spawnLoader_.UpdateEnemyPopCommands();
 
     /// デスフラグの立った敵を削除
@@ -37,6 +39,7 @@ void EnemyManager::Update()
     /// 敵の更新
     for (auto& enemy : enemies_) {
         enemy->Update();
+        enemy->Move(deltaTime);
     }
 
     AttractEnemy(attractRadius_);
@@ -91,11 +94,13 @@ void EnemyManager::ImGui()
 
 
 
-void EnemyManager::SpawnEnemy(Vector3& pos)
+void EnemyManager::SpawnEnemy(Vector3& position,Vector3& velocity, Vector3& goal)
 {
     auto newEnemy = std::make_unique<Enemy>();
     newEnemy->Initialize(camera_);
-    newEnemy->SetTranslate(pos);
+    newEnemy->SetTranslate(position);
+    newEnemy->SetVelocity(velocity);
+    newEnemy->SetGoal(goal);
     enemies_.push_back(std::move(newEnemy));
 }
 

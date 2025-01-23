@@ -1,0 +1,31 @@
+Wave,1          // wave開始
+
+Group,          // Group始め
+Num,3           // 敵の数
+Velocity,1,0,0  // 速度
+Goal,10,0,10    // 目的地
+Point,0,0,0     // スポーン基準点
+Dir,-1,0,-1     // 列の向き
+Offset,3        // 整列時の敵同士の間隔
+Wait,120        // 待機
+
+
+Group,           // Group始め
+Num,5
+Velocity,-1,0,0
+Goal,15,0,15
+Point,5,0,5
+Dir,1,0,0
+Offset,2
+Wait,120
+
+Wave,2 // wave開始
+
+Group
+Num,4
+Velocity,1,0,1
+Goal,20,0,20
+Point,-5,0,-5
+Dir,0,0,1
+Offset,1.5
+Wait,120

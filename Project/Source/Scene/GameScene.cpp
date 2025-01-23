@@ -136,6 +136,7 @@ void GameScene::Load()
 
     DirectionalLight DLight{};
     DLight.direction = Vector3(-0.909f, -0.417f, 0.0f).Normalize();
+    DLight.intensity = 0.2f;
     lightGroup_.SetDirectionalLight(DLight);
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 

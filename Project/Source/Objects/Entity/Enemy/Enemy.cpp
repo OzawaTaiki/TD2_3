@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "../Player/Player.h"
 #include <Physics/Math/VectorFunction.h>
 
 void Enemy::Initialize(Camera* camera)
@@ -29,13 +30,11 @@ void Enemy::Initialize(Camera* camera)
 
 void Enemy::Update()
 {
+
+	if (!isAlive_) return;
+
+	ImGui();
 	oModel_->Update();
-	// ImGui デバッグ表示
-	if (ImGui::Begin("Enemy Type")) {
-		ImGui::Text("Type: %s", GetCurrentTypeName().c_str());
-		ImGui::Text("Alive: %s", isAlive_ ? "Yes" : "No");
-	}
-	ImGui::End();
 	collider_->RegsterCollider();
 }
 
@@ -63,6 +62,35 @@ void Enemy::Draw(const Vector4& color)
 
 }
 
+void Enemy::Move(float& deltaTime)
+{
+	if (!isAlive_) return;
+
+	// ゴールまでの位置ベクトルを求める
+	// ベクトルの長さを求める
+	// 正規化
+	if (moveType_ == MoveType::Direct) {	
+		Vector3 direction = goal_ - oModel_->translate_;
+		float distance = direction.Length();
+		if (distance > 0.0f) {
+			direction /= distance; 
+			oModel_->translate_ += direction * speed_ * deltaTime;
+		}
+	}
+	else if (moveType_ == MoveType::Target && player_) {
+		Vector3 direction = (player_->GetWorldPosition() - oModel_->translate_).Normalize();
+		oModel_->translate_ += direction * speed_ * deltaTime;
+	}
+
+
+
+	// 目的地に到達したら生存フラグを下げる
+	if ((oModel_->translate_ - goal_).Length() < 0.1f) {
+		isAlive_ = false;
+	}
+
+}
+
 void Enemy::OnCollision(const Collider* other)
 {
 
@@ -78,6 +106,20 @@ void Enemy::OnCollision(const Collider* other)
 
 
 	}
+}
+
+void Enemy::ImGui()
+{
+#ifdef _DEBUG
+	ImGui::Begin("Enemy Para");
+	ImGui::DragFloat3("Velocity", &velocity_.x);
+
+
+	ImGui::End();
+
+#endif // _DEBUG
+
+
 }
 
 Vector3 Enemy::GetCenterPosition() const {

@@ -3,6 +3,7 @@
 #include "../BaseEntity.h"
 #include <Physics/Collision/Collider.h>
 
+class Player;
 class Enemy : public BaseEntity
 {
 public:
@@ -12,6 +13,11 @@ public:
 		None,
 		North,
 		South
+	};
+
+	enum class MoveType {
+		Direct,
+		Target
 	};
 
 	/// <summary>
@@ -29,7 +35,10 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+	void Move(float& deltaTime);
 
+
+public:
 	// 現在の弾タイプを取得または設定
 	BulletType GetCurrentType() const { return currentType_; }
 	void SetCurrentType(BulletType type) { currentType_ = type; }
@@ -45,6 +54,18 @@ public:
 		return "Unknown";
 	}
 
+	void SetMoveType(const std::string& moveType) {
+		if (moveType == "Direct") {
+			moveType_ = MoveType::Direct;
+		}
+		else if (moveType == "Target") {
+			moveType_ = MoveType::Target;
+		}
+		else {
+			moveType_ = MoveType::Direct; // デフォルト
+		}
+	};
+	void SetPlayer(Player* player) { player_ = player; }
 
 private:
 
@@ -53,18 +74,30 @@ private:
 	/// </summary>
 	void OnCollision(const Collider* other);
 
-
-
+	/// <summary>
+	/// ImGui
+	/// </summary>
+	void ImGui();
 
 
 public:
 
 	Vector3& GetTranslate() { return oModel_->translate_; }
-	Vector3 GetCenterPosition() const;
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
+
+	Vector3 GetCenterPosition() const;
+
+	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+	void SetSpeed(const float& speed) { speed_ = speed; }
+	void SetGoal(const Vector3& goal) { goal_ = goal; }
+
 	bool& GetIsAlive() { return isAlive_; }
-    bool& GetMarkForRemoval() { return markForRemoval_; }
+	void SetIsAlive(bool alive) { isAlive_ = alive; }
+
     Collider* getcoll() { return collider_.get(); }
+
+	
+	bool& GetMarkForRemoval() { return markForRemoval_; }
 
 private:
 	
@@ -73,13 +106,21 @@ private:
 	//===============================================================*/
 
 	std::unique_ptr<Collider> collider_ = nullptr;
-	bool isAlive_ = true;
+	Player* player_ = nullptr;
 
-    // マークされているか
-	// 消滅するか
-    bool markForRemoval_ = false;
 
-	// 現在の弾タイプ
+	/*===============================================================//
+					 　　		敵の情報
+	//===============================================================*/
+
+	//敵タイプ
 	BulletType currentType_ = BulletType::None;
+	MoveType moveType_ = MoveType::Direct;
+	// 消滅するか
+	bool markForRemoval_ = false;
+	Vector3 velocity_;
+	float speed_;
+	Vector3 goal_;
+	bool isAlive_ = true;
 };
 

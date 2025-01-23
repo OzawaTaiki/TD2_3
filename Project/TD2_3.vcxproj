@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\System_TD\Score\Score.cpp" />
     <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp" />
     <ClCompile Include="Source\Objects\Area\Area.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp" />
@@ -166,6 +167,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\System_TD\Score\Score.h" />
     <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h" />
     <ClInclude Include="Source\Objects\Area\Area.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h" />

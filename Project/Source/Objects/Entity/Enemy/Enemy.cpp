@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "../Player/Player.h"
+#include "../../../System_TD/ScoreManager/ScoreManager.h"
 #include <Physics/Math/VectorFunction.h>
 
 void Enemy::Initialize(Camera* camera)
@@ -26,12 +27,18 @@ void Enemy::Initialize(Camera* camera)
 	collider_->SetOwner(this);
 
     markForRemoval_ = false;
+	isAddScore_ = false;
 }
 
 void Enemy::Update()
 {
 
 	if (!isAlive_) return;
+
+	if (isAddScore_) {
+		ScoreManager::GetInstance()->AddScore(100);
+	}
+
 
 	ImGui();
 	oModel_->Update();
@@ -115,11 +122,12 @@ void Enemy::OnCollision(const Collider* other)
 	}
 	else if (other->GetName() == "SouthBullet"){
 		
+		
 	
 	}
 	else if (other->GetName() == "NorthBullet") {
 
-
+		
 	}
 }
 

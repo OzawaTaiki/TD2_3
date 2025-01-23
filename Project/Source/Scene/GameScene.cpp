@@ -4,7 +4,7 @@
 #include <Rendering/Model/ModelManager.h>
 #include <Rendering/Light/LightingSystem.h>
 #include <Rendering/LineDrawer/LineDrawer.h>
-
+#include "../System_TD/ScoreManager/ScoreManager.h"
 
 
 #include <DirectXMath.h>
@@ -68,6 +68,8 @@ void GameScene::Update()
     enemyManager_->Update();
     area_->Update(player_.get());
 
+    ScoreManager::GetInstance()->DrawScore();
+
     if (enableDebugCamera_)
     {
         debugCamera_.Update();
@@ -98,7 +100,7 @@ void GameScene::Draw()
     ModelManager::GetInstance()->PreDrawForObjectModel();
     area_->Draw(&SceneCamera_);
 
-    player_->Draw({ 1,1,1,1 });
+    player_->Draw({ 0,0,0,1 });
     enemyManager_->Draw({ 1,1,1,1 });
 
     LineDrawer::GetInstance()->Draw();

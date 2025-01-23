@@ -108,7 +108,7 @@
     <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp">
       <Filter>Source\System_TD\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\System_TD\Score\Score.cpp">
+    <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp">
       <Filter>Source\System_TD\Score</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,7 +161,7 @@
     <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h">
       <Filter>Source\System_TD\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\System_TD\Score\Score.h">
+    <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h">
       <Filter>Source\System_TD\Score</Filter>
     </ClInclude>
   </ItemGroup>

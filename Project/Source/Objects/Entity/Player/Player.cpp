@@ -448,7 +448,7 @@ void Player::InitJsonBinder()
 
 	// HP 関連
 	jsonBinder_->RegisterVariable("MaxHP", &maxHp_);
-	jsonBinder_->RegisterVariable("HP", &hp_);
+	//jsonBinder_->RegisterVariable("HP", &hp_);
 	// 移動関連
 	jsonBinder_->RegisterVariable("CharacterSpeed", &kCharacterSpeed_);
 	jsonBinder_->RegisterVariable("L_Stick DeadZone", &kDeadZoneL_);
@@ -461,7 +461,6 @@ void Player::InitJsonBinder()
 	jsonBinder_->RegisterVariable("KnockbackStrength", const_cast<float*>(&knockbackStrength_));
 	jsonBinder_->RegisterVariable("KnockbackDamping", const_cast<float*>(&knockbackDamping_));
 	jsonBinder_->RegisterVariable("KnockbackInvincibleDuration", const_cast<float*>(&knockbackInvincibleDuration_));
-	jsonBinder_->RegisterVariable("characterSpeed", &kCharacterSpeed_);
 
   jsonBinder_->RegisterVariable("ShakeTime", &shakeTime_);
   jsonBinder_->RegisterVariable("ShakeRangeMin", &shakeRangeMin_);

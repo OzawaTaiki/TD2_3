@@ -136,7 +136,16 @@ void GameScene::Load()
 
     DirectionalLight DLight{};
     DLight.direction = Vector3(-0.909f, -0.417f, 0.0f).Normalize();
+    DLight.intensity = 0.2f;
+
+    PointLight PLight{};
+    PLight.position = Vector3(0, 1.4f, 0);
+    PLight.intensity = 2.0f;
+    PLight.radius = 20.0f;
+    PLight.decay = 2.0f;
+
     lightGroup_.SetDirectionalLight(DLight);
+    lightGroup_.AddPointLight(PLight, "", player_->GetWorldPositionRef());
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     //Model::CreateFromObj("bunny.obj");

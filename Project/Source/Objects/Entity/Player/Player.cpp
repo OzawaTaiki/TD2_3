@@ -253,7 +253,8 @@ void Player::Knockback()
 
 void Player::NorthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_RB) && northBulletCoolTimer_ <= 0.0f)
+	if ((input_->IsPadTriggered(PadButton::iPad_RB) || input_->IsPadTriggered(PadButton::iPad_RT))
+		&& northBulletCoolTimer_ <= 0.0f)
 	{
 		// クールタイムのリセット
 		northBulletCoolTimer_ = bulletFireInterval_;
@@ -281,7 +282,8 @@ void Player::NorthPoleBulletFire()
 
 void Player::SouthPoleBulletFire()
 {
-	if (input_->IsPadTriggered(PadButton::iPad_LB) && southBulletCoolTimer_ <= 0.0f) {
+    if ((input_->IsPadTriggered(PadButton::iPad_LB) || input_->IsPadTriggered(PadButton::iPad_LT))
+		&& southBulletCoolTimer_ <= 0.0f) {
 		// クールタイムのリセット
 		southBulletCoolTimer_ = bulletFireInterval_;
 
@@ -536,7 +538,7 @@ void Player::UpdateDeathEffect()
 
 void Player::InitJsonBinder()
 {
-    
+
 
 	jsonBinder_ = std::make_unique<JsonBinder>("PlayerData", "Resources/Data/Parameter/");
 

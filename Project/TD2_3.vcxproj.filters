@@ -43,6 +43,9 @@
     <Filter Include="Source\System_TD\TypeManager">
       <UniqueIdentifier>{ddb9ef8b-cea9-443f-994f-3bbdb01c9fd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Objects\Area">
+      <UniqueIdentifier>{e00173b7-de6a-41a0-86bd-4a5b79404c5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,6 +93,9 @@
     <ClCompile Include="TD_Math.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Objects\Area\Area.cpp">
+      <Filter>Source\Objects\Area</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -133,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="TD_Math.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Area\Area.h">
+      <Filter>Source\Objects\Area</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

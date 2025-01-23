@@ -11,7 +11,7 @@
 #include "../System_TD/Camera/FollowCamera.h"
 #include <Physics/Collision/CollisionManager.h>
 #include "LoadScene.h"
-    
+#include <Source/Objects/Area/Area.h>
 #include <thread>
 
 class GameScene : public BaseScene
@@ -44,6 +44,8 @@ private:
     LightGroup lightGroup_ = {};
 
     LoadScene* loadScene_ = nullptr;
+
+    Area* area_ = nullptr;
 
 #ifdef _DEBUG
     void ImGui();

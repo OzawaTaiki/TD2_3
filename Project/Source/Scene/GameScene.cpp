@@ -68,6 +68,7 @@ void GameScene::Update()
     enemyManager_->Update();
     area_->Update(player_.get());
 
+
     if (enableDebugCamera_)
     {
         debugCamera_.Update();
@@ -145,7 +146,7 @@ void GameScene::Load()
     PLight.decay = 2.0f;
 
     lightGroup_.SetDirectionalLight(DLight);
-    lightGroup_.AddPointLight(PLight, "", player_->GetWorldPositionRef());
+    lightGroup_.AddPointLight(PLight, "Player", player_->GetWorldPositionRef());
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     //Model::CreateFromObj("bunny.obj");

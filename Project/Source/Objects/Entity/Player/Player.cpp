@@ -469,7 +469,7 @@ void Player::BeginDeathEffect()
     deathEffectParams_.duration = 0.0f;
     deathEffectParams_.beforePosition = oModel_->translate_;
     deathEffectParams_.shake = true;
-	gameTime_->GetChannel("default").SetGameSpeed(0.5f);
+	gameTime_->GetChannel("default").SetGameSpeed(0.25f);
 }
 
 void Player::UpdateDeathEffect()

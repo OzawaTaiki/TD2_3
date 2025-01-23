@@ -7,13 +7,14 @@ void EnemySpawnLoader::LoadEnemyPopData()
 {
 	// ファイルを開く
 	std::ifstream file;
-	file.open("Resources/Data/EnemySpawn/EnemySpawnData_New.csv");
+	file.open("Resources/Data/EnemySpawn/EnemySpawnData.csv");
 	assert(file.is_open());
     
     std::string line;
     Wave currentWave;
     Group currentGroup;
     bool inGroup = false;
+    bool inGoal = false;
 
     while (std::getline(file,line))
     {
@@ -72,8 +73,17 @@ void EnemySpawnLoader::LoadEnemyPopData()
             currentGroup.speed = std::stof(speedStr);
 
         }
+        else if (command == "MoveType") {
+            std::string moveTypeStr;
+            std::getline(lineStream, moveTypeStr, ',');
+            currentGroup.moveType = moveTypeStr;
+            inGoal = (moveTypeStr == "Target");
 
+        }
         else if (command == "Goal") {
+            if (inGoal) {
+                continue;
+            }
             std::string xStr, yStr, zStr;
             std::getline(lineStream, xStr, ',');
             std::getline(lineStream, yStr, ',');
@@ -148,9 +158,10 @@ void EnemySpawnLoader::UpdateEnemyPopCommands()
         Vector3 position = currentGroup.spawnPoint + currentGroup.direction * currentGroup.offset * i;
         float speed = currentGroup.speed;
         Vector3 goal = currentGroup.goal;
+        std::string moveType = currentGroup.moveType;
 
         if (spawnCallback_) {
-            spawnCallback_(position, speed, goal);
+            spawnCallback_(position, speed, goal,moveType);
         }
     }
 

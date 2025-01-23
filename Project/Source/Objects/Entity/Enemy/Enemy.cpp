@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "../Player/Player.h"
 #include <Physics/Math/VectorFunction.h>
 
 void Enemy::Initialize(Camera* camera)
@@ -66,14 +67,22 @@ void Enemy::Move(float& deltaTime)
 	if (!isAlive_) return;
 
 	// ゴールまでの位置ベクトルを求める
-	Vector3 direction = goal_ - oModel_->translate_;
 	// ベクトルの長さを求める
-	float distance = direction.Length();
 	// 正規化
-	if (distance > 0.0f) {
-		direction /= distance; // 正規化完了
+	if (moveType_ == MoveType::Direct) {	
+		Vector3 direction = goal_ - oModel_->translate_;
+		float distance = direction.Length();
+		if (distance > 0.0f) {
+			direction /= distance; 
+			oModel_->translate_ += direction * speed_ * deltaTime;
+		}
+	}
+	else if (moveType_ == MoveType::Target && player_) {
+		Vector3 direction = (player_->GetWorldPosition() - oModel_->translate_).Normalize();
 		oModel_->translate_ += direction * speed_ * deltaTime;
 	}
+
+
 
 	// 目的地に到達したら生存フラグを下げる
 	if ((oModel_->translate_ - goal_).Length() < 0.1f) {

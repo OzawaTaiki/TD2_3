@@ -3,6 +3,7 @@
 #include "../BaseEntity.h"
 #include <Physics/Collision/Collider.h>
 
+class Player;
 class Enemy : public BaseEntity
 {
 public:
@@ -12,6 +13,11 @@ public:
 		None,
 		North,
 		South
+	};
+
+	enum class MoveType {
+		Direct,
+		Target
 	};
 
 	/// <summary>
@@ -31,6 +37,8 @@ public:
 
 	void Move(float& deltaTime);
 
+
+public:
 	// 現在の弾タイプを取得または設定
 	BulletType GetCurrentType() const { return currentType_; }
 	void SetCurrentType(BulletType type) { currentType_ = type; }
@@ -46,6 +54,18 @@ public:
 		return "Unknown";
 	}
 
+	void SetMoveType(const std::string& moveType) {
+		if (moveType == "Direct") {
+			moveType_ = MoveType::Direct;
+		}
+		else if (moveType == "Target") {
+			moveType_ = MoveType::Target;
+		}
+		else {
+			moveType_ = MoveType::Direct; // デフォルト
+		}
+	};
+	void SetPlayer(Player* player) { player_ = player; }
 
 private:
 
@@ -86,7 +106,7 @@ private:
 	//===============================================================*/
 
 	std::unique_ptr<Collider> collider_ = nullptr;
-
+	Player* player_ = nullptr;
 
 
 	/*===============================================================//
@@ -95,6 +115,7 @@ private:
 
 	//敵タイプ
 	BulletType currentType_ = BulletType::None;
+	MoveType moveType_ = MoveType::Direct;
 	// 消滅するか
 	bool markForRemoval_ = false;
 	Vector3 velocity_;

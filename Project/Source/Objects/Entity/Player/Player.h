@@ -4,6 +4,7 @@
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
+#include <Systems/Time/GameTime.h>
 
 #include "../../Bullet/SouthPoleBullet.h"
 #include "../../Bullet/NorthPoleBullet.h"
@@ -95,6 +96,16 @@ private:
     void CameraShake();
 
     /// <summary>
+    /// 死亡演出の開始
+    /// </summary>
+    void BeginDeathEffect();
+
+    /// <summary>
+    /// 死亡演出
+    /// </summary>
+    void UpdateDeathEffect();
+
+    /// <summary>
     /// JsonBinderの初期化
     /// </summary>
 	void InitJsonBinder();
@@ -142,7 +153,16 @@ public:
     /// <param name="_translate"></param>
     void SetTranslate(const Vector3& _translate) { oModel_->translate_ = _translate; }
 
+	/// <summary>
+    /// シーン切り替え可能かどうか
+	/// </summary>
+    /// <returns> 死 かつ 死亡演出中でない場合 true </returns>
+	bool CanSwitchScene() const { return !isAlive_ && !isDeathEffectPlaying_; }
 
+    /// <summary>
+    /// プレイヤーの座標のptrを取得
+    /// </summary>
+    /// <returns></returns>
     Vector3* GetWorldPositionRef();
 
 private:
@@ -199,6 +219,7 @@ private:
     float hp_ = 100.0f;
     bool isAlive_ = true;
 
+
 	/*===============================================================//
 							ノックバックの処理
 	//===============================================================*/
@@ -225,7 +246,42 @@ private:
     float shakeTime_ = 0.1f;
     bool enableShake_ = false;
 
+
 	// ライト参照用 ワールド座標
 	Vector3 worldPosition_ = {};
+
+    //===============================================================//
+	//						死亡演出									 //
+    // ===============================================================//
+
+	// 死亡時演出中か
+	bool isDeathEffectPlaying_ = false;
+
+	GameTime* gameTime_;
+
+	struct DeathEffectParams
+	{
+		bool scale = false;
+		float scalingTIme = 1.0f;
+		float targetScale = 5.0f;
+
+        bool shake = false;
+
+		float shakeTime = 1.0f;
+        float shakeInterval = 0.0f;
+		float shakePower = 0.2f;
+
+        bool wait = false;
+		// 消えてからの待機時間
+		float waitTime = 1.3f;
+
+        // 経過時間
+        float duration = 0.0f;
+
+        Vector3 beforePosition = { 0.0f,0.0f,0.0f };
+	};
+
+    DeathEffectParams deathEffectParams_;
+
 };
 

@@ -58,7 +58,7 @@ void GameScene::Update()
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 #endif // _DEBUG
 
-    if(!player_->IsAlive())
+    if(player_->CanSwitchScene())
     {
         SceneManager::GetInstance()->ReserveScene("Result");
     }
@@ -76,7 +76,7 @@ void GameScene::Update()
     }
     else
     {
-        followCamera_.Update();
+        followCamera_.Update(!player_->IsAlive());
         SceneCamera_.matView_ = followCamera_.matView_;
         SceneCamera_.translate_ = followCamera_.translate_;
         SceneCamera_.rotate_ = followCamera_.rotate_;

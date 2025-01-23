@@ -134,6 +134,11 @@ void GameScene::Load()
     area_ = new Area();
     area_->Initialize(50);
 
+    DirectionalLight DLight{};
+    DLight.direction = Vector3(-0.909f, -0.417f, 0.0f).Normalize();
+    lightGroup_.SetDirectionalLight(DLight);
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+
     //Model::CreateFromObj("bunny.obj");
 
     Loading_ = false;

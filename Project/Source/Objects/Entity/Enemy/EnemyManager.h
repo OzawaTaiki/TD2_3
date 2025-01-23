@@ -34,11 +34,6 @@ private:
     void ImGui();
 
     /// <summary>
-    /// 敵を追加
-    /// </summary>
-    void AddEnemy();
-
-    /// <summary>
     /// タイムでスポーン
     /// </summary>
     void SpawnEnemy(Vector3& pos);

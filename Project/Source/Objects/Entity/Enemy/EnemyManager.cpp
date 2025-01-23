@@ -85,31 +85,11 @@ void EnemyManager::ImGui()
         ImGui::SliderFloat("Max Repel Force", &maxRepelForce_, 0.0f, 10.0f);
         ImGui::SliderFloat("Max Attract Force", &maxAttractForce_, 0.0f, 10.0f);
 
-
-        if (ImGui::Button("Add Enemy")) {
-            AddEnemy();
-        }
     }
     ImGui::End();
 }
 
-void EnemyManager::AddEnemy()
-{
-    //if (currentSpawnIndex_ >= spawnDataList_.size()) {
-    //    return; // データが終わった場合
-    //}
 
-    //auto [x, y, z] = spawnDataList_[currentSpawnIndex_];
-    //currentSpawnIndex_++;
-
-    //// 新しい敵を追加
-    //auto newEnemy = std::make_unique<Enemy>();
-    //Vector3 spawnPosition = { x, y, z };
-
-    //newEnemy->Initialize(camera_);
-    //newEnemy->SetTranslate(spawnPosition);
-    //enemies_.push_back(std::move(newEnemy));
-}
 
 void EnemyManager::SpawnEnemy(Vector3& pos)
 {

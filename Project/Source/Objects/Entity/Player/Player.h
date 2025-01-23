@@ -89,7 +89,14 @@ private:
 	/// </summary>
 	void Bulletdelete();
 
+    /// <summary>
+    /// カメラシェイク
+    /// </summary>
+    void CameraShake();
 
+    /// <summary>
+    /// JsonBinderの初期化
+    /// </summary>
 	void InitJsonBinder();
 	void Save();
 
@@ -104,6 +111,7 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetWorldPosition();
+
 
 	/// <summary>
 	/// ワールドトランスフォーム
@@ -127,6 +135,15 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool IsAlive()const { return isAlive_; }
+
+    /// <summary>
+    /// プレイヤーの座標を設定
+    /// </summary>
+    /// <param name="_translate"></param>
+    void SetTranslate(const Vector3& _translate) { oModel_->translate_ = _translate; }
+
+
+    Vector3* GetWorldPositionRef();
 
 private:
 	/*===============================================================//
@@ -167,7 +184,7 @@ private:
 	//--------------- 弾のクールタイム ---------------//
 
 	// 弾の発射間隔
-	float bulletFireInterval_ = 1.0f; 
+	float bulletFireInterval_ = 1.0f;
 
 	// 発射クールダウンタイマー
 	float northBulletCoolTimer_ = 0.0f;
@@ -184,12 +201,12 @@ private:
 
 	/*===============================================================//
 							ノックバックの処理
-	//===============================================================*/	
+	//===============================================================*/
 
 	// ノックバックの初期速度
 	Vector3 knockbackVelocity_ = { 0.0f, 0.0f, 0.0f };
 	// イージングの減衰係数		0.0～1.0、1.0なら即刻停止、0.0なら全く減衰しない
-	const float knockbackDamping_ = 0.9f;  
+	const float knockbackDamping_ = 0.9f;
 	// ノックバックの強さ
 	const float knockbackStrength_ = 1.0f;
 
@@ -198,9 +215,17 @@ private:
 	// 無敵状態の残り時間
 	float knockbackInvincibleTime_ = 0.0f;
 	// 無敵状態の継続時間（調整可能）
-	const float knockbackInvincibleDuration_ = 0.5f; 
-  
+	const float knockbackInvincibleDuration_ = 0.5f;
 
+    //===============================================================//
+	//					カメラシェイクのパラメータ						 //
+    //===============================================================//
+    Vector2 shakeRangeMin_ = { -0.1f, -0.1f };
+    Vector2 shakeRangeMax_ = { 0.1f, 0.1f };
+    float shakeTime_ = 0.1f;
+    bool enableShake_ = false;
 
+	// ライト参照用 ワールド座標
+	Vector3 worldPosition_ = {};
 };
 

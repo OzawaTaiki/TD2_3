@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine\Engine\externals/assimp/include;$(ProjectDir)..\GameEngine\Engine\externals\DirectXTex;$(ProjectDir)..\GameEngine\Engine\externals\nlohmann;$(ProjectDir)..\GameEngine\Engine\externals\imgui;$(projectDir)..\GameEngine\Engine\Engine\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine\Engine\externals/assimp/include;$(ProjectDir)..\GameEngine\Engine\externals\DirectXTex;$(ProjectDir)..\GameEngine\Engine\externals\nlohmann;$(ProjectDir)..\GameEngine\Engine\externals\imgui;$(projectDir)..\GameEngine\Engine\Engine\;$(projectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -131,7 +131,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine\Engine\externals/assimp/include;$(ProjectDir)..\GameEngine\Engine\externals\DirectXTex;$(ProjectDir)..\GameEngine\Engine\externals\nlohmann;$(ProjectDir)..\GameEngine\Engine\externals\imgui;$(projectDir)..\GameEngine\Engine\Engine\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine\Engine\externals/assimp/include;$(ProjectDir)..\GameEngine\Engine\externals\DirectXTex;$(ProjectDir)..\GameEngine\Engine\externals\nlohmann;$(ProjectDir)..\GameEngine\Engine\externals\imgui;$(projectDir)..\GameEngine\Engine\Engine\;$(projectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp" />
+    <ClCompile Include="Source\Objects\Area\Area.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\Enemy.cpp" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h" />
+    <ClInclude Include="Source\Objects\Area\Area.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\Enemy.h" />

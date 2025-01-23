@@ -46,6 +46,9 @@
     <Filter Include="Source\System_TD\Math">
       <UniqueIdentifier>{311cf529-2169-4c20-8de2-4fba8bde8609}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Objects\Area">
+      <UniqueIdentifier>{e00173b7-de6a-41a0-86bd-4a5b79404c5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,6 +99,9 @@
     <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Objects\Area\Area.cpp">
+      <Filter>Source\Objects\Area</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Area\Area.h">
+      <Filter>Source\Objects\Area</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -50,7 +50,6 @@ void Player::Initialize(Camera* camera)
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
 	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
 
-
 	InitJsonBinder();
 }
 
@@ -65,6 +64,8 @@ void Player::Update()
 	Bulletdelete();
 
 	Fire();
+
+	CameraShake();
 
 	UpdateBullet();
 
@@ -258,6 +259,8 @@ void Player::NorthPoleBulletFire()
 		newBullet->Initialize("Sphere/sphere.obj", "North", spawnPosition, velocity, acceleration);
 
 		bulletsNorth_.push_back(newBullet);
+
+		enableShake_ = true;
 	}
 }
 
@@ -284,6 +287,8 @@ void Player::SouthPoleBulletFire()
 		newBullet->Initialize("Sphere/sphere.obj", "South", spawnPosition, velocity, acceleration);
 
 		bulletsSouth_.push_back(newBullet);
+
+		enableShake_ = true;
 	}
 }
 
@@ -331,10 +336,6 @@ void Player::Bulletdelete() {
 		});
 }
 
-void Player::Save()
-{
-	jsonBinder_->Save();
-}
 
 #ifdef _DEBUG
 void Player::ImGui()
@@ -382,6 +383,11 @@ void Player::ImGui()
 	Vector3 pos = GetWorldPosition();
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
 
+  ImGui::SeparatorText("Camera Shake");
+  ImGui::DragFloat("time", &shakeTime_, 0.01f);
+  ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
+  ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
+
 	if (ImGui::Button("Save Settings"))
 	{
 		Save();
@@ -398,6 +404,7 @@ Vector3 Player::GetWorldPosition()
 	worldPos.x = oModel_->GetWorldTransform()->matWorld_.m[3][0];
 	worldPos.y = oModel_->GetWorldTransform()->matWorld_.m[3][1];
 	worldPos.z = oModel_->GetWorldTransform()->matWorld_.m[3][2];
+	worldPosition_ = worldPos;
 
 	return worldPos;
 }
@@ -419,6 +426,20 @@ Vector3 Player::GetForwardVector() const
 	return Vector3{ sinf(angle), 0.0f, cosf(angle) };
 }
 
+Vector3* Player::GetWorldPositionRef()
+{
+	return &worldPosition_;
+}
+
+void Player::CameraShake()
+{
+    if (enableShake_) {
+        // シェイクの更新
+        camera_->Shake(shakeTime_, shakeRangeMin_, shakeRangeMax_);
+		enableShake_ = false;
+	}
+}
+
 void Player::InitJsonBinder()
 {
     
@@ -428,19 +449,26 @@ void Player::InitJsonBinder()
 	// HP 関連
 	jsonBinder_->RegisterVariable("MaxHP", &maxHp_);
 	jsonBinder_->RegisterVariable("HP", &hp_);
-
 	// 移動関連
 	jsonBinder_->RegisterVariable("CharacterSpeed", &kCharacterSpeed_);
 	jsonBinder_->RegisterVariable("L_Stick DeadZone", &kDeadZoneL_);
-
 	// 弾関連
 	jsonBinder_->RegisterVariable("BulletVelocity", &bulletVelocity_);
 	jsonBinder_->RegisterVariable("BulletAcceleration", &bulletAcceleration_);
 	jsonBinder_->RegisterVariable("BulletOffset", &offset);
 	jsonBinder_->RegisterVariable("BulletFireInterval", &bulletFireInterval_);
-
 	// ノックバック関連
 	jsonBinder_->RegisterVariable("KnockbackStrength", const_cast<float*>(&knockbackStrength_));
 	jsonBinder_->RegisterVariable("KnockbackDamping", const_cast<float*>(&knockbackDamping_));
 	jsonBinder_->RegisterVariable("KnockbackInvincibleDuration", const_cast<float*>(&knockbackInvincibleDuration_));
+	jsonBinder_->RegisterVariable("characterSpeed", &kCharacterSpeed_);
+
+  jsonBinder_->RegisterVariable("ShakeTime", &shakeTime_);
+  jsonBinder_->RegisterVariable("ShakeRangeMin", &shakeRangeMin_);
+  jsonBinder_->RegisterVariable("ShakeRangeMax", &shakeRangeMax_);
+}
+
+void Player::Save()
+{
+	jsonBinder_->Save();
 }

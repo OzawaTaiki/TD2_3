@@ -10,8 +10,8 @@
 
 
 struct Group {
-	int numEnemies;	 // 敵の数
-	Vector3 velocity;		 // 速度
+	int numEnemies;			 // 敵の数
+	float speed;			 // 速さ
 	Vector3 goal;			 // 目的地
 	Vector3 spawnPoint;		 // スポーンする基準点
 	Vector3 direction;		 // 列の向き
@@ -27,7 +27,7 @@ struct Wave {
 class EnemySpawnLoader {
 public:
 
-	using SpawnCallback = std::function<void(Vector3&,Vector3&,Vector3&)>;
+	using SpawnCallback = std::function<void(Vector3&,float&,Vector3&)>;
 
 	/// <summary>
 	/// 敵発生データの読み込み

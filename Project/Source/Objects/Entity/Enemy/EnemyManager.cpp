@@ -16,8 +16,8 @@ void EnemyManager::Initialize(Camera* camera)
 
  
     // コールバック関数の登録
-    spawnLoader_.SetSpawnCallback([this](Vector3& position,Vector3& velocity,Vector3& goal) {
-        this->SpawnEnemy(position,velocity,goal);
+    spawnLoader_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal) {
+        this->SpawnEnemy(position,speed,goal);
         });
 
     // スポーンデータの読み込み
@@ -94,12 +94,12 @@ void EnemyManager::ImGui()
 
 
 
-void EnemyManager::SpawnEnemy(Vector3& position,Vector3& velocity, Vector3& goal)
+void EnemyManager::SpawnEnemy(Vector3& position, float& speed, Vector3& goal)
 {
     auto newEnemy = std::make_unique<Enemy>();
     newEnemy->Initialize(camera_);
     newEnemy->SetTranslate(position);
-    newEnemy->SetVelocity(velocity);
+    newEnemy->SetSpeed(speed);
     newEnemy->SetGoal(goal);
     enemies_.push_back(std::move(newEnemy));
 }

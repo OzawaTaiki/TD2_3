@@ -68,6 +68,7 @@ public:
 	Vector3 GetCenterPosition() const;
 
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+	void SetSpeed(const float& speed) { speed_ = speed; }
 	void SetGoal(const Vector3& goal) { goal_ = goal; }
 
 	bool& GetIsAlive() { return isAlive_; }
@@ -97,6 +98,7 @@ private:
 	// 消滅するか
 	bool markForRemoval_ = false;
 	Vector3 velocity_;
+	float speed_;
 	Vector3 goal_;
 	bool isAlive_ = true;
 };

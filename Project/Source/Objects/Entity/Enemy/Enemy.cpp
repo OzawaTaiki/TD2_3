@@ -64,8 +64,16 @@ void Enemy::Draw(const Vector4& color)
 void Enemy::Move(float& deltaTime)
 {
 	if (!isAlive_) return;
-	// 速度に基づいて位置を更新
-	oModel_->translate_ += velocity_ * deltaTime;
+
+	// ゴールまでの位置ベクトルを求める
+	Vector3 direction = goal_ - oModel_->translate_;
+	// ベクトルの長さを求める
+	float distance = direction.Length();
+	// 正規化
+	if (distance > 0.0f) {
+		direction /= distance; // 正規化完了
+		oModel_->translate_ += direction * speed_ * deltaTime;
+	}
 
 	// 目的地に到達したら生存フラグを下げる
 	if ((oModel_->translate_ - goal_).Length() < 0.1f) {

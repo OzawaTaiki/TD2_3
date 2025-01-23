@@ -36,7 +36,7 @@ private:
     /// <summary>
     /// タイムでスポーン
     /// </summary>
-    void SpawnEnemy(Vector3& position,Vector3& velocity,Vector3& goal);
+    void SpawnEnemy(Vector3& position,float& speed,Vector3& goal);
 
     /// <summary>
     /// 敵を削除（デスフラグ付き）

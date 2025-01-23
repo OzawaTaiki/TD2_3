@@ -2,7 +2,7 @@ Wave,1          // wave開始
 
 Group,          // Group始め
 Num,3           // 敵の数
-Velocity,1,0,0  // 速度
+Speed,1,  // 速度
 Goal,10,0,10    // 目的地
 Point,0,0,0     // スポーン基準点
 Dir,-1,0,-1     // 列の向き
@@ -12,7 +12,7 @@ Wait,120        // 待機
 
 Group,           // Group始め
 Num,5
-Velocity,-1,0,0
+Speed,1,
 Goal,15,0,15
 Point,5,0,5
 Dir,1,0,0
@@ -23,7 +23,7 @@ Wave,2 // wave開始
 
 Group
 Num,4
-Velocity,1,0,1
+Speed,1,
 Goal,20,0,20
 Point,-5,0,-5
 Dir,0,0,1

@@ -66,12 +66,10 @@ void EnemySpawnLoader::LoadEnemyPopData()
             std::getline(lineStream, numSre, ',');
             currentGroup.numEnemies = std::stoi(numSre);
         }
-        else if (command == "Velocity") {
-            std::string xStr, yStr, zStr;
-            std::getline(lineStream, xStr, ',');
-            std::getline(lineStream, yStr, ',');
-            std::getline(lineStream, zStr, ',');
-            currentGroup.velocity = Vector3(std::stof(xStr), std::stof(yStr), std::stof(zStr));
+        else if (command == "Speed") {
+            std::string speedStr;
+            std::getline(lineStream, speedStr, ',');
+            currentGroup.speed = std::stof(speedStr);
 
         }
 
@@ -148,11 +146,11 @@ void EnemySpawnLoader::UpdateEnemyPopCommands()
     for (uint32_t i = 0; i < currentGroup.numEnemies; ++i) {
         // スポーン位置
         Vector3 position = currentGroup.spawnPoint + currentGroup.direction * currentGroup.offset * i;
-        Vector3 velocity = currentGroup.velocity;
+        float speed = currentGroup.speed;
         Vector3 goal = currentGroup.goal;
 
         if (spawnCallback_) {
-            spawnCallback_(position, velocity, goal);
+            spawnCallback_(position, speed, goal);
         }
     }
 

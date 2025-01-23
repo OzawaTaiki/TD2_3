@@ -395,6 +395,7 @@ Vector3 Player::GetWorldPosition()
 	worldPos.x = oModel_->GetWorldTransform()->matWorld_.m[3][0];
 	worldPos.y = oModel_->GetWorldTransform()->matWorld_.m[3][1];
 	worldPos.z = oModel_->GetWorldTransform()->matWorld_.m[3][2];
+	worldPosition_ = worldPos;
 
 	return worldPos;
 }
@@ -414,6 +415,13 @@ Vector3 Player::GetForwardVector() const
 	// rotation_.y をもとに計算（例：XZ平面）
 	float angle = rotation_.y;
 	return Vector3{ sinf(angle), 0.0f, cosf(angle) };
+}
+
+Vector3* Player::GetWorldPositionRef()
+{
+    worldPosition_ = GetWorldPosition();
+
+	return &worldPosition_;
 }
 
 void Player::InitJsonBinder()

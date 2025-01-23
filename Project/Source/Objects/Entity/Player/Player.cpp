@@ -8,6 +8,10 @@
 #include <DirectXMath.h>
 #include <Physics/Math/MatrixFunction.h>
 #include <Systems/JsonBinder/JsonHub.h>
+#include <Systems/Utility/RandomGenerator.h>
+#include <Physics/Math/Easing.h>
+#include <Physics/Math/MyLib.h>
+
 
 using namespace DirectX;
 Player::~Player()
@@ -51,27 +55,37 @@ void Player::Initialize(Camera* camera)
 	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
 
 	InitJsonBinder();
+
+    gameTime_ = GameTime::GetInstance();
+	gameTime_->CreateChannel("default");
 }
 
 void Player::Update()
 {
-	collider_->RegsterCollider();
+	if (isAlive_)
+	{
+		collider_->RegsterCollider();
 
-	Move();
+		Move();
 
-	Rotate();
+		Rotate();
 
-	Bulletdelete();
+		Bulletdelete();
 
-	Fire();
+		Fire();
 
-	CameraShake();
+		CameraShake();
 
-	UpdateBullet();
+		UpdateBullet();
 
-	Knockback();
+		Knockback();
 
-	CoolTimerBullet();
+		CoolTimerBullet();
+	}
+	else if (isDeathEffectPlaying_)
+	{
+		UpdateDeathEffect();
+	}
 
 	oModel_->Update();
 
@@ -111,6 +125,7 @@ void Player::OnCollision(const Collider* other)
 		hp_--;
         if (hp_ <= 0) {
             isAlive_ = false;
+			BeginDeathEffect();
         }
 		// プレイヤーの向いている方向（rotation_.y）から前方ベクトルを算出
 		float angle = rotation_.y;
@@ -264,7 +279,6 @@ void Player::NorthPoleBulletFire()
 	}
 }
 
-
 void Player::SouthPoleBulletFire()
 {
 	if (input_->IsPadTriggered(PadButton::iPad_LB) && southBulletCoolTimer_ <= 0.0f) {
@@ -388,6 +402,14 @@ void Player::ImGui()
   ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
   ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
 
+
+	ImGui::Separator();
+	if(ImGui::Button("deathEffect"))
+	{
+        BeginDeathEffect();
+	}
+
+	ImGui::Separator();
 	if (ImGui::Button("Save Settings"))
 	{
 		Save();
@@ -438,6 +460,78 @@ void Player::CameraShake()
         camera_->Shake(shakeTime_, shakeRangeMin_, shakeRangeMax_);
 		enableShake_ = false;
 	}
+}
+
+void Player::BeginDeathEffect()
+{
+	isAlive_ = false;
+    isDeathEffectPlaying_ = true;
+    deathEffectParams_.duration = 0.0f;
+    deathEffectParams_.beforePosition = oModel_->translate_;
+    deathEffectParams_.shake = true;
+	gameTime_->GetChannel("default").SetGameSpeed(0.25f);
+}
+
+void Player::UpdateDeathEffect()
+{
+	// TODO: 死亡演出の実装
+	// 仮 プルプルさせてから拡大
+
+	deathEffectParams_.duration += gameTime_->GetUnScaleDeltaTime_float();
+
+	// プルプル
+	if (deathEffectParams_.duration >= deathEffectParams_.shakeTime && deathEffectParams_.shake)
+	{
+		deathEffectParams_.shake = false;
+		deathEffectParams_.duration = 0;
+		deathEffectParams_.scale = true;
+	}
+	else if (deathEffectParams_.duration >= deathEffectParams_.scalingTIme && deathEffectParams_.scale)
+	{
+		deathEffectParams_.scale = false;
+		deathEffectParams_.duration = 0;
+		deathEffectParams_.wait = true;
+	}
+	else if (deathEffectParams_.duration >= deathEffectParams_.waitTime && deathEffectParams_.wait)
+	{
+		deathEffectParams_.wait = false;
+		deathEffectParams_.duration = 0;
+	}
+
+	if (deathEffectParams_.shake)
+	{
+		// モデルをプルプルさせる
+		Vector3 shakeDir = RandomGenerator::GetInstance()->GetUniformVec3((-1.0f, 0, -1.0f), (1.0f, 0, 1.0f));
+		oModel_->translate_ = deathEffectParams_.beforePosition + shakeDir * deathEffectParams_.shakePower;
+	}
+	else if (deathEffectParams_.scale)
+	{
+		float t = deathEffectParams_.duration / deathEffectParams_.scalingTIme;
+		// 縮小
+		float easedT = Easing::EaseOutExpo(t);
+
+		float scale = Lerp(1.0f, deathEffectParams_.targetScale, easedT);
+
+		// tの閾値
+		constexpr float threshold = 0.70f;
+
+		if (t >= threshold)
+		{
+			scale = 0;
+		}
+
+		oModel_->scale_ = { scale, 1.0f, scale };
+	}
+	else if (deathEffectParams_.wait)
+	{
+	}
+	else
+	{
+		// 死亡演出終了
+		isDeathEffectPlaying_ = false;
+		gameTime_->GetChannel("default").SetGameSpeed(1.0f);
+	}
+
 }
 
 void Player::InitJsonBinder()

@@ -2,6 +2,9 @@
 #include <Systems/JsonBinder/JsonBinder.h>
 
 
+#include <vector>
+#include <algorithm>
+
 class ScoreManager
 {
 
@@ -37,6 +40,11 @@ public:
 	/// </summary>
 	void DrawScore();
 
+	/// <summary>
+	/// 
+	/// </summary>
+	void EndGame();
+
 
 private:
 
@@ -50,6 +58,11 @@ private:
 	/// </summary>
 	void InitJsonBinder();
 
+	/// <summary>
+	/// Top3スコアの更新
+	/// </summary>
+	void UpdateTopScores();
+
 public:
 
 	/// <summary>
@@ -58,6 +71,12 @@ public:
 	/// <returns></returns>
 	int GetCurrentScore() { return currentScore_; }
 
+
+	/// <summary>
+	/// Top3スコアを取得
+	/// </summary>
+	/// <returns></returns>
+	const std::vector<int>& GetTopScores() const { return topScores_; }
 
 private:
 
@@ -71,5 +90,6 @@ private:
 
 	int currentScore_ = 0;
 	int saveMaxScore_ = 0;
+	std::vector<int> topScores_ = { 0, 0, 0 };
 };
 

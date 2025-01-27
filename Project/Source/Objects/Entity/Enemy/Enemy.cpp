@@ -143,12 +143,12 @@ void Enemy::OnCollision(const Collider* other)
 void Enemy::ImGui()
 {
 #ifdef _DEBUG
-	ImGui::Begin("Enemy Para");
+	//ImGui::Begin("Enemy Para");
 
-	ImGui::Checkbox("AddScore", &isAddScore_);
-	ImGui::Checkbox("Alive", &isAlive_);
+	//ImGui::Checkbox("AddScore", &isAddScore_);
+	//ImGui::Checkbox("Alive", &isAlive_);
 
-	ImGui::End();
+	//ImGui::End();
 
 #endif // _DEBUG
 

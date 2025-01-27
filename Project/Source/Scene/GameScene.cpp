@@ -60,9 +60,9 @@ void GameScene::Update()
 
     if(player_->CanSwitchScene())
     {
+		ScoreManager::GetInstance()->EndGame();
         SceneManager::GetInstance()->ReserveScene("Result");
     }
-
 
     player_->Update();
     enemyManager_->Update();

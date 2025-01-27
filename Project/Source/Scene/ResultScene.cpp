@@ -56,7 +56,7 @@ void ResultScene::Initialize()
 	/*===============================================================//
 		 　　					コンボ
 	//===============================================================*/
-	combo_ = ComboManager::GetInstance()->GetCurrentCombo();
+	combo_ = ComboManager::GetInstance()->GetMaxCombo();
 	for (int i = 0; i < 10; ++i) {
 		comboSprites_[i] = std::make_unique<Sprite>();
 		comboSprites_[i].reset(Sprite::Create(scoreTh));
@@ -102,9 +102,6 @@ void ResultScene::Update()
 	ComboManager::GetInstance()->Update();
 	CountManager::GetInstance()->ImGui();
 
-	for (int i = 0; i < 10; ++i) {
-		scoreSprites_[i]->Update();
-	}
 }
 
 void ResultScene::Draw()

@@ -72,7 +72,7 @@ void GameScene::Update()
 
 
 	CountManager::GetInstance()->ImGui();
-	ComboManager::GetInstance()->Update();
+	//ComboManager::GetInstance()->Update();
 
     if (enableDebugCamera_)
     {

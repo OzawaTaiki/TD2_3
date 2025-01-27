@@ -6,6 +6,7 @@
 #include <Rendering/LineDrawer/LineDrawer.h>
 #include "../System_TD/ScoreManager/ScoreManager.h"
 #include "../System_TD/ComboManager/ComboManager.h"
+#include "../System_TD/CountManager/CountManager.h"
 
 #include <DirectXMath.h>
 
@@ -70,7 +71,7 @@ void GameScene::Update()
     area_->Update(player_.get());
 
 
-   // ScoreManager::GetInstance()->Update();
+	CountManager::GetInstance()->ImGui();
 	ComboManager::GetInstance()->Update();
 
     if (enableDebugCamera_)
@@ -156,6 +157,7 @@ void GameScene::Load()
     
     ComboManager::GetInstance()->Initialize();
 	ScoreManager::GetInstance()->Initialize();
+	CountManager::GetInstance()->Initialize();
 
     Loading_ = false;
 

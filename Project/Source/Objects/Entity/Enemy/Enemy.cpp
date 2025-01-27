@@ -3,6 +3,7 @@
 #include "../../../System_TD/ScoreManager/ScoreManager.h"
 #include <Physics/Math/VectorFunction.h>
 #include <Source/System_TD/ComboManager/ComboManager.h>
+#include "Source/System_TD/CountManager/CountManager.h"
 
 void Enemy::Initialize(Camera* camera)
 {
@@ -33,17 +34,12 @@ void Enemy::Initialize(Camera* camera)
 
 void Enemy::Update()
 {
-	//isAddScore_ = false;
-
-	// 敵が生存していない場合は処理を終了
-
-	// スコアをまだ加算していない場合のみ加算
-
+	
 	if (!isAlive_) {
 		ScoreManager::GetInstance()->AddScore(100);
 		ComboManager::GetInstance()->AddCombo(1);
+		CountManager::GetInstance()->EnemyCount(1);
 	}
-
 
 
 	ImGui();

@@ -4,7 +4,7 @@
 #include <Framework/eScene/SceneManager.h>
 #include "../System_TD/ScoreManager/ScoreManager.h"
 #include "../System_TD/ComboManager/ComboManager.h"
-
+#include "../System_TD/CountManager/CountManager.h"
 
 std::unique_ptr<BaseScene> ResultScene::Create()
 {
@@ -29,7 +29,7 @@ void ResultScene::Update()
 
 	ScoreManager::GetInstance()->Update();
 	ComboManager::GetInstance()->Update();
-    //ScoreManager::GetInstance()->UpdateTopScores();
+	CountManager::GetInstance()->ImGui();
 }
 
 void ResultScene::Draw()

@@ -114,7 +114,10 @@ void GameScene::Draw()
     LineDrawer::GetInstance()->Draw();
 
     Sprite::PreDraw();
-    backGrounds_[0]->Draw();
+	for (int i = 0; i < bg_; ++i)
+	{
+		backGrounds_[i]->Draw();
+	}
 }
 
 void GameScene::Load()
@@ -171,14 +174,22 @@ void GameScene::Load()
     /*===============================================================//
                  　　             スプライト
     //===============================================================*/
-    uint32_t bg[bg_] = { TextureManager::GetInstance()->Load("frame.png", defaulFilPath) };
+    uint32_t bg[bg_] = { TextureManager::GetInstance()->Load("frame.png", defaulFilPath),
+                         TextureManager::GetInstance()->Load("player.png", defaulFilPath) };
     backGrounds_[0] = std::make_unique<Sprite>();
 	backGrounds_[0].reset(Sprite::Create(bg[0]));
 	backGrounds_[0]->Initialize();
 	backGrounds_[0]->translate_ = { -9,-9 };
 	backGrounds_[0]->scale_ = { 1.018f,1.03f };
 	backGrounds_[0]->SetAnchor({ 0.0f,0.0f });
-    //backGrounds_[0]->SetSize({ 1280,720 });
+
+    backGrounds_[1] = std::make_unique<Sprite>();
+    backGrounds_[1].reset(Sprite::Create(bg[1]));
+    backGrounds_[1]->Initialize();
+    backGrounds_[1]->SetAnchor({ 0.5f,0.5f });
+    backGrounds_[1]->translate_ = { 1100,515 };
+	//backGrounds_[1]->rotate_ = 44.5f;
+    
     Loading_ = false;
 
 }

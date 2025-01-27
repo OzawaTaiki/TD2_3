@@ -9,6 +9,8 @@
 
 #include <vector>
 #include <algorithm>
+#include <chrono> 
+
 class ComboManager
 {
 public:
@@ -91,5 +93,8 @@ private:
 	int saveMaxCombo_ = 0u;
     std::vector<uint32_t> topCombos_ = { 0, 0, 0 };
 
+    // 最後にコンボが加算された時間
+    std::chrono::steady_clock::time_point lastComboTime_;
+    const int comboResetTime_ = 5;
 
 };

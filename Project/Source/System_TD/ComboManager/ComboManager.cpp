@@ -20,11 +20,21 @@ void ComboManager::Initialize()
 	// Json初期化
 	currentCombo_ = 0;
 	InitJsonBinder();
+
+
+	lastComboTime_ = std::chrono::steady_clock::now();
 }
 
 void ComboManager::Update()
 {
+	// 現在時刻を取得
+	auto now = std::chrono::steady_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastComboTime_).count();
 
+	// 一定時間経過したらコンボリセット
+	if (elapsed >= comboResetTime_) {
+		currentCombo_ = 0;
+	}
 
 #ifdef _DEBUG
 	ImGui();
@@ -68,7 +78,7 @@ void ComboManager::UpdateTopCombos()
 void ComboManager::AddCombo(int count)
 {
 	currentCombo_ += count;
-
+	lastComboTime_ = std::chrono::steady_clock::now();
 }
 
 void ComboManager::ImGui()
@@ -77,6 +87,7 @@ void ComboManager::ImGui()
 
 	ImGui::DragInt("Current Combo", &currentCombo_);
 	ImGui::DragInt("Max Combo", &saveMaxCombo_);
+
 
 	for (size_t i = 0; i < topCombos_.size(); ++i)
 	{

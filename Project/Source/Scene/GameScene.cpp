@@ -178,7 +178,7 @@ void GameScene::Load()
 	backGrounds_[0]->translate_ = { -9,-9 };
 	backGrounds_[0]->scale_ = { 1.018f,1.03f };
 	backGrounds_[0]->SetAnchor({ 0.0f,0.0f });
-    //backGrounds_[0]->SetSize({ 1280,720 });
+    
     Loading_ = false;
 
 }

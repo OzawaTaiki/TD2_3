@@ -24,7 +24,8 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-    if(Input::GetInstance()->IsKeyTriggered(DIK_TAB))
+    if(Input::GetInstance()->IsKeyTriggered(DIK_TAB) ||
+       Input::GetInstance()->IsPadTriggered(PadButton::iPad_A))
     {
         SceneManager::GetInstance()->ReserveScene("Game");
     }

@@ -19,7 +19,7 @@ void ScoreManager::Update()
 {
 
 
-
+	//UpdateTopScores();
 	
 #ifdef _DEBUG
 	ImGui();
@@ -42,11 +42,14 @@ void ScoreManager::DrawScore()
 }
 void ScoreManager::EndGame()
 {
-	jsonBinder_->Save();
+	
 	saveMaxScore_ = currentScore_;
-
+	
 	UpdateTopScores();
 
+	jsonBinder_->Save();
+
+	JsonHub::GetInstance()->LoadFile("Resources/Data/Score/ScoreData.json");
 }
 
 
@@ -76,8 +79,8 @@ void ScoreManager::InitJsonBinder()
 
 void ScoreManager::UpdateTopScores()
 {
-	// 現在のスコアを topScores_ に追加
-	topScores_.push_back(currentScore_);
+	// 最終的なスコアを追加
+	topScores_.push_back(saveMaxScore_);
 	std::sort(topScores_.rbegin(), topScores_.rend()); 
 
 	// 重複するスコアを削除

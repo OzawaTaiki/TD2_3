@@ -45,7 +45,10 @@ public:
 	/// </summary>
 	void EndGame();
 
-
+	/// <summary>
+/// Top3スコアの更新
+/// </summary>
+	void UpdateTopScores();
 private:
 
 	/// <summary>
@@ -58,10 +61,7 @@ private:
 	/// </summary>
 	void InitJsonBinder();
 
-	/// <summary>
-	/// Top3スコアの更新
-	/// </summary>
-	void UpdateTopScores();
+
 
 public:
 
@@ -76,7 +76,7 @@ public:
 	/// Top3スコアを取得
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<int>& GetTopScores() const { return topScores_; }
+	const std::vector<uint32_t>& GetTopScores() const { return topScores_; }
 
 private:
 
@@ -90,6 +90,6 @@ private:
 
 	int currentScore_ = 0;
 	int saveMaxScore_ = 0;
-	std::vector<int> topScores_ = { 0, 0, 0 };
+	std::vector<uint32_t> topScores_ = { 0, 0, 0 };
 };
 

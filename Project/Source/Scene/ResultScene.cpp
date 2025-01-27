@@ -2,6 +2,9 @@
 
 #include <Systems/Input/Input.h>
 #include <Framework/eScene/SceneManager.h>
+#include "../System_TD/ScoreManager/ScoreManager.h"
+#include "../System_TD/ComboManager/ComboManager.h"
+
 
 std::unique_ptr<BaseScene> ResultScene::Create()
 {
@@ -18,10 +21,14 @@ void ResultScene::Initialize()
 
 void ResultScene::Update()
 {
-    if (Input::GetInstance()->IsKeyTriggered(DIK_TAB))
+    if (Input::GetInstance()->IsKeyTriggered(DIK_TAB) || 
+        Input::GetInstance()->IsPadTriggered(PadButton::iPad_A))
     {
         SceneManager::GetInstance()->ReserveScene("Title");
     }
+
+	ScoreManager::GetInstance()->Update();
+    //ScoreManager::GetInstance()->UpdateTopScores();
 }
 
 void ResultScene::Draw()

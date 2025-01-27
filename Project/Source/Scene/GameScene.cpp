@@ -69,7 +69,7 @@ void GameScene::Update()
     area_->Update(player_.get());
 
 
-    ScoreManager::GetInstance()->Update();
+   // ScoreManager::GetInstance()->Update();
 	ComboManager::GetInstance()->Update();
 
     if (enableDebugCamera_)

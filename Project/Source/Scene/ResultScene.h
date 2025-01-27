@@ -2,7 +2,10 @@
 #include <Rendering/Sprite/Sprite.h>
 #include <memory>
 #include <Framework/eScene/BaseScene.h>
-#include <Systems/UVTransform/SpriteSheetAnimetion.h>
+#include <Rendering/LineDrawer/LineDrawer.h>
+#include "../System_TD/ScoreManager/ScoreManager.h"
+#include "../System_TD/ComboManager/ComboManager.h"
+#include "../System_TD/CountManager/CountManager.h"
 
 class ResultScene : public BaseScene
 {
@@ -17,11 +20,21 @@ public:
     void Draw() override;
 
 private:
-    void DrawScore();
-#ifdef _DEBUG
-    void ImGui();
-#endif // _DEBUG
 
+    /// <summary>
+    /// スコアの描画
+    /// </summary>
+    void DrawScore();
+
+	/// <summary>
+	/// コンボの描画
+	/// </summary>
+	void DrawCombo();
+
+    /// <summary>
+    /// 倒した敵の数の描画
+    /// </summary>
+    void DrawCountEnemy();
 
 private:
     /*===============================================================//
@@ -37,11 +50,10 @@ private:
 	int combo_ = 0;
 	int count_ = 0;
 
-    uint32_t scoreTh;
-    std::vector<std::unique_ptr<Sprite>> SpriteCopy_;
+   
     std::array<std::unique_ptr<Sprite>, 10> scoreSprites_;
-	std::unique_ptr<Sprite> comboSprite_;
-	std::unique_ptr<Sprite> countSprite_;
+	std::array<std::unique_ptr<Sprite>, 10> comboSprites_;
+	std::array<std::unique_ptr<Sprite>, 10> countSprites_;
 
 
 };

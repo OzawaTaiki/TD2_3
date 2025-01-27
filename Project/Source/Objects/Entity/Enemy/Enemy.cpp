@@ -10,7 +10,7 @@ void Enemy::Initialize(Camera* camera)
 	camera_ = camera;
 
 	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Sphere/sphere.obj", "Enemy");
+	oModel_->Initialize("enemy/enemy.obj", "Enemy");
 
 	/*===============================================================//
 					 　　	  コライダー設定
@@ -57,10 +57,12 @@ void Enemy::Draw(const Vector4& color)
 		typeColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 白
 	}
 	else if (currentType_ == BulletType::North) {
-		typeColor = Vector4(1.0f, 0.0f, 0.0f, 1.0f); // 赤
+		//oModel_->SetModel("Resources/models/enemy_Red/enemy_Red.obj"); // 赤
+		typeColor = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 	}
 	else if (currentType_ == BulletType::South) {
-		typeColor = Vector4(0.0f, 0.0f, 1.0f, 1.0f); // 青
+		//oModel_->SetModel("Resources/models/enemy_Blue/enemy_Blue.obj"); // 青
+		typeColor = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 	else {
 		typeColor = Vector4(0.0f, 0.0f, 0.0f, 1.0f); // 黒
@@ -68,7 +70,9 @@ void Enemy::Draw(const Vector4& color)
 
 
 	if (isDraw_) {
+#ifdef _DEBUG
 		collider_->Draw();
+#endif // _DEBUG
 		oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
 	}
 

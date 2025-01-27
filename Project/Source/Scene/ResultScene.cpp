@@ -19,7 +19,8 @@ void ResultScene::Initialize()
 {
 	uint32_t th[ms_] = { TextureManager::GetInstance()->Load("backGround.png", defaulFilPath),
 						 TextureManager::GetInstance()->Load("frame.png", defaulFilPath),
-						 TextureManager::GetInstance()->Load("result.png", defaulFilPath) };
+						 TextureManager::GetInstance()->Load("result.png", defaulFilPath),
+						 TextureManager::GetInstance()->Load("player.png", defaulFilPath) };
 	
 	resultSprite_[0] = std::make_unique<Sprite>();
 	resultSprite_[0].reset(Sprite::Create(th[0]));
@@ -40,6 +41,13 @@ void ResultScene::Initialize()
 	resultSprite_[2]->Initialize();
 	resultSprite_[2]->SetAnchor({ 0.5f,0.5f });
 	resultSprite_[2]->translate_ = { 640,360 };
+
+	resultSprite_[3] = std::make_unique<Sprite>();
+	resultSprite_[3].reset(Sprite::Create(th[3]));
+	resultSprite_[3]->Initialize();
+	resultSprite_[3]->SetAnchor({ 0.5f,0.5f });
+	resultSprite_[3]->translate_ = { 150,600 };
+	resultSprite_[3]->rotate_ = 44.5f;
 	
 	/*===============================================================//
 			 　　				スコア
@@ -99,6 +107,11 @@ void ResultScene::Update()
 	{
 		SceneManager::GetInstance()->ReserveScene("Title");
 	}
+
+	ImGui::Begin("ResultScene");
+	ImGui::DragFloat("Score", &resultSprite_[3]->rotate_);
+	ImGui::End();
+
 #endif // _DEBUG
 
 

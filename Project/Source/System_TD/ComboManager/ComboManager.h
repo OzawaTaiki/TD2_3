@@ -35,6 +35,11 @@ public:
 public:
 
     /// <summary>
+    /// コンボリセット
+    /// </summary>
+    void ResetCombo();
+
+    /// <summary>
     /// コンボ加算
     /// </summary>
     void AddCombo(int count);

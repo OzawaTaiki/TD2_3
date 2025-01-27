@@ -27,14 +27,7 @@ void ComboManager::Initialize()
 
 void ComboManager::Update()
 {
-	// 現在時刻を取得
-	auto now = std::chrono::steady_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastComboTime_).count();
 
-	// 一定時間経過したらコンボリセット
-	if (elapsed >= comboResetTime_) {
-		currentCombo_ = 0;
-	}
 
 #ifdef _DEBUG
 	ImGui();
@@ -72,6 +65,18 @@ void ComboManager::UpdateTopCombos()
 	if (topCombos_.size() > 3)
 	{
 		topCombos_.resize(3);
+	}
+}
+
+void ComboManager::ResetCombo()
+{
+	// 現在時刻を取得
+	auto now = std::chrono::steady_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastComboTime_).count();
+
+	// 一定時間経過したらコンボリセット
+	if (elapsed >= comboResetTime_) {
+		currentCombo_ = 0;
 	}
 }
 

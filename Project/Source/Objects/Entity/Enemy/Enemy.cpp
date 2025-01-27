@@ -2,6 +2,7 @@
 #include "../Player/Player.h"
 #include "../../../System_TD/ScoreManager/ScoreManager.h"
 #include <Physics/Math/VectorFunction.h>
+#include <Source/System_TD/ComboManager/ComboManager.h>
 
 void Enemy::Initialize(Camera* camera)
 {
@@ -40,6 +41,7 @@ void Enemy::Update()
 
 	if (!isAlive_) {
 		ScoreManager::GetInstance()->AddScore(100);
+		ComboManager::GetInstance()->AddCombo(1);
 	}
 
 
@@ -141,12 +143,12 @@ void Enemy::OnCollision(const Collider* other)
 void Enemy::ImGui()
 {
 #ifdef _DEBUG
-	ImGui::Begin("Enemy Para");
+	//ImGui::Begin("Enemy Para");
 
-	ImGui::Checkbox("AddScore", &isAddScore_);
-	ImGui::Checkbox("Alive", &isAlive_);
+	//ImGui::Checkbox("AddScore", &isAddScore_);
+	//ImGui::Checkbox("Alive", &isAlive_);
 
-	ImGui::End();
+	//ImGui::End();
 
 #endif // _DEBUG
 

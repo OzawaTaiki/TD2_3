@@ -530,7 +530,7 @@ void Player::UpdateDeathEffect()
 	else
 	{
 		// 死亡演出終了
-		isDeathEffectPlaying_ = false;
+			isDeathEffectPlaying_ = false;
 		gameTime_->GetChannel("default").SetGameSpeed(1.0f);
 	}
 

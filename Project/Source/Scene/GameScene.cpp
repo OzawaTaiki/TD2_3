@@ -5,7 +5,7 @@
 #include <Rendering/Light/LightingSystem.h>
 #include <Rendering/LineDrawer/LineDrawer.h>
 #include "../System_TD/ScoreManager/ScoreManager.h"
-
+#include "../System_TD/ComboManager/ComboManager.h"
 
 #include <DirectXMath.h>
 
@@ -60,17 +60,18 @@ void GameScene::Update()
 
     if(player_->CanSwitchScene())
     {
+		ScoreManager::GetInstance()->EndGame();
+		ComboManager::GetInstance()->EndGame();
         SceneManager::GetInstance()->ReserveScene("Result");
     }
-
 
     player_->Update();
     enemyManager_->Update();
     area_->Update(player_.get());
 
 
-    ScoreManager::GetInstance()->DrawScore();
-
+   // ScoreManager::GetInstance()->Update();
+	ComboManager::GetInstance()->Update();
 
     if (enableDebugCamera_)
     {
@@ -152,7 +153,9 @@ void GameScene::Load()
     lightGroup_.AddPointLight(PLight, "Player", player_->GetWorldPositionRef());
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
-    //Model::CreateFromObj("bunny.obj");
+    
+    ComboManager::GetInstance()->Initialize();
+	ScoreManager::GetInstance()->Initialize();
 
     Loading_ = false;
 

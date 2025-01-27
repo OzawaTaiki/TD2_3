@@ -41,7 +41,7 @@ void Enemy::Update()
 
 	if (!isAlive_) {
 		ScoreManager::GetInstance()->AddScore(100);
-		ComboManager::GetInstance()->AddCombo(1.0f);
+		ComboManager::GetInstance()->AddCombo(1);
 	}
 
 

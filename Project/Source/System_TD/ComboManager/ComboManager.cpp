@@ -38,7 +38,15 @@ void ComboManager::Draw()
 	sprite_->Draw();
 }
 
-void ComboManager::AddCombo(float count)
+void ComboManager::EndGame()
+{
+}
+
+void ComboManager::UpdateTopCombos()
+{
+}
+
+void ComboManager::AddCombo(int count)
 {
 	currentCombo_ += count;
 
@@ -48,8 +56,8 @@ void ComboManager::ImGui()
 {
 	ImGui::Begin("ComboManager");
 
-	ImGui::DragFloat("Current Combo", &currentCombo_);
-	ImGui::DragFloat("Max Combo", &saveMaxCombo_);
+	ImGui::DragInt("Current Combo", &currentCombo_);
+	ImGui::DragInt("Max Combo", &saveMaxCombo_);
 
 
 	

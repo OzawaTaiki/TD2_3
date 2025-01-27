@@ -152,8 +152,6 @@ void GameScene::Load()
     lightGroup_.AddPointLight(PLight, "Player", player_->GetWorldPositionRef());
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
-    //Model::CreateFromObj("bunny.obj");
-
     
     ComboManager::GetInstance()->Initialize();
 	ScoreManager::GetInstance()->Initialize();

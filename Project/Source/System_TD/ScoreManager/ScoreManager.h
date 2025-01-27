@@ -46,8 +46,8 @@ public:
 	void EndGame();
 
 	/// <summary>
-/// Top3スコアの更新
-/// </summary>
+	/// Top3スコアの更新
+	/// </summary>
 	void UpdateTopScores();
 private:
 

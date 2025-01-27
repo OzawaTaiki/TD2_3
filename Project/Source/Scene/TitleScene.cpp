@@ -30,7 +30,7 @@ void TitleScene::Update()
     }
 
 
-    lineDrawer_->DrawCircle({ 0,0,0 }, 1);
+
     SceneCamera_.Update();
     SceneCamera_.UpdateMatrix();
 }

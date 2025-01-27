@@ -9,7 +9,9 @@
 #include "../System_TD/CountManager/CountManager.h"
 
 #include <DirectXMath.h>
+#include <ResourceManagement/TextureManager/TextureManager.h>
 
+const std::string defaulFilPath = "Resources./Textures./";
 std::unique_ptr<BaseScene>GameScene::Create()
 {
     return std::make_unique<GameScene>();
@@ -57,6 +59,7 @@ void GameScene::Update()
 
     lightGroup_.DrawDebugWindow();
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+    ImGui();
 #endif // _DEBUG
 
     if(player_->CanSwitchScene())
@@ -101,6 +104,7 @@ void GameScene::Draw()
         return;
     }
 
+
     ModelManager::GetInstance()->PreDrawForObjectModel();
     area_->Draw(&SceneCamera_);
 
@@ -108,6 +112,9 @@ void GameScene::Draw()
     enemyManager_->Draw({ 1,1,1,1 });
 
     LineDrawer::GetInstance()->Draw();
+
+    Sprite::PreDraw();
+    backGrounds_[0]->Draw();
 }
 
 void GameScene::Load()
@@ -154,11 +161,24 @@ void GameScene::Load()
     lightGroup_.AddPointLight(PLight, "Player", player_->GetWorldPositionRef());
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
-    
+    /*===============================================================//
+                 　　             スコア関連
+    //===============================================================*/
     ComboManager::GetInstance()->Initialize();
 	ScoreManager::GetInstance()->Initialize();
 	CountManager::GetInstance()->Initialize();
 
+    /*===============================================================//
+                 　　             スプライト
+    //===============================================================*/
+    uint32_t bg[bg_] = { TextureManager::GetInstance()->Load("frame.png", defaulFilPath) };
+    backGrounds_[0] = std::make_unique<Sprite>();
+	backGrounds_[0].reset(Sprite::Create(bg[0]));
+	backGrounds_[0]->Initialize();
+	backGrounds_[0]->translate_ = { -9,-9 };
+	backGrounds_[0]->scale_ = { 1.018f,1.03f };
+	backGrounds_[0]->SetAnchor({ 0.0f,0.0f });
+    //backGrounds_[0]->SetSize({ 1280,720 });
     Loading_ = false;
 
 }
@@ -167,6 +187,9 @@ void GameScene::Load()
 #include <imgui.h>
 void GameScene::ImGui()
 {
-
+	ImGui::Begin("GameScene");
+    ImGui::DragFloat3("scale", &backGrounds_[0]->scale_.x);
+	ImGui::DragFloat3("translate", &backGrounds_[0]->translate_.x);
+	ImGui::End();
 }
 #endif // _DEBUG

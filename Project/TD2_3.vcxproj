@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp" />
     <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp" />
     <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp" />
     <ClCompile Include="Source\Scene\SceneTransition.cpp" />
@@ -169,6 +170,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\System_TD\CountManager\CountManager.h" />
     <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h" />
     <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h" />
     <ClInclude Include="Source\Scene\SceneTransition.h" />

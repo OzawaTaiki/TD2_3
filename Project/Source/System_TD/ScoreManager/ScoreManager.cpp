@@ -7,6 +7,27 @@ ScoreManager* ScoreManager::GetInstance()
 	return &instance;
 }
 
+void ScoreManager::Initialize()
+{
+
+
+
+	InitJsonBinder();
+}
+
+void ScoreManager::Update()
+{
+	saveMaxScore_ = currentScore_;
+
+
+
+
+	jsonBinder_->Save();
+#ifdef _DEBUG
+	ImGui();
+#endif // _DEBUG
+}
+
 void ScoreManager::AddScore(int add)
 {
 	currentScore_ += add;
@@ -20,19 +41,23 @@ void ScoreManager::ResetScore()
 void ScoreManager::DrawScore()
 {
 
-
-	ImGui();
 }
 
 void ScoreManager::ImGui()
 {
-#ifdef _DEBUG
 	ImGui::Begin("Score Info");
 
 	ImGui::DragInt("Current Score", &currentScore_);
 
+
+
 	ImGui::End();
+}
 
-#endif // _DEBUG
+void ScoreManager::InitJsonBinder()
+{
+	jsonBinder_ = std::make_unique<JsonBinder>("ScoreData", "Resources/Data/Score/");
 
+	jsonBinder_->RegisterVariable("CurrentScore", &currentScore_);
+	jsonBinder_->RegisterVariable("MaxScore", &saveMaxScore_);
 }

@@ -5,7 +5,7 @@
 #include <Rendering/Light/LightingSystem.h>
 #include <Rendering/LineDrawer/LineDrawer.h>
 #include "../System_TD/ScoreManager/ScoreManager.h"
-
+#include "../System_TD/ComboManager/ComboManager.h"
 
 #include <DirectXMath.h>
 
@@ -69,8 +69,8 @@ void GameScene::Update()
     area_->Update(player_.get());
 
 
-    ScoreManager::GetInstance()->DrawScore();
-
+    ScoreManager::GetInstance()->Update();
+	ComboManager::GetInstance()->Update();
 
     if (enableDebugCamera_)
     {
@@ -153,6 +153,10 @@ void GameScene::Load()
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     //Model::CreateFromObj("bunny.obj");
+
+    
+    ComboManager::GetInstance()->Initialize();
+	ScoreManager::GetInstance()->Initialize();
 
     Loading_ = false;
 

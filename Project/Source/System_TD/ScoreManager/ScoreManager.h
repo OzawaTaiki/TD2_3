@@ -1,14 +1,23 @@
 #pragma once
+#include <Systems/JsonBinder/JsonBinder.h>
 
-/// <summary>
-/// スコア
-/// </summary>
+
 class ScoreManager
 {
 
 
 public:
 	static ScoreManager* GetInstance();
+
+	/// <summary>
+	/// /初期化
+	/// </summary>
+	void Initialize();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	void Update();
 
 	/// <summary>
 	/// スコア加算
@@ -36,6 +45,11 @@ private:
 	/// </summary>
 	void ImGui();
 
+	/// <summary>
+	/// JsonBinderの初期化
+	/// </summary>
+	void InitJsonBinder();
+
 public:
 
 	/// <summary>
@@ -52,8 +66,10 @@ private:
 	ScoreManager(const ScoreManager&) = delete;
 	ScoreManager& operator=(const ScoreManager&) = delete;
 
+	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
+
 
 	int currentScore_ = 0;
-
+	int saveMaxScore_ = 0;
 };
 

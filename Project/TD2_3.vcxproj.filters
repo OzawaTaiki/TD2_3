@@ -113,9 +113,12 @@
     </ClCompile>
     <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp">
       <Filter>Source\System_TD\Score</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Scene\SceneTransition.cpp">
       <Filter>Source\Scene\Transitoin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\SceneTransition.h">
       <Filter>Source\Scene\Transitoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

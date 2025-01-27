@@ -58,7 +58,7 @@ void GameScene::Update()
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 #endif // _DEBUG
 
-    if(!player_->IsAlive())
+    if(player_->CanSwitchScene())
     {
         SceneManager::GetInstance()->ReserveScene("Result");
     }
@@ -68,7 +68,9 @@ void GameScene::Update()
     enemyManager_->Update();
     area_->Update(player_.get());
 
+
     ScoreManager::GetInstance()->DrawScore();
+
 
     if (enableDebugCamera_)
     {
@@ -78,7 +80,7 @@ void GameScene::Update()
     }
     else
     {
-        followCamera_.Update();
+        followCamera_.Update(!player_->IsAlive());
         SceneCamera_.matView_ = followCamera_.matView_;
         SceneCamera_.translate_ = followCamera_.translate_;
         SceneCamera_.rotate_ = followCamera_.rotate_;
@@ -147,7 +149,7 @@ void GameScene::Load()
     PLight.decay = 2.0f;
 
     lightGroup_.SetDirectionalLight(DLight);
-    lightGroup_.AddPointLight(PLight, "", player_->GetWorldPositionRef());
+    lightGroup_.AddPointLight(PLight, "Player", player_->GetWorldPositionRef());
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     //Model::CreateFromObj("bunny.obj");

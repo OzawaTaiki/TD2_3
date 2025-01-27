@@ -55,6 +55,9 @@
     <Filter Include="Source\System_TD\Score">
       <UniqueIdentifier>{7bac84c3-0420-4fb5-ae03-994ce02bb84f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene\Transitoin">
+      <UniqueIdentifier>{d2a5b9da-db49-44c0-8b6c-402afd609008}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp">
       <Filter>Source\System_TD\Score</Filter>
+  </ClCompile>
+    <ClCompile Include="Source\Scene\SceneTransition.cpp">
+      <Filter>Source\Scene\Transitoin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h">
       <Filter>Source\System_TD\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneTransition.h">
+      <Filter>Source\Scene\Transitoin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

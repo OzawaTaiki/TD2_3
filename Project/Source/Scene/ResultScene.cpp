@@ -24,12 +24,14 @@ void ResultScene::Initialize()
 	resultSprite_[0] = std::make_unique<Sprite>();
 	resultSprite_[0].reset(Sprite::Create(th[0]));
 	resultSprite_[0]->Initialize();
-	resultSprite_[0]->translate_ = {640,360};
+	resultSprite_[0]->translate_ = {640,320};
 
 	resultSprite_[1] = std::make_unique<Sprite>();
 	resultSprite_[1].reset(Sprite::Create(th[1]));
 	resultSprite_[1]->Initialize();
-	resultSprite_[1]->translate_ = { 640,360 };
+	resultSprite_[1]->translate_ = { -9,-9 };
+	resultSprite_[1]->scale_ = { 1.018f,1.03f };
+	resultSprite_[1]->SetAnchor({ 0.0f,0.0f });
 
 	resultSprite_[2] = std::make_unique<Sprite>();
 	resultSprite_[2].reset(Sprite::Create(th[2]));

@@ -59,6 +59,7 @@ void GameScene::Update()
 
     lightGroup_.DrawDebugWindow();
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
+    ImGui();
 #endif // _DEBUG
 
     if(player_->CanSwitchScene())
@@ -174,8 +175,10 @@ void GameScene::Load()
     backGrounds_[0] = std::make_unique<Sprite>();
 	backGrounds_[0].reset(Sprite::Create(bg[0]));
 	backGrounds_[0]->Initialize();
+	backGrounds_[0]->translate_ = { -9,-9 };
+	backGrounds_[0]->scale_ = { 1.018f,1.03f };
 	backGrounds_[0]->SetAnchor({ 0.0f,0.0f });
-
+    //backGrounds_[0]->SetSize({ 1280,720 });
     Loading_ = false;
 
 }
@@ -184,6 +187,9 @@ void GameScene::Load()
 #include <imgui.h>
 void GameScene::ImGui()
 {
-
+	ImGui::Begin("GameScene");
+    ImGui::DragFloat3("scale", &backGrounds_[0]->scale_.x);
+	ImGui::DragFloat3("translate", &backGrounds_[0]->translate_.x);
+	ImGui::End();
 }
 #endif // _DEBUG

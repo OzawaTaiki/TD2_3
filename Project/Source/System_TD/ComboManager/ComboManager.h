@@ -61,6 +61,11 @@ public:
     /// <returns></returns>
     int GetCurrentCombo() { return currentCombo_; }
 
+	/// <summary>
+	/// ゲーム中の最大コンボ数を取得
+	/// </summary>
+	/// <returns></returns>
+	int GetMaxCombo() { return maxCombo_; }
 
     /// <summary>
     /// Top3スコアを取得
@@ -96,6 +101,7 @@ private:
 
     int currentCombo_ = 0u;
 	int saveMaxCombo_ = 0u;
+    int maxCombo_ = 0; // ゲーム中の最大コンボ数
     std::vector<uint32_t> topCombos_ = { 0, 0, 0 };
 
     // 最後にコンボが加算された時間

@@ -9,16 +9,9 @@ ComboManager* ComboManager::GetInstance()
 
 void ComboManager::Initialize()
 {
-	//uint32_t th = TextureManager::GetInstance()->Load("");
-	//sprite_ = std::make_unique<Sprite>();
-	//sprite_->Create(th);
-	//sprite_->Initialize();
-
-	//sprite_->translate_ = { 0,0 };
-	//sprite_->SetColor({ 0,0,0,1 });
-
 	// Json初期化
 	currentCombo_ = 0;
+	maxCombo_ = 0;
 	InitJsonBinder();
 
 
@@ -42,7 +35,7 @@ void ComboManager::Draw()
 
 void ComboManager::EndGame()
 {
-	saveMaxCombo_ = currentCombo_;
+	saveMaxCombo_ = maxCombo_;
 
 	UpdateTopCombos();
 
@@ -84,6 +77,11 @@ void ComboManager::AddCombo(int count)
 {
 	currentCombo_ += count;
 	lastComboTime_ = std::chrono::steady_clock::now();
+
+	// 最大コンボ数を更新
+	if (currentCombo_ > maxCombo_) {
+		maxCombo_ = currentCombo_;
+	}
 }
 
 void ComboManager::ImGui()
@@ -91,6 +89,7 @@ void ComboManager::ImGui()
 	ImGui::Begin("ComboManager");
 
 	ImGui::DragInt("Current Combo", &currentCombo_);
+	ImGui::DragInt("Max Combo (Current Session)", &maxCombo_);
 	ImGui::DragInt("Max Combo", &saveMaxCombo_);
 
 

@@ -40,22 +40,45 @@ void ResultScene::Initialize()
 	resultSprite_[2]->SetAnchor({ 0.5f,0.5f });
 	resultSprite_[2]->translate_ = { 640,360 };
 	
+	/*===============================================================//
+			 　　				外部のスプライト
+	//===============================================================*/
+
+	uint32_t scoreTh = TextureManager::GetInstance()->Load("number.png", defaulFilPath);
+	score_ = ScoreManager::GetInstance()->GetCurrentScore();
+	Vector2 numberSize = { 100.0f, 200.0f };
+	for (int i = 0; i < 10; ++i) {
+		scoreSprites_[i] = std::make_unique<Sprite>();
+		scoreSprites_[i].reset(Sprite::Create(scoreTh));
+		scoreSprites_[i]->Initialize();
+		scoreSprites_[i]->translate_ = {  };
+		scoreSprites_[i]->scale_ = { 0.07f, 0.5f }; 
+		scoreSprites_[i]->uvScale_ = { 0.1f,1.0f };
+		scoreSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
+	}
 
 }
 
 void ResultScene::Update()
 {
-    if (Input::GetInstance()->IsKeyTriggered(DIK_TAB) || 
-        Input::GetInstance()->IsPadTriggered(PadButton::iPad_A))
-    {
-        SceneManager::GetInstance()->ReserveScene("Title");
-    }
+#ifdef _DEBUG
+
+
+	if (Input::GetInstance()->IsKeyTriggered(DIK_TAB) ||
+		Input::GetInstance()->IsPadTriggered(PadButton::iPad_A))
+	{
+		SceneManager::GetInstance()->ReserveScene("Title");
+	}
+#endif // _DEBUG
+
 
 	ScoreManager::GetInstance()->Update();
 	ComboManager::GetInstance()->Update();
 	CountManager::GetInstance()->ImGui();
 
-	
+	for (int i = 0; i < 10; ++i) {
+		scoreSprites_[i]->Update();
+	}
 }
 
 void ResultScene::Draw()
@@ -65,9 +88,36 @@ void ResultScene::Draw()
 	{
 		resultSprite_[i]->Draw();
 	}
+
+	DrawScore();
+
+
 }
-#ifdef _DEBUG
+
+void ResultScene::DrawScore()
+{
+	std::string scoreStr = std::to_string(score_); // スコアを文字列に変換
+	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
+	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
+	float y = 270.0f; // スコアの描画位置（固定）
+
+	// スコアの桁数に応じてスプライトを更新
+	for (size_t i = 0; i < scoreStr.size(); ++i) {
+		int digit = scoreStr[i] - '0'; // 数字に変換
+		if (digit < 0 || digit > 9) continue;
+
+		auto& sprite = scoreSprites_[i]; // 既存スプライトを使い回す
+		sprite->uvTranslate_ = { digit * 0.1f, 0.0f };
+		sprite->translate_ = { x, y };
+
+		// 描画
+		Sprite::PreDraw();
+		sprite->Draw();
+
+		x += digitWidth; // 次の桁の位置に移動
+	}
+}
 void ResultScene::ImGui()
 {
 }
-#endif // DEBUG
+

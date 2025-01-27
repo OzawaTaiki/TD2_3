@@ -1,6 +1,11 @@
 {
     "ComboData": {
-        "CurrentCombo": 0,
-        "MaxCombo": 0
+        "CurrentCombo": 22,
+        "MaxCombo": 6,
+        "Top3_Scores": [
+            6,
+            3,
+            0
+        ]
     }
 }

@@ -28,6 +28,7 @@ void ResultScene::Update()
     }
 
 	ScoreManager::GetInstance()->Update();
+	ComboManager::GetInstance()->Update();
     //ScoreManager::GetInstance()->UpdateTopScores();
 }
 

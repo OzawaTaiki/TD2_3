@@ -61,6 +61,7 @@ void GameScene::Update()
     if(player_->CanSwitchScene())
     {
 		ScoreManager::GetInstance()->EndGame();
+		ComboManager::GetInstance()->EndGame();
         SceneManager::GetInstance()->ReserveScene("Result");
     }
 

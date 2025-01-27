@@ -72,7 +72,6 @@ void ScoreManager::InitJsonBinder()
 {
 	jsonBinder_ = std::make_unique<JsonBinder>("ScoreData", "Resources/Data/Score/");
 
-	//jsonBinder_->RegisterVariable("CurrentScore", &currentScore_);
 	jsonBinder_->RegisterVariable("MaxScore", &saveMaxScore_);
 	jsonBinder_->RegisterVariable("Top3_Scores", &topScores_);
 }

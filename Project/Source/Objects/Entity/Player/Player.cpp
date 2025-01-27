@@ -60,9 +60,10 @@ void Player::Initialize(Camera* camera)
 	spriteHP_[1] = std::make_unique<Sprite>();
 	spriteHP_[1].reset(Sprite::Create(th[1]));
 	spriteHP_[1]->Initialize();
-	spriteHP_[1]->SetAnchor({ 0.5f,0.5f });
+	spriteHP_[1]->SetAnchor({ 0.0f,0.5f });
 	spriteHP_[1]->SetSize({ 200,100 });
 	spriteHP_[1]->translate_ = { 933, 671 };
+	//spriteHP_[1]->SetUVSize({ 0.1f,1.0f });
 
 	/*===============================================================//
 						 　　  コライダー設定
@@ -113,7 +114,7 @@ void Player::Update()
 	}
 
 	oModel_->Update();
-
+	spriteHP_[1]->Update();
 
 #ifdef _DEBUG
 	ImGui();
@@ -174,10 +175,25 @@ void Player::OnCollision(const Collider* other)
 void Player::DrawSprite()
 {
 	Sprite::PreDraw();
-	for (int i = 0; i < ch_; ++i)
-	{
-		spriteHP_[i]->Draw();
-	}
+
+	// 土台の描画
+	spriteHP_[0]->Draw();
+
+	// HP割合を計算
+	float hpRatio = std::clamp(hp_ / maxHp_, 0.0f, 1.0f); // HP割合 (0.0 ~ 1.0)
+	float originalWidth = 200.0f;  // 元のスプライト幅
+	float originalHeight = 100.0f; // 元のスプライト高さ
+
+	// HPバー（赤）のサイズを計算
+	float newWidth = originalWidth * hpRatio; // 横幅をHPに合わせる
+	float offsetX = (originalWidth - newWidth) * 0.5f; // 縮小した分だけ右に寄せる
+
+	// スプライトの位置とサイズを調整
+	spriteHP_[1]->SetSize({ newWidth, originalHeight });
+	spriteHP_[1]->translate_ = { spriteHP_[0]->translate_.x - offsetX, spriteHP_[0]->translate_.y };
+
+	// HPバー（赤）の描画
+	spriteHP_[1]->Draw();
 }
 
 void Player::Move()

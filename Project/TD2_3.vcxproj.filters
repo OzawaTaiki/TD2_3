@@ -49,6 +49,12 @@
     <Filter Include="Source\Objects\Area">
       <UniqueIdentifier>{e00173b7-de6a-41a0-86bd-4a5b79404c5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System_TD\Loader">
+      <UniqueIdentifier>{3f038500-09b8-4ff1-bfc0-83bd48597dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD\Score">
+      <UniqueIdentifier>{7bac84c3-0420-4fb5-ae03-994ce02bb84f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Scene\Transitoin">
       <UniqueIdentifier>{d2a5b9da-db49-44c0-8b6c-402afd609008}</UniqueIdentifier>
     </Filter>
@@ -99,12 +105,15 @@
     <ClCompile Include="Source\System_TD\Math\TD_Math.cpp">
       <Filter>Source\System_TD\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Objects\Area\Area.cpp">
       <Filter>Source\Objects\Area</Filter>
     </ClCompile>
+    <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp">
+      <Filter>Source\System_TD\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp">
+      <Filter>Source\System_TD\Score</Filter>
+  </ClCompile>
     <ClCompile Include="Source\Scene\SceneTransition.cpp">
       <Filter>Source\Scene\Transitoin</Filter>
     </ClCompile>
@@ -152,11 +161,14 @@
     <ClInclude Include="Source\System_TD\Math\TD_Math.h">
       <Filter>Source\System_TD\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Objects\Area\Area.h">
       <Filter>Source\Objects\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h">
+      <Filter>Source\System_TD\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h">
+      <Filter>Source\System_TD\Score</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\SceneTransition.h">
       <Filter>Source\Scene\Transitoin</Filter>

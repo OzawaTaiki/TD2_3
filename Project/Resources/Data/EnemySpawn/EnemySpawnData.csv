@@ -19,6 +19,8 @@ Goal,15,0,15
 Point,5,0,5
 Dir,1,0,0
 Offset,2
+
+
 Wait,120
 
 Wave,2 // wave開始

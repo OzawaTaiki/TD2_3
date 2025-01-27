@@ -3,6 +3,7 @@
 #include "../BaseEntity.h"
 #include <Physics/Collision/Collider.h>
 
+
 class Player;
 class Enemy : public BaseEntity
 {
@@ -101,9 +102,11 @@ public:
 	void SetSpeed(const float& speed) { speed_ = speed; }
 	void SetGoal(const Vector3& goal) { goal_ = goal; }
 	void SetIsAlive(bool alive) { isAlive_ = alive; }
+	void SetIsDraw(bool draw) { isDraw_ = draw; }
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 
 	bool& GetIsAlive() { return isAlive_; }
+	bool& GetIsAddScore() { return isAddScore_; }
 	bool& GetMarkForRemoval() { return markForRemoval_; }
 	
     Collider* getcoll() { return collider_.get(); }
@@ -130,8 +133,11 @@ private:
 	Vector3 velocity_;
 	float speed_;
 	Vector3 goal_;
+	bool isDraw_ = true;
 	bool isAlive_ = true;
+	bool isAddScore_ = false;
 
+	// 時間でNone状態に変更
 	float typeChangeCount_ = 0.0f;
 	const float typeChangeTime_ = 4.0f;
 };

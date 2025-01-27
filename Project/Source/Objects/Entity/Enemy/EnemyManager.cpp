@@ -35,6 +35,7 @@ void EnemyManager::Update()
 
     /// デスフラグの立った敵を削除
     RemoveDeadEnemies();
+    AttractEnemy(attractRadius_);
 
     /// 敵の更新
     for (auto& enemy : enemies_) {
@@ -44,7 +45,7 @@ void EnemyManager::Update()
         enemy->ChangeType(deltaTime);
     }
 
-    AttractEnemy(attractRadius_);
+   
 
  
 #ifdef _DEBUG
@@ -198,8 +199,12 @@ void EnemyManager::AttractEnemy(float range)
 
                 // 一定距離以下なら両者消滅
                 if (distanceSquared <= std::powf(threshold_, 2)) {
-                    enemy1->GetIsAlive() = false;
-                    enemy2->GetIsAlive() = false;
+                    enemy1->SetIsAlive(false);
+                    enemy2->SetIsAlive(false);
+
+                    enemy1->SetIsDraw(false);
+                    enemy2->SetIsDraw(false);
+
                 }
 
                 // ------------------------------
@@ -275,8 +280,10 @@ void EnemyManager::AttractEnemy(float range)
                         {
                             if (size.x <= kSizeThreshold)
                             {
-                                if (CollisionManager::GetInstance()->IsCollision(obb, enemy->getcoll()->GetShape<OBB>()))
-                                    enemy->GetIsAlive() = false;
+                                if (CollisionManager::GetInstance()->IsCollision(obb, enemy->getcoll()->GetShape<OBB>())) {
+                                    enemy->SetIsAlive(false);
+									enemy->SetIsDraw(false);
+                                }
                             }
                             // サイズがまだ大きいとき
                             else

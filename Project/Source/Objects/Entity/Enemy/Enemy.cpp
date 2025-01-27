@@ -26,18 +26,22 @@ void Enemy::Initialize(Camera* camera)
 	// 敵オブジェクトをコライダーの所有者として設定
 	collider_->SetOwner(this);
 
-    markForRemoval_ = false;
+	markForRemoval_ = false;
 	isAddScore_ = false;
 }
 
 void Enemy::Update()
 {
+	//isAddScore_ = false;
 
-	if (!isAlive_) return;
+	// 敵が生存していない場合は処理を終了
 
-	if (isAddScore_) {
+	// スコアをまだ加算していない場合のみ加算
+
+	if (!isAlive_) {
 		ScoreManager::GetInstance()->AddScore(100);
 	}
+
 
 
 	ImGui();
@@ -64,15 +68,18 @@ void Enemy::Draw(const Vector4& color)
 		typeColor = Vector4(0.0f, 0.0f, 0.0f, 1.0f); // 黒
 	}
 
-	collider_->Draw();
-	oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
+
+	if (isDraw_) {
+		collider_->Draw();
+		oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
+	}
 
 }
 
 void Enemy::ChangeType(float deltaTime)
 {
 	if (currentType_ != BulletType::None) {
-		typeChangeCount_+= deltaTime;
+		typeChangeCount_ += deltaTime;
 		if (typeChangeCount_ >= typeChangeTime_) {
 			SetCurrentType(BulletType::None);  // None状態に変更
 			typeChangeCount_ = 0.0f;   // タイマーをリセット
@@ -91,11 +98,11 @@ void Enemy::Move(float& deltaTime)
 	// ゴールまでの位置ベクトルを求める
 	// ベクトルの長さを求める
 	// 正規化
-	if (moveType_ == MoveType::Direct) {	
+	if (moveType_ == MoveType::Direct) {
 		Vector3 direction = goal_ - oModel_->translate_;
 		float distance = direction.Length();
 		if (distance > 0.0f) {
-			direction /= distance; 
+			direction /= distance;
 			oModel_->translate_ += direction * speed_ * deltaTime;
 		}
 	}
@@ -108,7 +115,8 @@ void Enemy::Move(float& deltaTime)
 
 	// 目的地に到達したら生存フラグを下げる
 	if ((oModel_->translate_ - goal_).Length() < 0.1f) {
-		isAlive_ = false;
+		//isAlive_ = false;
+		isDraw_ = false;
 	}
 
 }
@@ -120,14 +128,13 @@ void Enemy::OnCollision(const Collider* other)
 	if (other->GetName() == "Player") {
 
 	}
-	else if (other->GetName() == "SouthBullet"){
-		
-		
-	
+	else if (other->GetName() == "SouthBullet") {
+
+
 	}
 	else if (other->GetName() == "NorthBullet") {
 
-		
+
 	}
 }
 
@@ -135,8 +142,9 @@ void Enemy::ImGui()
 {
 #ifdef _DEBUG
 	ImGui::Begin("Enemy Para");
-	
 
+	ImGui::Checkbox("AddScore", &isAddScore_);
+	ImGui::Checkbox("Alive", &isAlive_);
 
 	ImGui::End();
 

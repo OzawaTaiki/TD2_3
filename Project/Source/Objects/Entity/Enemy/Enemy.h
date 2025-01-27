@@ -102,6 +102,7 @@ public:
 	void SetSpeed(const float& speed) { speed_ = speed; }
 	void SetGoal(const Vector3& goal) { goal_ = goal; }
 	void SetIsAlive(bool alive) { isAlive_ = alive; }
+	void SetIsDraw(bool draw) { isDraw_ = draw; }
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 
 	bool& GetIsAlive() { return isAlive_; }
@@ -132,8 +133,8 @@ private:
 	Vector3 velocity_;
 	float speed_;
 	Vector3 goal_;
+	bool isDraw_ = true;
 	bool isAlive_ = true;
-
 	bool isAddScore_ = false;
 
 	// 時間でNone状態に変更

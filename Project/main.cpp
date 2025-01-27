@@ -21,6 +21,7 @@
 #include "Source/Scene/GameScene.h"
 #include "Source/Scene/ResultScene.h"
 #include "Source/Scene/LoadScene.h"
+#include "Source/Scene/SceneTransition.h"
 /*---------------*/
 
 
@@ -67,6 +68,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager::RegisterScene("Game", GameScene::Create);
 	SceneManager::RegisterScene("Result", ResultScene::Create);
     //SceneManager::RegisterScene("Load", LoadScene::Create);
+	SceneManager::GetInstance()->SetTransition(std::make_unique<SceneTransition>());
 
 
 	SceneManager::GetInstance()->Initialize("Title");

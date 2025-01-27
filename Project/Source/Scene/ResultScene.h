@@ -50,7 +50,7 @@ private:
 	int combo_ = 0;
 	int count_ = 0;
 
-   
+    //uint32_t scoreTh;
     std::array<std::unique_ptr<Sprite>, 10> scoreSprites_;
 	std::array<std::unique_ptr<Sprite>, 10> comboSprites_;
 	std::array<std::unique_ptr<Sprite>, 10> countSprites_;

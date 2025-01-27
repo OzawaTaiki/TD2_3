@@ -1,8 +1,9 @@
-#pragma once
-#include <Framework/eScene/BaseScene.h>
-#include <memory>
 
-class ResultScene: public BaseScene
+#include <Rendering/Sprite/Sprite.h>
+#include <memory>
+#include <Framework/eScene/BaseScene.h>
+
+class ResultScene : public BaseScene
 {
 public:
 
@@ -19,4 +20,13 @@ private:
 #ifdef _DEBUG
     void ImGui();
 #endif // _DEBUG
+
+
+private:
+    /*===============================================================//
+                     　　 ポインタなど
+    //===============================================================*/
+    static const int ms_ = 3; 
+    std::unique_ptr<Sprite> resultSprite_[ms_];
+
 };

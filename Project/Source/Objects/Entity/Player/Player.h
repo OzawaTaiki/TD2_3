@@ -1,6 +1,7 @@
 #pragma once
 #include <Rendering/Model/ObjectModel.h>
 #include <Rendering/Model/AnimationModel.h>
+#include <Rendering/Sprite/Sprite.h>
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
@@ -41,7 +42,10 @@ public:
 	/// </summary>
 	void OnCollision(const Collider* other);
 
-
+	/// <summary>
+	/// スプライト描画
+	/// </summary>
+	void DrawSprite();
 private:
 
 	/// <summary>
@@ -175,6 +179,9 @@ private:
 
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
+
+	static const int ch_ = 2;
+	std::unique_ptr<Sprite> spriteHP_[ch_];
 
 
 	/*===============================================================//

@@ -118,6 +118,7 @@ void GameScene::Draw()
 	{
 		backGrounds_[i]->Draw();
 	}
+	player_->DrawSprite();
 }
 
 void GameScene::Load()

@@ -12,8 +12,9 @@
 #include <Physics/Math/Easing.h>
 #include <Physics/Math/MyLib.h>
 #include <Source/System_TD/ComboManager/ComboManager.h>
+#include <ResourceManagement/TextureManager/TextureManager.h>
 
-
+const std::string defaulFilPath = "Resources./Textures./";
 using namespace DirectX;
 Player::~Player()
 {
@@ -41,6 +42,27 @@ void Player::Initialize(Camera* camera)
 
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
+
+	/*===============================================================//
+					 　　		スプライト
+	//===============================================================*/
+	uint32_t th[ch_] = { TextureManager::GetInstance()->Load("hpBar.png",defaulFilPath),
+						 TextureManager::GetInstance()->Load("hp.png",defaulFilPath) };
+	
+	spriteHP_[0] = std::make_unique<Sprite>();
+	spriteHP_[0].reset(Sprite::Create(th[0]));
+	spriteHP_[0]->Initialize();
+	spriteHP_[0]->SetAnchor({ 0.5f,0.5f });	
+	spriteHP_[0]->SetSize({ 200,100 });
+	spriteHP_[0]->translate_ = { 933, 671 };
+
+
+	spriteHP_[1] = std::make_unique<Sprite>();
+	spriteHP_[1].reset(Sprite::Create(th[1]));
+	spriteHP_[1]->Initialize();
+	spriteHP_[1]->SetAnchor({ 0.5f,0.5f });
+	spriteHP_[1]->SetSize({ 200,100 });
+	spriteHP_[1]->translate_ = { 933, 671 };
 
 	/*===============================================================//
 						 　　  コライダー設定
@@ -114,6 +136,8 @@ void Player::Draw(const Vector4& color)
 	for (SouthPoleBullet* bullet : bulletsSouth_) {
 		bullet->Draw(*camera_, Vector4{0.0f,0.0f,255.0f,1.0f});
 	}
+
+
 }
 
 void Player::OnCollision(const Collider* other)
@@ -144,6 +168,15 @@ void Player::OnCollision(const Collider* other)
 			oModel_->translate_ = prePosition_;
 		}
 
+	}
+}
+
+void Player::DrawSprite()
+{
+	Sprite::PreDraw();
+	for (int i = 0; i < ch_; ++i)
+	{
+		spriteHP_[i]->Draw();
 	}
 }
 
@@ -373,6 +406,13 @@ void Player::ImGui()
 			hp_ = maxHp_;
 		}
 	}
+
+	// スプライトの位置を操作するためのImGuiウィジェット
+	for (int i = 0; i < ch_; ++i)
+	{
+		ImGui::DragFloat2(("Sprite HP Position " + std::to_string(i)).c_str(), &spriteHP_[i]->translate_.x, 1.0f);
+	}
+
 
 	// 弾関連
 	ImGui::Text("Bullet Info");

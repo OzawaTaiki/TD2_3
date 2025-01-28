@@ -1,0 +1,21 @@
+{
+    "MoveGuide": {
+        "MoveGuide_anchor": {
+            "x": 0.0,
+            "y": 1.0
+        },
+        "MoveGuide_directoryPath": "Resources/Textures/",
+        "MoveGuide_isActive": 257,
+        "MoveGuide_isVisible": 83886081,
+        "MoveGuide_label": "MoveGuide",
+        "MoveGuide_pos": {
+            "x": 16.0,
+            "y": 704.0
+        },
+        "MoveGuide_size": {
+            "x": 300.0,
+            "y": 200.0
+        },
+        "MoveGuide_textureName": "move.png"
+    }
+}

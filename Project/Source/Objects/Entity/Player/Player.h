@@ -174,6 +174,8 @@ public:
     /// <returns></returns>
     Vector3* GetWorldPositionRef();
 
+
+
 private:
 	/*===============================================================//
 							 　　ポインタなど
@@ -221,7 +223,6 @@ private:
 	// 発射クールダウンタイマー
 	float northBulletCoolTimer_ = 0.0f;
 	float southBulletCoolTimer_ = 0.0f;
-
 
 
     /*===============================================================//

@@ -14,6 +14,15 @@
 #include <Source/Objects/Area/Area.h>
 #include <thread>
 
+
+struct BonusScore {
+    Sprite* sprite; // スプライト
+    Vector2 position; // 現在位置
+    float lifetime; // 表示時間
+    bool active; // 表示中かどうか
+};
+
+
 class GameScene : public BaseScene
 {
 public:
@@ -28,28 +37,42 @@ public:
 
 private:
     void Load();
+    void DrawScore();
+    void DrawCombo();
 
+    /*===============================================================//
+                     　　      ポインタなど
+    //===============================================================*/
     std::atomic<bool> Loading_ = true;
     std::unique_ptr<std::thread> loadThread_;
-
     Camera SceneCamera_ = {};
     DebugCamera debugCamera_ = {};
     FollowCamera followCamera_ = {};
     CollisionManager* collisionManager_ = nullptr;
     bool enableDebugCamera_ = false;
-
-    std::unique_ptr<Player> player_ = nullptr;
-    std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
-
-	static const int bg_ = 2;
-    std::unique_ptr<Sprite> backGrounds_[bg_];
-
-
     LightGroup lightGroup_ = {};
-
     LoadScene* loadScene_ = nullptr;
 
     Area* area_ = nullptr;
+    std::unique_ptr<Player> player_ = nullptr;
+    std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
+
+
+
+    /*===============================================================//
+                     　　         スプライト
+    //===============================================================*/
+    static const int bg_ = 2;
+    std::unique_ptr<Sprite> backGrounds_[bg_];
+
+    int scoreCount_ = 0;
+    int comboCount_ = 0;
+
+    std::array<std::unique_ptr<Sprite>, 11> comboSprites_;
+    std::array<std::unique_ptr<Sprite>, 10> scoreSprites_;
+
+    std::vector<BonusScore> bonusScores_; // 「+100」の管理リスト
+    const float bonusLifetime_ = 1.0f;    // 「+100」の表示時間
 
 #ifdef _DEBUG
     void ImGui();

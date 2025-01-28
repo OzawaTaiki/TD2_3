@@ -44,7 +44,9 @@ void Enemy::Update()
 
 	ImGui();
 	oModel_->Update();
-	collider_->RegsterCollider();
+	if (isAlive_) {
+		collider_->RegsterCollider();
+	}
 }
 
 void Enemy::Draw(const Vector4& color)

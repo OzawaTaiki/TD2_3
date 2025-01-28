@@ -54,7 +54,7 @@ void Player::Initialize(Camera* camera)
 	spriteHP_[0]->Initialize();
 	spriteHP_[0]->SetAnchor({ 0.5f,0.5f });
 	spriteHP_[0]->SetSize({ 200,100 });
-	spriteHP_[0]->translate_ = { 933, 671 };
+	spriteHP_[0]->translate_ = { 933, 651 };
 
 
 	spriteHP_[1] = std::make_unique<Sprite>();
@@ -62,7 +62,7 @@ void Player::Initialize(Camera* camera)
 	spriteHP_[1]->Initialize();
 	spriteHP_[1]->SetAnchor({ 1.0f,0.0f });
 	spriteHP_[1]->SetSize({ 200,100 });
-	spriteHP_[1]->translate_ = { 1033, 621 };
+	spriteHP_[1]->translate_ = { 1033, 601 };
 	
 
 	/*===============================================================//
@@ -88,6 +88,7 @@ void Player::Update()
 {
 	if (isAlive_)
 	{
+
 		collider_->RegsterCollider();
 
 		Move();
@@ -116,7 +117,6 @@ void Player::Update()
 	}
 
 	oModel_->Update();
-	spriteHP_[1]->Update();
 
 #ifdef _DEBUG
 	ImGui();
@@ -151,7 +151,6 @@ void Player::OnCollision(const Collider* other)
 	}
 
 	if (other->GetName() == "Enemy") {
-
 		hp_-= takeDamage_;
 		if (hp_ <= 0) {
 			isAlive_ = false;
@@ -170,6 +169,7 @@ void Player::OnCollision(const Collider* other)
 		if (isKnockbackActive_) {
 			oModel_->translate_ = prePosition_;
 		}
+
 
 	}
 }
@@ -420,9 +420,6 @@ void Player::ImGui()
 			hp_ = maxHp_;
 		}
 	}
-
-	spriteHP_[1]->Update();
-
 
 	// 弾関連
 	ImGui::Text("Bullet Info");

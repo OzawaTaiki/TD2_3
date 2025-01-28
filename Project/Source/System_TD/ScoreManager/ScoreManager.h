@@ -22,15 +22,11 @@ public:
 	/// </summary>
 	void Update();
 
-	///// <summary>
-	///// ゲームシーン用描画
-	///// </summary>
-	//void GameDraw();
+	/// <summary>
+	/// ゲームシーン用描画
+	/// </summary>
+	void GameUpdate();
 
-	///// <summary>
-	///// リザルトシーン用描画
-	///// </summary>
-	//void ResultDraw();
 
 public:
 	/// <summary>

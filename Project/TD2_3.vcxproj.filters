@@ -113,9 +113,12 @@
     </ClCompile>
     <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp">
       <Filter>Source\System_TD\Score</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\Scene\SceneTransition.cpp">
       <Filter>Source\Scene\Transitoin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +152,6 @@
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h">
       <Filter>Source\Objects\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
-      <Filter>Source\Objects\Entity\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h">
       <Filter>Source\System_TD\TypeManager</Filter>
     </ClInclude>
@@ -172,6 +172,15 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\SceneTransition.h">
       <Filter>Source\Scene\Transitoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Player\TitlePlayer.h">
+      <Filter>Source\Objects\Entity\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Enemy\TitleEnemy.h">
+      <Filter>Source\Objects\Entity\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

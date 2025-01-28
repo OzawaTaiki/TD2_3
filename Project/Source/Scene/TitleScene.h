@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <Rendering/LineDrawer/LineDrawer.h>
+#include "Source/Objects/Entity/Enemy/TitleEnemy.h"
 
 class TitleScene : public BaseScene
 {
@@ -17,11 +18,15 @@ public:
     void Draw() override;
 
 private:
-    
+
     Camera SceneCamera_ = {};
     LineDrawer* lineDrawer_ = nullptr;
 
+    std::array<std::unique_ptr<TitleEnemy>, 20> enemies_ = {};
+
 #ifdef _DEBUG
+
+    bool enemyMove_ = false;
     void ImGui();
 #endif // _DEBUG
 };

@@ -4,6 +4,7 @@
 
 #include <Rendering/LineDrawer/LineDrawer.h>
 #include "Source/Objects/Entity/Enemy/TitleEnemy.h"
+#include "Source/TitleUI/TItleUI.h"
 
 class TitleScene : public BaseScene
 {
@@ -23,6 +24,8 @@ private:
     LineDrawer* lineDrawer_ = nullptr;
 
     std::array<std::unique_ptr<TitleEnemy>, 20> enemies_ = {};
+
+    std::unique_ptr<TItleUI> titleUI_ = nullptr;
 
 #ifdef _DEBUG
 

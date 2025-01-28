@@ -33,6 +33,9 @@ void TitleScene::Initialize()
         enemies_[i]->SetMoveSpeed(-0.1f);
     };
 
+    titleUI_ = std::make_unique<TItleUI>();
+    titleUI_->Initialize();
+
 
 }
 
@@ -58,6 +61,7 @@ void TitleScene::Update()
         enemies_[i]->Update();
     }
 
+    titleUI_->Update();
 
     SceneCamera_.Update();
     SceneCamera_.UpdateMatrix();
@@ -69,6 +73,9 @@ void TitleScene::Draw()
     {
         enemies_[i]->Draw({ 1,1,1,1 });
     }
+
+    Sprite::PreDraw();
+    titleUI_->Draw();
 
     lineDrawer_->Draw();
 }

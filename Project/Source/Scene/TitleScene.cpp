@@ -45,6 +45,15 @@ void TitleScene::Initialize()
 
     titleUI_ = std::make_unique<TItleUI>();
     titleUI_->Initialize();
+
+    DirectionalLight DLight{};
+    DLight.direction = Vector3(-0.909f, -0.417f, 0.0f).Normalize();
+    DLight.intensity = 1.0f;
+
+    lg.Initialize();
+    lg.SetDirectionalLight(DLight);
+
+    LightingSystem::GetInstance()->SetLightGroup(&lg);
 }
 
 void TitleScene::Update()

@@ -47,8 +47,8 @@ void ResultScene::Initialize()
 	resultSprite_[3].reset(Sprite::Create(th[3]));
 	resultSprite_[3]->Initialize();
 	resultSprite_[3]->SetAnchor({ 0.5f,0.5f });
-	resultSprite_[3]->translate_ = { 150,600 };
-	resultSprite_[3]->rotate_ = 44.5f;
+	resultSprite_[3]->translate_ = { 180,550 };
+	resultSprite_[3]->rotate_ = 44.3f;
 	
 	/*===============================================================//
 			 　　				スコア
@@ -96,6 +96,14 @@ void ResultScene::Initialize()
 		countSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
 	}
 
+	/*===============================================================//
+ 　　							UI
+	//===============================================================*/
+	uiTitle_.Initialize("ToTitle");
+	uiA_.Initialize("AButton");
+
+	UI_TX[0] = { TextureManager::GetInstance()->Load("resultTitle.png", defaulFilPath) };
+	UI_TX[1] = { TextureManager::GetInstance()->Load("resultRetry.png", defaulFilPath) };
 }
 
 void ResultScene::Update()
@@ -120,6 +128,28 @@ void ResultScene::Update()
 	ComboManager::GetInstance()->Update();
 	CountManager::GetInstance()->ImGui();
 
+	uiTitle_.Update();
+	uiA_.Update();
+
+
+	if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_Down) ||
+		Input::GetInstance()->IsPadTriggered(PadButton::iPad_Up)) {
+		isRetry_ = !isRetry_;
+	}
+
+
+	if (!isRetry_) {
+		uiTitle_.SetTextureHandle(UI_TX[1]);
+		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			SceneManager::GetInstance()->ReserveScene("Game");
+		}
+	}
+	else {
+		uiTitle_.SetTextureHandle(UI_TX[0]);
+		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			SceneManager::GetInstance()->ReserveScene("Title");
+		}
+	}
 }
 
 void ResultScene::Draw()
@@ -134,6 +164,9 @@ void ResultScene::Draw()
 	DrawCombo();
 	DrawCountEnemy();
 
+	uiTitle_.Draw();
+
+	uiA_.Draw();
 }
 
 void ResultScene::DrawScore()

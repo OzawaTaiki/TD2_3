@@ -28,6 +28,7 @@ void ResultScene::Initialize()
 	resultSprite_[0]->SetAnchor({ 0.0f,0.0f });
 	//resultSprite_[0]->translate_ = {640,320};
 	resultSprite_[0]->SetSize({ 1280,720 });
+	resultSprite_[0]->SetColor({0.25,0.25,0.25,1.0});
 
 	resultSprite_[1] = std::make_unique<Sprite>();
 	resultSprite_[1].reset(Sprite::Create(th[1]));

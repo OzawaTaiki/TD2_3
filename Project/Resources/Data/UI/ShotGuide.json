@@ -1,0 +1,21 @@
+{
+  "ShotGuide": {
+    "ShotGuide_anchor": {
+      "x": 1.0,
+      "y": 1.0
+    },
+    "ShotGuide_isActive": 257,
+    "ShotGuide_isVisible": 100663297,
+    "ShotGuide_label": "ShotGuide",
+    "ShotGuide_pos": {
+      "x": 1264.0,
+      "y": 704.0
+    },
+    "ShotGuide_size": {
+      "x": 256.0,
+      "y": 256.0
+    },
+    "MoveGuide_directoryPath": "Resources/Textures",
+    "ShotGuide_textureName": "shot.png"
+  }
+}

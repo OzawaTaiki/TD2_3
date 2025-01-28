@@ -58,6 +58,9 @@
     <Filter Include="Source\Scene\Transitoin">
       <UniqueIdentifier>{d2a5b9da-db49-44c0-8b6c-402afd609008}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\TitleUI">
+      <UniqueIdentifier>{386f5e8c-a2da-4920-bd6c-7ab5191c97b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,9 +102,6 @@
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp">
       <Filter>Source\System_TD\TypeManager</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene\LoadScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\System_TD\Math\TD_Math.cpp">
       <Filter>Source\System_TD\Math</Filter>
     </ClCompile>
@@ -124,7 +124,13 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\LoadScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TitleUI\TItleUI.cpp">
+      <Filter>Source\TitleUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +167,6 @@
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h">
       <Filter>Source\System_TD\TypeManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene\LoadScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\System_TD\Math\TD_Math.h">
       <Filter>Source\System_TD\Math</Filter>
     </ClInclude>
@@ -193,6 +196,12 @@
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Enemy\TitleEnemy.h">
       <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\LoadScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TitleUI\TItleUI.h">
+      <Filter>Source\TitleUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

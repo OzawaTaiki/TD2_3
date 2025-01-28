@@ -64,6 +64,11 @@ private:
 	void Fire();
 
 	/// <summary>
+	/// HPの処理
+	/// </summary>
+	void UpdateHP();
+
+	/// <summary>
 	/// ノックバックの計算処理
 	/// </summary>
 	void Knockback();
@@ -223,7 +228,9 @@ private:
 								HPなど
     //===============================================================*/
     float maxHp_ = 10.0f;
-    float hp_ = 10.0f;
+    float hp_ = 100.0f;
+	// プレイヤーが受けるダメージ
+	float takeDamage_ = 10.0f;
     bool isAlive_ = true;
 
 

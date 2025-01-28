@@ -98,6 +98,8 @@ void Player::Update()
 
 		Fire();
 
+		UpdateHP();
+
 		CameraShake();
 
 		UpdateBullet();
@@ -150,7 +152,7 @@ void Player::OnCollision(const Collider* other)
 
 	if (other->GetName() == "Enemy") {
 
-		hp_--;
+		hp_-= takeDamage_;
 		if (hp_ <= 0) {
 			isAlive_ = false;
 			BeginDeathEffect();
@@ -176,24 +178,10 @@ void Player::DrawSprite()
 {
 	Sprite::PreDraw();
 
-	// 土台の描画
-	spriteHP_[0]->Draw();
-
-	//// HP割合を計算
-	//float hpRatio = std::clamp(hp_ / maxHp_, 0.0f, 1.0f); // HP割合 (0.0 ~ 1.0)
-	//float originalWidth = 200.0f;  // 元のスプライト幅
-	//float originalHeight = 100.0f; // 元のスプライト高さ
-
-	//// HPバー（赤）のサイズを計算
-	//float newWidth = originalWidth * hpRatio; // 横幅をHPに合わせる
-	//float offsetX = (originalWidth - newWidth) * 0.5f; // 縮小した分だけ右に寄せる
-
-	//// スプライトの位置とサイズを調整
-	//spriteHP_[1]->scale_ = ({ newWidth, originalHeight });
-	//spriteHP_[1]->translate_ = { spriteHP_[0]->translate_.x - offsetX, spriteHP_[0]->translate_.y };
-
-	// HPバー（赤）の描画
-	spriteHP_[1]->Draw();
+	for (int i = 0; i < ch_; i++)
+	{
+		spriteHP_[i]->Draw();
+	}
 }
 
 void Player::Move()
@@ -276,6 +264,16 @@ void Player::Fire()
 	NorthPoleBulletFire();
 
 	SouthPoleBulletFire();
+}
+
+void Player::UpdateHP()
+{
+	// HP割合を計算
+	float hpRatio = std::clamp(hp_ / maxHp_, 0.0f, 1.0f);
+	spriteHP_[1]->scale_ = { hpRatio, 1.0f };
+	// UVスケールとUVトランスレートを設定
+	spriteHP_[1]->uvScale_ = { hpRatio, 1.0f };
+	spriteHP_[1]->uvTranslate_ = { 1.0f - hpRatio, 0.0f };
 }
 
 void Player::Knockback()

@@ -143,6 +143,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp" />
+    <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp" />
+    <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp" />
     <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp" />
     <ClCompile Include="Source\Scene\SceneTransition.cpp" />
     <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp" />
@@ -169,6 +171,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\System_TD\CountManager\CountManager.h" />
+    <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\TitleEnemy.h" />
     <ClInclude Include="Source\Objects\Entity\Player\TitlePlayer.h" />
     <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h" />

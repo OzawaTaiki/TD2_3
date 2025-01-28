@@ -41,6 +41,10 @@ private:
     std::unique_ptr<Player> player_ = nullptr;
     std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 
+	static const int bg_ = 2;
+    std::unique_ptr<Sprite> backGrounds_[bg_];
+
+
     LightGroup lightGroup_ = {};
 
     LoadScene* loadScene_ = nullptr;

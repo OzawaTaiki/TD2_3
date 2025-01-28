@@ -117,6 +117,12 @@
     <ClCompile Include="Source\Scene\SceneTransition.cpp">
       <Filter>Source\Scene\Transitoin</Filter>
     </ClCompile>
+    <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -172,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\SceneTransition.h">
       <Filter>Source\Scene\Transitoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\CountManager\CountManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
       <Filter>Source\Objects\Entity\Enemy</Filter>

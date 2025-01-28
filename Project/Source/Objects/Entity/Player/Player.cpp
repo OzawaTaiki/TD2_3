@@ -11,6 +11,7 @@
 #include <Systems/Utility/RandomGenerator.h>
 #include <Physics/Math/Easing.h>
 #include <Physics/Math/MyLib.h>
+#include <Source/System_TD/ComboManager/ComboManager.h>
 
 
 using namespace DirectX;
@@ -81,6 +82,8 @@ void Player::Update()
 		Knockback();
 
 		CoolTimerBullet();
+
+		ComboManager::GetInstance()->ResetCombo();
 	}
 	else if (isDeathEffectPlaying_)
 	{
@@ -530,7 +533,7 @@ void Player::UpdateDeathEffect()
 	else
 	{
 		// 死亡演出終了
-		isDeathEffectPlaying_ = false;
+			isDeathEffectPlaying_ = false;
 		gameTime_->GetChannel("default").SetGameSpeed(1.0f);
 	}
 

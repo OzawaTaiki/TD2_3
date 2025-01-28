@@ -1,40 +1,228 @@
 Wave,1          // wave開始
 
 Group,          // Group始め
-Num,3           // 敵の数
+Num,1           // 敵の数
 Speed,1,        // 速度
 MoveType,Direct // 直線移動
-Goal,10,0,15    // 目的地
-Point,0,0,10     // スポーン基準点
-Dir,-1,0,-1     // 列の向き
+Goal,0,0,0    // 目的地
+Point,0,0,24     // スポーン基準点
+Dir,0,0,0     // 列の向き
 Offset,3        // 整列時の敵同士の間隔
-Wait,120        // 待機
-
 
 Group,           // Group始め
-Num,5
+Num,1
 Speed,1,
 MoveType,Direct
-Goal,15,0,15
-Point,5,0,5
+Goal,0,0,0
+Point,-24,0,-24
+Dir,1,0,0
+Offset,2
+
+Group,           // Group始め
+Num,1
+Speed,1,
+MoveType,Direct
+Goal,0,0,0
+Point,24,0,-24
 Dir,1,0,0
 Offset,2
 
 
-Wait,200
+Wait,240
+
+
+Group,          // Group始め
+Num,1           // 敵の数
+Speed,1.5,        // 速度
+MoveType,Direct // 直線移動
+Goal,0,0,0    // 目的地
+Point,0,0,-24     // スポーン基準点
+Dir,0,0,0     // 列の向き
+Offset,3        // 整列時の敵同士の間隔
+
+Group,           // Group始め
+Num,1
+Speed,1.5,
+MoveType,Direct
+Goal,0,0,0
+Point,-24,0,24
+Dir,1,0,0
+Offset,2
+
+Group,           // Group始め
+Num,1
+Speed,1.5,
+MoveType,Direct
+Goal,0,0,0
+Point,24,0,24
+Dir,1,0,0
+Offset,2
+
+
+Wait,600
 
 Wave,2 // wave開始
 
+
 Group
-Num,4
+Num,1
 Speed,1,
 MoveType,Target
-Goal,20,0,20
-Point,-5,0,-5
+Goal,0,0,0
+Point,0,0,24
 Dir,0,0,1
 Offset,1.5
-Wait,200
 
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,0,0,0
+Point,0,0,-24
+Dir,0,0,1
+Offset,1.5
+
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,0,0,0
+Point,24,0,24
+Dir,0,0,1
+Offset,1.5
+
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,0,0,0
+Point,-24,0,24
+Dir,0,0,1
+Offset,1.5
+
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,0,0,0
+Point,-24,0,-24
+Dir,0,0,1
+Offset,1.5
+
+
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,0,0,0
+Point,24,0,-24
+Dir,0,0,1
+Offset,1.5
+
+Wait,240
+
+
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,-46,0,-24
+Point,-46,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,-39,0,-24
+Point,-39,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,-32,0,-24
+Point,-32,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,-25,0,-24
+Point,-25,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,-18,0,-24
+Point,-18,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,-11,0,-24
+Point,-11,0,24
+Dir,0,0,1
+Offset,1.5
+
+
+
+Group
+Num,1
+Speed,1,
+MoveType,Target
+Goal,46,0,-24
+Point,46,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,39,0,-24
+Point,39,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,32,0,-24
+Point,32,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,25,0,-24
+Point,25,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,18,0,-24
+Point,18,0,24
+Dir,0,0,1
+Offset,1.5
+
+Num,1
+Speed,1,
+MoveType,Target
+Goal,11,0,-24
+Point,11,0,24
+Dir,0,0,1
+Offset,1.5
+
+Wait,600
 
 Wave,3 // wave開始
 

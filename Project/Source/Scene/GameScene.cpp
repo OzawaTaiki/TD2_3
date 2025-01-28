@@ -189,7 +189,7 @@ void GameScene::Load()
     backGrounds_[1]->SetAnchor({ 0.5f,0.5f });
     backGrounds_[1]->translate_ = { 1100,515 };
 	//backGrounds_[1]->rotate_ = 44.5f;
-    
+
     Loading_ = false;
 
 }

@@ -127,7 +127,7 @@ void GameScene::Draw()
 		backGrounds_[i]->Draw();
 	}
 	DrawScore();
-	DrawCombo();
+	//DrawCombo();
     
 	player_->DrawSprite();
 }

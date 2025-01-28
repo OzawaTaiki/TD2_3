@@ -4,8 +4,8 @@ Group,          // Group始め
 Num,3           // 敵の数
 Speed,1,        // 速度
 MoveType,Direct // 直線移動
-Goal,10,0,10    // 目的地
-Point,0,0,0     // スポーン基準点
+Goal,10,0,15    // 目的地
+Point,0,0,10     // スポーン基準点
 Dir,-1,0,-1     // 列の向き
 Offset,3        // 整列時の敵同士の間隔
 Wait,120        // 待機

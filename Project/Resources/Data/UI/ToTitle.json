@@ -1,0 +1,21 @@
+{
+    "ToTitle": {
+        "ToTitle_anchor": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "ToTitle_directoryPath": "Resources/Textures/",
+        "ToTitle_isActive": 257,
+        "ToTitle_isVisible": 150994945,
+        "ToTitle_label": "ToTitle",
+        "ToTitle_pos": {
+            "x": 931.0,
+            "y": 273.0
+        },
+        "ToTitle_size": {
+            "x": 300.0,
+            "y": 350.0
+        },
+        "ToTitle_textureName": "resultRetry.png"
+    }
+}

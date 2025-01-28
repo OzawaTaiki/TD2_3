@@ -3,6 +3,7 @@
 #include <memory>
 #include <Framework/eScene/BaseScene.h>
 #include <Rendering/LineDrawer/LineDrawer.h>
+#include <UI/UISprite.h>
 #include "../System_TD/ScoreManager/ScoreManager.h"
 #include "../System_TD/ComboManager/ComboManager.h"
 #include "../System_TD/CountManager/CountManager.h"
@@ -56,4 +57,12 @@ private:
 	std::array<std::unique_ptr<Sprite>, 10> countSprites_;
 
 
+    /*===============================================================//
+             　　                 UI
+    //===============================================================*/
+
+    UISprite uiTitle_;
+    UISprite uiA_;
+    uint32_t UI_TX[2];
+    bool isRetry_ = false;
 };

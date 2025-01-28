@@ -63,7 +63,7 @@ void Player::Initialize(Camera* camera)
 	spriteHP_[1]->SetAnchor({ 1.0f,0.0f });
 	spriteHP_[1]->SetSize({ 200,100 });
 	spriteHP_[1]->translate_ = { 1033, 601 };
-	
+
 
 	/*===============================================================//
 						 　　  コライダー設定
@@ -118,6 +118,8 @@ void Player::Update()
 
 	oModel_->Update();
 
+	worldPosition_ = GetWorldPosition();
+
 #ifdef _DEBUG
 	ImGui();
 #endif // _DEBUG
@@ -125,7 +127,11 @@ void Player::Update()
 
 void Player::Draw(const Vector4& color)
 {
+#ifdef _DEBUG
 	collider_->Draw();
+
+#endif // _DEBUG
+
 
 
 	oModel_->Draw(camera_, color);

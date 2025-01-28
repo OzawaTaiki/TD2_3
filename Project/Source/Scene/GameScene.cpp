@@ -54,7 +54,7 @@ void GameScene::Update()
         SceneManager::GetInstance()->ReserveScene("Result");
         time_ = 0.0f;
     }
-    
+
     /*===============================================================//
                          　　    当たり判定
     //===============================================================*/
@@ -67,9 +67,9 @@ void GameScene::Update()
     }
 
     lightGroup_.DrawDebugWindow();
-    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
     ImGui();
 #endif // _DEBUG
+    LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     if(player_->CanSwitchScene())
     {
@@ -85,7 +85,7 @@ void GameScene::Update()
 	for (int i = 0; i < 10; ++i)
 	{
         scoreSprites_[i]->Update();
-	}   
+	}
 
 	CountManager::GetInstance()->ImGui();
     ScoreManager::GetInstance()->GameUpdate();
@@ -93,7 +93,7 @@ void GameScene::Update()
     comboCount_ = ComboManager::GetInstance()->GetCurrentCombo();
     scoreCount_ = ScoreManager::GetInstance()->GetCurrentScore();
 
-    
+
     if (enableDebugCamera_)
     {
         debugCamera_.Update();
@@ -137,7 +137,7 @@ void GameScene::Draw()
 	}
 	DrawScore();
 	//DrawCombo();
-    
+
 	player_->DrawSprite();
 }
 
@@ -176,13 +176,14 @@ void GameScene::Load()
     DLight.intensity = 0.2f;
 
     PointLight PLight{};
-    PLight.position = Vector3(0, 1.4f, 0);
-    PLight.intensity = 2.0f;
+    PLight.position = Vector3(0, -0.1f, 0);
+    PLight.intensity = 8.0f;
     PLight.radius = 20.0f;
     PLight.decay = 2.0f;
 
     lightGroup_.SetDirectionalLight(DLight);
     lightGroup_.AddPointLight(PLight, "Player", player_->GetWorldPositionRef());
+
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
     /*===============================================================//
@@ -216,7 +217,7 @@ void GameScene::Load()
     //////              スコア
     ////// -----------------------------------
     uint32_t scoreNumber = TextureManager::GetInstance()->Load("number.png", defaulFilPath);
-   
+
     for (int i = 0; i < 10; ++i) {
         scoreSprites_[i] = std::make_unique<Sprite>();
         scoreSprites_[i].reset(Sprite::Create(scoreNumber));
@@ -231,7 +232,7 @@ void GameScene::Load()
     //////              コンボ
     ////// -----------------------------------
     uint32_t comboNumber = TextureManager::GetInstance()->Load("number_2.png", defaulFilPath);
-   
+
     for (int i = 0; i < 11; ++i) {
         comboSprites_[i] = std::make_unique<Sprite>();
         comboSprites_[i].reset(Sprite::Create(comboNumber));

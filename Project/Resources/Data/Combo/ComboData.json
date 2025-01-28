@@ -1,10 +1,10 @@
 {
     "ComboData": {
-        "MaxCombo": 69,
+        "MaxCombo": 65,
         "Top3_Scores": [
             69,
-            8,
-            6
+            65,
+            28
         ]
     }
 }

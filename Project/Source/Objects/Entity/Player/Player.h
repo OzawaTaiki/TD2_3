@@ -174,7 +174,7 @@ public:
     /// <returns></returns>
     Vector3* GetWorldPositionRef();
 
-
+    void SetHp(float _hp) { hp_ = _hp; }
 
 private:
 	/*===============================================================//

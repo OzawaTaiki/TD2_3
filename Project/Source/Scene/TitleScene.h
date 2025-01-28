@@ -34,6 +34,10 @@ private:
 
     std::unique_ptr<Player> player_ = nullptr;
 
+    std::unique_ptr<ObjectModel> titleLogo_ = nullptr;
+
+    LightGroup lg = {};
+
 #ifdef _DEBUG
 
     bool enemyMove_ = false;

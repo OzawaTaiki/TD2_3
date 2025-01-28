@@ -106,7 +106,7 @@ void EnemyManager::SpawnEnemy(Vector3& position, float& speed, Vector3& goal, st
 void EnemyManager::RemoveDeadEnemies()
 {
     enemies_.remove_if([](const std::unique_ptr<Enemy>& enemy) {
-        return !enemy->GetIsAlive();
+        return !enemy->GetIsAlive() || !enemy->GetIsDraw();
         });
 }
 

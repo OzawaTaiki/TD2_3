@@ -9,6 +9,7 @@
 #include "../Objects/Entity/Player/Player.h"
 #include "../Objects/Entity/Enemy/EnemyManager.h"
 #include "../System_TD/Camera/FollowCamera.h"
+#include "Systems/Time/GameTime.h"
 #include <Physics/Collision/CollisionManager.h>
 #include "LoadScene.h"
 #include <Source/Objects/Area/Area.h>
@@ -58,6 +59,11 @@ private:
     std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 
 
+    /*===============================================================//
+                 　　             時間
+    //===============================================================*/
+	GameTime* gameTime_ = nullptr;
+    float time_ = 0.0f;
 
     /*===============================================================//
                      　　         スプライト

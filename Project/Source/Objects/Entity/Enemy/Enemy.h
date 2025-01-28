@@ -102,6 +102,7 @@ public:
 	void SetSpeed(const float& speed) { speed_ = speed; }
 	void SetGoal(const Vector3& goal) { goal_ = goal; }
 	void SetIsAlive(bool alive) { isAlive_ = alive; }
+	bool& GetIsDraw() { return isDraw_; }
 	void SetIsDraw(bool draw) { isDraw_ = draw; }
 	void SetTranslate(Vector3& translate) { oModel_->translate_ = translate; }
 

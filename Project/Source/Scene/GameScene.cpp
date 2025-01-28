@@ -46,6 +46,15 @@ void GameScene::Update()
         return;
     }
 
+	float deltaTime = 1.0f / 60.0f;
+	time_ += deltaTime;
+    if (time_ >= 60.0f) {
+        ScoreManager::GetInstance()->EndGame();
+        ComboManager::GetInstance()->EndGame();
+        SceneManager::GetInstance()->ReserveScene("Result");
+        time_ = 0.0f;
+    }
+    
     /*===============================================================//
                          　　    当たり判定
     //===============================================================*/
@@ -234,6 +243,9 @@ void GameScene::Load()
     }
 
 
+	gameTime_ = GameTime::GetInstance();
+    gameTime_->CreateChannel("GameScene");
+
     Loading_ = false;
 
 }
@@ -297,6 +309,8 @@ void GameScene::ImGui()
 	ImGui::Begin("GameScene");
     ImGui::DragFloat3("scale", &backGrounds_[0]->scale_.x);
 	ImGui::DragFloat3("translate", &backGrounds_[0]->translate_.x);
+
+    ImGui::DragFloat("Time", &time_);
 	ImGui::End();
 }
 #endif // _DEBUG

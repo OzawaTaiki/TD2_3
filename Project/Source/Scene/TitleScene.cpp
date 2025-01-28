@@ -41,6 +41,8 @@ void TitleScene::Initialize()
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
 
+    BG_.Initialize("TItleBG");
+
     titleUI_ = std::make_unique<TItleUI>();
     titleUI_->Initialize();
 }
@@ -63,7 +65,10 @@ void TitleScene::Update()
         enemyMove_ = !enemyMove_;
     }
 
-    if (enemyMove_)
+    BG_.Update();
+    titleUI_->Update();
+
+    //if (enemyMove_)
 #endif // _DEBUG
 
     for (auto& enemy : enemies_)
@@ -76,7 +81,6 @@ void TitleScene::Update()
         SceneManager::ReserveScene("Game");
     }
 
-    titleUI_->Update();
 
     SceneCamera_.Update();
     SceneCamera_.UpdateMatrix();
@@ -86,6 +90,10 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
+    Sprite::PreDraw();
+    BG_.Draw();
+
+
     player_->Draw({ 0,0,0,1 });
 
     for (auto& enemy : enemies_)

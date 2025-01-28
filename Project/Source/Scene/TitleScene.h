@@ -25,6 +25,8 @@ private:
     Camera SceneCamera_ = {};
     LineDrawer* lineDrawer_ = nullptr;
 
+    UISprite BG_ = {};
+
     std::list<std::unique_ptr<TitleEnemy>> enemies_ = {};
     std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 

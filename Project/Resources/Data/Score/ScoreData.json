@@ -1,7 +1,8 @@
 {
     "ScoreData": {
-        "MaxScore": 0,
+        "MaxScore": 800,
         "Top3_Scores": [
+            800,
             500,
             0
         ]

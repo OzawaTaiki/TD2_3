@@ -19,15 +19,15 @@ using namespace DirectX;
 Player::~Player()
 {
 	// 弾削除
-    for (NorthPoleBullet* bullet : bulletsNorth_) {
-        delete bullet;
-    }
-    bulletsNorth_.clear();
+	for (NorthPoleBullet* bullet : bulletsNorth_) {
+		delete bullet;
+	}
+	bulletsNorth_.clear();
 
-    for (SouthPoleBullet* bullet : bulletsSouth_) {
-        delete bullet;
-    }
-    bulletsSouth_.clear();
+	for (SouthPoleBullet* bullet : bulletsSouth_) {
+		delete bullet;
+	}
+	bulletsSouth_.clear();
 
 }
 
@@ -48,11 +48,11 @@ void Player::Initialize(Camera* camera)
 	//===============================================================*/
 	uint32_t th[ch_] = { TextureManager::GetInstance()->Load("hpBar.png",defaulFilPath),
 						 TextureManager::GetInstance()->Load("hp.png",defaulFilPath) };
-	
+
 	spriteHP_[0] = std::make_unique<Sprite>();
 	spriteHP_[0].reset(Sprite::Create(th[0]));
 	spriteHP_[0]->Initialize();
-	spriteHP_[0]->SetAnchor({ 0.5f,0.5f });	
+	spriteHP_[0]->SetAnchor({ 0.5f,0.5f });
 	spriteHP_[0]->SetSize({ 200,100 });
 	spriteHP_[0]->translate_ = { 933, 671 };
 
@@ -60,10 +60,10 @@ void Player::Initialize(Camera* camera)
 	spriteHP_[1] = std::make_unique<Sprite>();
 	spriteHP_[1].reset(Sprite::Create(th[1]));
 	spriteHP_[1]->Initialize();
-	spriteHP_[1]->SetAnchor({ 0.0f,0.5f });
+	spriteHP_[1]->SetAnchor({ 1.0f,0.0f });
 	spriteHP_[1]->SetSize({ 200,100 });
-	spriteHP_[1]->translate_ = { 933, 671 };
-	//spriteHP_[1]->SetUVSize({ 0.1f,1.0f });
+	spriteHP_[1]->translate_ = { 1033, 621 };
+	
 
 	/*===============================================================//
 						 　　  コライダー設定
@@ -71,7 +71,7 @@ void Player::Initialize(Camera* camera)
 
 	collider_ = std::make_unique<Collider>();
 	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
-	collider_->SetShape(oModel_->GetMin(),oModel_->GetMax());
+	collider_->SetShape(oModel_->GetMin(), oModel_->GetMax());
 	collider_->SetAtrribute("Player");
 	collider_->SetMask({ "Player" });
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
@@ -80,7 +80,7 @@ void Player::Initialize(Camera* camera)
 
 	InitJsonBinder();
 
-    gameTime_ = GameTime::GetInstance();
+	gameTime_ = GameTime::GetInstance();
 	gameTime_->CreateChannel("default");
 }
 
@@ -131,11 +131,11 @@ void Player::Draw(const Vector4& color)
 
 
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
-		bullet->Draw(*camera_,Vector4{255.0f,0.0f,0.0f,1.0f});
+		bullet->Draw(*camera_, Vector4{ 255.0f,0.0f,0.0f,1.0f });
 	}
 
 	for (SouthPoleBullet* bullet : bulletsSouth_) {
-		bullet->Draw(*camera_, Vector4{0.0f,0.0f,255.0f,1.0f});
+		bullet->Draw(*camera_, Vector4{ 0.0f,0.0f,255.0f,1.0f });
 	}
 
 
@@ -151,10 +151,10 @@ void Player::OnCollision(const Collider* other)
 	if (other->GetName() == "Enemy") {
 
 		hp_--;
-        if (hp_ <= 0) {
-            isAlive_ = false;
+		if (hp_ <= 0) {
+			isAlive_ = false;
 			BeginDeathEffect();
-        }
+		}
 		// プレイヤーの向いている方向（rotation_.y）から前方ベクトルを算出
 		float angle = rotation_.y;
 		Vector3 forward{ sinf(angle), 0.0f, cosf(angle) };
@@ -179,18 +179,18 @@ void Player::DrawSprite()
 	// 土台の描画
 	spriteHP_[0]->Draw();
 
-	// HP割合を計算
-	float hpRatio = std::clamp(hp_ / maxHp_, 0.0f, 1.0f); // HP割合 (0.0 ~ 1.0)
-	float originalWidth = 200.0f;  // 元のスプライト幅
-	float originalHeight = 100.0f; // 元のスプライト高さ
+	//// HP割合を計算
+	//float hpRatio = std::clamp(hp_ / maxHp_, 0.0f, 1.0f); // HP割合 (0.0 ~ 1.0)
+	//float originalWidth = 200.0f;  // 元のスプライト幅
+	//float originalHeight = 100.0f; // 元のスプライト高さ
 
-	// HPバー（赤）のサイズを計算
-	float newWidth = originalWidth * hpRatio; // 横幅をHPに合わせる
-	float offsetX = (originalWidth - newWidth) * 0.5f; // 縮小した分だけ右に寄せる
+	//// HPバー（赤）のサイズを計算
+	//float newWidth = originalWidth * hpRatio; // 横幅をHPに合わせる
+	//float offsetX = (originalWidth - newWidth) * 0.5f; // 縮小した分だけ右に寄せる
 
-	// スプライトの位置とサイズを調整
-	spriteHP_[1]->SetSize({ newWidth, originalHeight });
-	spriteHP_[1]->translate_ = { spriteHP_[0]->translate_.x - offsetX, spriteHP_[0]->translate_.y };
+	//// スプライトの位置とサイズを調整
+	//spriteHP_[1]->scale_ = ({ newWidth, originalHeight });
+	//spriteHP_[1]->translate_ = { spriteHP_[0]->translate_.x - offsetX, spriteHP_[0]->translate_.y };
 
 	// HPバー（赤）の描画
 	spriteHP_[1]->Draw();
@@ -334,7 +334,7 @@ void Player::NorthPoleBulletFire()
 
 void Player::SouthPoleBulletFire()
 {
-    if ((input_->IsPadTriggered(PadButton::iPad_LB) || input_->IsPadTriggered(PadButton::iPad_LT))
+	if ((input_->IsPadTriggered(PadButton::iPad_LB) || input_->IsPadTriggered(PadButton::iPad_LT))
 		&& southBulletCoolTimer_ <= 0.0f) {
 		// クールタイムのリセット
 		southBulletCoolTimer_ = bulletFireInterval_;
@@ -423,18 +423,14 @@ void Player::ImGui()
 		}
 	}
 
-	// スプライトの位置を操作するためのImGuiウィジェット
-	for (int i = 0; i < ch_; ++i)
-	{
-		ImGui::DragFloat2(("Sprite HP Position " + std::to_string(i)).c_str(), &spriteHP_[i]->translate_.x, 1.0f);
-	}
+	spriteHP_[1]->Update();
 
 
 	// 弾関連
 	ImGui::Text("Bullet Info");
 	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
 	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
-	ImGui::DragFloat("Bullet Offset", &offset, 1.0f, 1.0f,10.0f);
+	ImGui::DragFloat("Bullet Offset", &offset, 1.0f, 1.0f, 10.0f);
 	ImGui::Separator();
 
 	// 弾のクールダウンとインターバル
@@ -458,16 +454,16 @@ void Player::ImGui()
 	Vector3 pos = GetWorldPosition();
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
 
-  ImGui::SeparatorText("Camera Shake");
-  ImGui::DragFloat("time", &shakeTime_, 0.01f);
-  ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
-  ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
+	ImGui::SeparatorText("Camera Shake");
+	ImGui::DragFloat("time", &shakeTime_, 0.01f);
+	ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
+	ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
 
 
 	ImGui::Separator();
-	if(ImGui::Button("deathEffect"))
+	if (ImGui::Button("deathEffect"))
 	{
-        BeginDeathEffect();
+		BeginDeathEffect();
 	}
 
 	ImGui::Separator();
@@ -497,7 +493,7 @@ Vector3 Player::GetCenterPosition()
 	// ローカル座標でのオフセット
 	const Vector3 offset = { 0.0f, 0.0f, 0.0f };
 	// ワールド座標に変換
-	Vector3 worldPos = Transform(offset,oModel_->GetWorldTransform()->matWorld_);
+	Vector3 worldPos = Transform(offset, oModel_->GetWorldTransform()->matWorld_);
 
 	return worldPos;
 }
@@ -516,9 +512,9 @@ Vector3* Player::GetWorldPositionRef()
 
 void Player::CameraShake()
 {
-    if (enableShake_) {
-        // シェイクの更新
-        camera_->Shake(shakeTime_, shakeRangeMin_, shakeRangeMax_);
+	if (enableShake_) {
+		// シェイクの更新
+		camera_->Shake(shakeTime_, shakeRangeMin_, shakeRangeMax_);
 		enableShake_ = false;
 	}
 }
@@ -526,10 +522,10 @@ void Player::CameraShake()
 void Player::BeginDeathEffect()
 {
 	isAlive_ = false;
-    isDeathEffectPlaying_ = true;
-    deathEffectParams_.duration = 0.0f;
-    deathEffectParams_.beforePosition = oModel_->translate_;
-    deathEffectParams_.shake = true;
+	isDeathEffectPlaying_ = true;
+	deathEffectParams_.duration = 0.0f;
+	deathEffectParams_.beforePosition = oModel_->translate_;
+	deathEffectParams_.shake = true;
 	gameTime_->GetChannel("default").SetGameSpeed(0.25f);
 }
 
@@ -589,7 +585,7 @@ void Player::UpdateDeathEffect()
 	else
 	{
 		// 死亡演出終了
-			isDeathEffectPlaying_ = false;
+		isDeathEffectPlaying_ = false;
 		gameTime_->GetChannel("default").SetGameSpeed(1.0f);
 	}
 
@@ -617,9 +613,9 @@ void Player::InitJsonBinder()
 	jsonBinder_->RegisterVariable("KnockbackDamping", const_cast<float*>(&knockbackDamping_));
 	jsonBinder_->RegisterVariable("KnockbackInvincibleDuration", const_cast<float*>(&knockbackInvincibleDuration_));
 
-  jsonBinder_->RegisterVariable("ShakeTime", &shakeTime_);
-  jsonBinder_->RegisterVariable("ShakeRangeMin", &shakeRangeMin_);
-  jsonBinder_->RegisterVariable("ShakeRangeMax", &shakeRangeMax_);
+	jsonBinder_->RegisterVariable("ShakeTime", &shakeTime_);
+	jsonBinder_->RegisterVariable("ShakeRangeMin", &shakeRangeMin_);
+	jsonBinder_->RegisterVariable("ShakeRangeMax", &shakeRangeMax_);
 }
 
 void Player::Save()

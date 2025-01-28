@@ -26,6 +26,11 @@ void ScoreManager::Update()
 #endif // _DEBUG
 }
 
+void ScoreManager::GameUpdate()
+{
+	JsonHub::GetInstance()->LoadFile("Resources/Data/Score/ScoreData.json");
+}
+
 void ScoreManager::AddScore(int add)
 {
 	currentScore_ += add;

@@ -1,6 +1,7 @@
 #pragma once
 #include <Rendering/Model/ObjectModel.h>
 #include <Rendering/Model/AnimationModel.h>
+#include <Rendering/Sprite/Sprite.h>
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
@@ -41,7 +42,10 @@ public:
 	/// </summary>
 	void OnCollision(const Collider* other);
 
-
+	/// <summary>
+	/// スプライト描画
+	/// </summary>
+	void DrawSprite();
 private:
 
 	/// <summary>
@@ -58,6 +62,11 @@ private:
 	/// 全体射撃
 	/// </summary>
 	void Fire();
+
+	/// <summary>
+	/// HPの処理
+	/// </summary>
+	void UpdateHP();
 
 	/// <summary>
 	/// ノックバックの計算処理
@@ -165,6 +174,8 @@ public:
     /// <returns></returns>
     Vector3* GetWorldPositionRef();
 
+
+
 private:
 	/*===============================================================//
 							 　　ポインタなど
@@ -175,6 +186,9 @@ private:
 
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
+
+	static const int ch_ = 2;
+	std::unique_ptr<Sprite> spriteHP_[ch_];
 
 
 	/*===============================================================//
@@ -211,12 +225,13 @@ private:
 	float southBulletCoolTimer_ = 0.0f;
 
 
-
     /*===============================================================//
 								HPなど
     //===============================================================*/
     float maxHp_ = 10.0f;
-    float hp_ = 10.0f;
+    float hp_ = 100.0f;
+	// プレイヤーが受けるダメージ
+	float takeDamage_ = 10.0f;
     bool isAlive_ = true;
 
 

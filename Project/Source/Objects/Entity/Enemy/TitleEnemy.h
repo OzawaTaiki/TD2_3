@@ -8,9 +8,9 @@ public:
     TitleEnemy() = default;
     ~TitleEnemy() override = default;
 
-    void Initialize(Camera* _camera);
+    void Initialize(Camera* _camera) override;
 
-    void Update();
+    void Update() override;
 
     void Draw(const Vector4& _color);
 

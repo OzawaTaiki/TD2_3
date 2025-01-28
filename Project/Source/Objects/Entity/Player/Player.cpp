@@ -100,7 +100,7 @@ void Player::Update()
 
 void Player::Draw(const Vector4& color)
 {
-	//collider_->Draw();
+	collider_->Draw();
 
 
 	oModel_->Draw(camera_, color);

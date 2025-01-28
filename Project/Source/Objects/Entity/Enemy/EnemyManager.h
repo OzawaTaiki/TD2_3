@@ -2,6 +2,7 @@
 #include <list>
 #include <memory>
 #include "Enemy.h"
+#include "TitleEnemy.h"
 #include <Framework/Camera/Camera.h>
 #include <chrono>
 
@@ -26,6 +27,11 @@ public:
     /// </summary>
     void Draw(const Vector4& color);
 
+
+
+    bool AttractEnemy(std::list <std::unique_ptr<TitleEnemy>>& _enemies, float range = 10.0f) const;
+
+
 private:
 
     /// <summary>
@@ -49,8 +55,9 @@ private:
     /// <returns></returns>
     Vector3 GenerateRandomPosition();
 
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="range"></param>
     void AttractEnemy(float range);
@@ -79,7 +86,7 @@ private:
     /*===============================================================//
                              ランダム生成
     //===============================================================*/
-    
+
     float randomRangeXMin_ = -10.0f;
     float randomRangeXMax_ = 10.0f;
     float randomRangeZMin_ = -10.0f;
@@ -108,7 +115,7 @@ private:
 
     // 消滅させる敵のリスト
     std::list<std::list<std::unique_ptr<Enemy>>::iterator> markedForRemovalEnemies_;
-  
+
     float minX_;
     float maxX_;
     float minY_;
@@ -119,7 +126,7 @@ private:
 
     // 時間経過でNone状態に戻す
 
-  
+
 
     /*===============================================================//
                              スポーン関連

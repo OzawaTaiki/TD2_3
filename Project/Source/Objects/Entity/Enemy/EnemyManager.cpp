@@ -14,7 +14,7 @@ void EnemyManager::Initialize(Camera* camera)
 {
     camera_ = camera;
 
- 
+
     // コールバック関数の登録
     spawnLoader_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal,std::string& moveType) {
         this->SpawnEnemy(position,speed,goal, moveType);
@@ -41,16 +41,16 @@ void EnemyManager::Update()
     for (auto& enemy : enemies_) {
         enemy->Update();
         enemy->Move(deltaTime);
-       
+
         enemy->ChangeType(deltaTime);
     }
 
-   
 
- 
+
+
 #ifdef _DEBUG
     ImGui();
-#endif 
+#endif
 
 }
 
@@ -326,6 +326,215 @@ void EnemyManager::AttractEnemy(float range)
             enemy2->SetTranslate(pos2);
         }
     }
+}
+
+bool EnemyManager::AttractEnemy(std::list<std::unique_ptr<TitleEnemy>>& _enemies, float range) const
+{
+    bool flag = false;
+
+    for (auto it1 = _enemies.begin(); it1 != _enemies.end(); ++it1) {
+        Enemy* enemy1 = it1->get();
+        if (!enemy1 || !enemy1->GetIsAlive()) continue;
+
+        for (auto it2 = std::next(it1); it2 != _enemies.end(); ++it2) {
+            Enemy* enemy2 = it2->get();
+            if (!enemy2 || !enemy2->GetIsAlive()) continue;
+
+            // ------------------------------
+            // 距離計算
+            // ------------------------------
+            Vector3 pos1 = enemy1->GetTranslate();
+            Vector3 pos2 = enemy2->GetTranslate();
+
+            float distanceSquared =
+                std::powf(pos1.x - pos2.x, 2) +
+                std::powf(pos1.y - pos2.y, 2) +
+                std::powf(pos1.z - pos2.z, 2);
+
+            float distance = std::sqrtf(distanceSquared);
+            float radiiSum = range * 2.0f;
+            if (distance > radiiSum) {
+                continue; // 範囲外
+            }
+
+            // ------------------------------
+            // 属性フラグ
+            // ------------------------------
+            bool isSameType = (enemy1->GetCurrentType() == enemy2->GetCurrentType());
+            bool isTypeValid = (enemy1->GetCurrentType() != Enemy::BulletType::None &&
+                enemy2->GetCurrentType() != Enemy::BulletType::None);
+
+            // ------------------------------
+            // 方向ベクトル (正規化)
+            // ------------------------------
+            Vector3 direction = { (pos2.x - pos1.x),
+                                  (pos2.y - pos1.y),
+                                  (pos2.z - pos1.z) };
+            if (distance > 0.0f) {
+                direction /= distance; // x,y,z すべて /distance
+            }
+
+            // ------------------------------
+            // 反発 or 引き寄せ
+            // ------------------------------
+            if (isSameType && isTypeValid) {
+                // 反発
+                float repelForce = (repelCoefficient_ / distanceSquared);
+                repelForce = (std::min)(repelForce, maxRepelForce_);
+
+                pos1.x -= direction.x * repelForce;
+                pos1.y -= direction.y * repelForce;
+                pos1.z -= direction.z * repelForce;
+
+                pos2.x += direction.x * repelForce;
+                pos2.y += direction.y * repelForce;
+                pos2.z += direction.z * repelForce;
+            }
+            else if (!isSameType && isTypeValid) {
+                // 引き寄せ
+                float attractForce = (attractCoefficient_ / distanceSquared);
+                attractForce = (std::min)(attractForce, maxAttractForce_);
+
+                pos1.x += direction.x * attractForce;
+                pos1.y += direction.y * attractForce;
+                pos1.z += direction.z * attractForce;
+
+                pos2.x -= direction.x * attractForce;
+                pos2.y -= direction.y * attractForce;
+                pos2.z -= direction.z * attractForce;
+
+                // 一定距離以下なら両者消滅
+                if (distanceSquared <= std::powf(threshold_, 2)) {
+                    enemy1->SetIsAlive(false);
+                    enemy2->SetIsAlive(false);
+
+                    enemy1->SetIsDraw(false);
+                    enemy2->SetIsDraw(false);
+
+                    flag = true;
+                }
+
+                // ------------------------------
+                // North/Southを含むペア → AABB回転描画(OBB)
+                // ------------------------------
+                if ((enemy1->GetCurrentType() == Enemy::BulletType::North ||
+                    enemy1->GetCurrentType() == Enemy::BulletType::South) ||
+                    (enemy2->GetCurrentType() == Enemy::BulletType::North ||
+                        enemy2->GetCurrentType() == Enemy::BulletType::South))
+                {
+                    // AABB算出
+                    Vector3 center1 = enemy1->GetCenterPosition();
+                    Vector3 center2 = enemy2->GetCenterPosition();
+
+                    // 2点間の距離
+                    Vector3 distance = center2 - center1;
+                    // 方向ベクトル
+                    Vector3 direction = distance.Normalize();
+                    float length = (center2 - center1).Length();
+
+                    // 2点間の中心
+                    Vector3 center = center1 + (direction * length * 0.5f);
+
+                    // OBBのサイズ xのみ変動
+                    Vector3 size = { length - 2, 1.0f, 2.0f };
+                    // ここで二点間の中心を中心とした真横のOBBができる
+                    OBB obb(-size / 2.0f, size / 2.0f);
+
+                    // OBBのワールド行列を求める
+                    Matrix4x4 OBBWorldMat = Matrix4x4::Identity();
+
+                    // scaleはデフォ{size}
+                    Matrix4x4 scaleMat = MakeScaleMatrix(size);
+                    // 中心点はcenter
+                    Matrix4x4 translateMat = MakeTranslateMatrix(center);
+                    // 回転を求める
+                    Matrix4x4 rotMat = DirectionToDirection(Vector3(1, 0, 0), direction);
+
+                    // がったい
+                    OBBWorldMat = scaleMat * rotMat * translateMat;
+
+                    // 頂点計算してもらう
+                    obb.Calculate(OBBWorldMat);
+
+#ifdef _DEBUG
+                    // デバッグ時だけ描画
+                    LineDrawer::GetInstance()->DrawOBB(OBBWorldMat);
+#endif // _DEBUG
+
+                    // OBBのサイズが一定以下のときに当たっている敵をマーク
+                    // 引き寄せあってるやつらが消滅した時マークした敵を消す
+
+                    const float kMaxSize = (std::max)(size.x, size.z);
+
+
+                    // 衝突判定前に大きめサイズで事前チェック
+                    // OBB中心 敵中心 で距離計算
+                    // 一定範囲 (kMaxSize + enemySize ) * 2
+
+                    for (auto it = _enemies.begin(); it != _enemies.end(); ++it)
+                    {
+                        Enemy* enemy = it->get();
+                        // 既に消滅している敵 引き寄せあってる敵 マーク済みの敵 はスキップ
+                        if (!enemy->GetIsAlive() || enemy == enemy1 || enemy == enemy2 || enemy->GetMarkForRemoval()) continue;
+
+                        // 対象間距離を求める
+                        Vector3 enemyCenter = enemy->GetCenterPosition();
+                        Vector3 obb2enemydistance = enemyCenter - center;
+                        float distanceLength = obb2enemydistance.Length();
+
+                        // 一定範囲内にいる
+                        if (distanceLength <= (kMaxSize + 1.0f) * 2.0f)
+                        {
+                            if (size.x <= kSizeThreshold)
+                            {
+                                if (CollisionManager::GetInstance()->IsCollision(obb, enemy->getcoll()->GetShape<OBB>())) {
+                                    enemy->SetIsAlive(false);
+                                    enemy->SetIsDraw(false);
+                                }
+                            }
+                            // サイズがまだ大きいとき
+                            else
+                            {
+                                // 敵より中心に近くないときはcontinue
+                                Vector3 enemy1ToCenter = center - center1;
+                                Vector3 enemy2ToCenter = center - center2;
+
+                                Vector3 enemy1ToEnemy = enemyCenter - center1;
+                                Vector3 enemy2ToEnemy = enemyCenter - center2;
+
+                                // Dotで方向を求める
+                                // どちらも＋なら敵の外側にいる
+                                if (Dot(enemy1ToCenter.Normalize(), enemy1ToEnemy.Normalize()) < 0.0f ||
+                                    Dot(enemy2ToCenter.Normalize(), enemy2ToEnemy.Normalize()) < 0.0f)
+                                {
+                                    continue;
+                                }
+
+                                if (CollisionManager::GetInstance()->IsCollision(enemy1->getcoll()->GetShape<OBB>(), enemy->getcoll()->GetShape<OBB>()))
+                                {
+
+                                    Vector3 trans = enemy->GetTranslate() - obb2enemydistance.Normalize() * attractForce;
+                                    enemy->SetTranslate(trans);
+                                }
+                                else if (CollisionManager::GetInstance()->IsCollision(enemy2->getcoll()->GetShape<OBB>(), enemy->getcoll()->GetShape<OBB>()))
+                                {
+
+                                    Vector3 trans = enemy->GetTranslate() - obb2enemydistance.Normalize() * attractForce;
+                                    enemy->SetTranslate(trans);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 計算後の位置を更新
+            enemy1->SetTranslate(pos1);
+            enemy2->SetTranslate(pos2);
+        }
+    }
+
+    return flag;
 }
 
 

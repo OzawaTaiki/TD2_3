@@ -53,6 +53,15 @@ void TitleScene::Initialize()
     lg.Initialize();
     lg.SetDirectionalLight(DLight);
 
+    titleLogo_ = std::make_unique<ObjectModel>();
+    titleLogo_->Initialize("TitleLogo/title.obj", "title");
+    float pi = std::numbers::pi_v<float>;
+
+    titleLogo_->translate_ = { 0,-1,4 };
+    titleLogo_->scale_ = { 4,4,1 };
+    titleLogo_->rotate_ = { pi / 2.0f,0,pi };
+
+
     LightingSystem::GetInstance()->SetLightGroup(&lg);
 }
 
@@ -66,6 +75,7 @@ void TitleScene::Update()
     //    SceneManager::GetInstance()->ReserveScene("Game");
     //}
 
+    titleLogo_->Update();
     player_->Update();
 
 #ifdef _DEBUG
@@ -94,6 +104,8 @@ void TitleScene::Update()
     SceneCamera_.Update();
     SceneCamera_.UpdateMatrix();
 
+    player_->SetHp(100.0f);
+
     CollisionManager::GetInstance()->CheckAllCollision();
 }
 
@@ -102,6 +114,7 @@ void TitleScene::Draw()
     Sprite::PreDraw();
     BG_.Draw();
 
+    titleLogo_->Draw(&SceneCamera_, { 1,1,1,1 });
 
     player_->Draw({ 0,0,0,1 });
 

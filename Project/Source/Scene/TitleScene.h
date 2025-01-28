@@ -34,6 +34,8 @@ private:
 
     std::unique_ptr<Player> player_ = nullptr;
 
+    LightGroup lg = {};
+
 #ifdef _DEBUG
 
     bool enemyMove_ = false;

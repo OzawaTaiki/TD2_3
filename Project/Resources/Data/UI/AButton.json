@@ -1,0 +1,21 @@
+{
+    "AButton": {
+        "AButton_anchor": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "AButton_directoryPath": "Resources/Textures/",
+        "AButton_isActive": 257,
+        "AButton_isVisible": 167772161,
+        "AButton_label": "AButton",
+        "AButton_pos": {
+            "x": 1159.0,
+            "y": 484.0
+        },
+        "AButton_size": {
+            "x": 100.0,
+            "y": 100.0
+        },
+        "AButton_textureName": "next.png"
+    }
+}

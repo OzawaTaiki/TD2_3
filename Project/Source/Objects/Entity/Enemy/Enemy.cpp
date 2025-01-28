@@ -73,7 +73,7 @@ void Enemy::Draw(const Vector4& color)
 
 	if (isDraw_) {
 #ifdef _DEBUG
-		collider_->Draw();
+		//collider_->Draw();
 #endif // _DEBUG
 		oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
 	}
@@ -153,6 +153,8 @@ void Enemy::ImGui()
 	//ImGui::End();
 
 #endif // _DEBUG
+
+
 
 
 }

@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp" />
     <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp" />
     <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp" />
     <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
     <ClCompile Include="Source\System_TD\Math\TD_Math.cpp" />
+    <ClCompile Include="Source\TItleUI\TItleUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -172,6 +174,8 @@
   <ItemGroup>
     <ClInclude Include="Source\System_TD\CountManager\CountManager.h" />
     <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h" />
+    <ClInclude Include="Source\Objects\Entity\Enemy\TitleEnemy.h" />
+    <ClInclude Include="Source\Objects\Entity\Player\TitlePlayer.h" />
     <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h" />
     <ClInclude Include="Source\Scene\SceneTransition.h" />
     <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h" />
@@ -190,9 +194,12 @@
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
     <ClInclude Include="Source\System_TD\Math\TD_Math.h" />
+    <ClInclude Include="Source\TItleUI\TItleUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Resources\Data\UI\MoveGuide.json" />
+    <None Include="Resources\Data\UI\ShotGuide.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

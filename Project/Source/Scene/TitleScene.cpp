@@ -15,8 +15,8 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
     SceneCamera_.Initialize();
-    SceneCamera_.translate_.y = 30;
-    SceneCamera_.translate_.z = 0;
+    SceneCamera_.translate_.y = 45;
+    SceneCamera_.translate_.z = -1.5f;
 
     SceneCamera_.rotate_.x = std::numbers::pi_v<float> / 2.0f;
 
@@ -35,8 +35,6 @@ void TitleScene::Initialize()
 
     titleUI_ = std::make_unique<TItleUI>();
     titleUI_->Initialize();
-
-
 }
 
 void TitleScene::Update()

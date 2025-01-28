@@ -164,7 +164,7 @@
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
     <ClCompile Include="Source\System_TD\Math\TD_Math.cpp" />
-    <ClCompile Include="Source\TitleUI\TItleUI.cpp" />
+    <ClCompile Include="Source\TItleUI\TItleUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -194,10 +194,12 @@
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
     <ClInclude Include="Source\System_TD\Math\TD_Math.h" />
-    <ClInclude Include="Source\TitleUI\TItleUI.h" />
+    <ClInclude Include="Source\TItleUI\TItleUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Resources\Data\UI\MoveGuide.json" />
+    <None Include="Resources\Data\UI\ShotGuide.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

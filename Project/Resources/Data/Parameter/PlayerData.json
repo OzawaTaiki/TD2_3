@@ -10,6 +10,7 @@
         "KnockbackStrength": 1.0,
         "L_Stick DeadZone": 7000.0,
         "MaxHP": 100.0,
+        "RotationSpeed": 0.17000000178813934,
         "ShakeRangeMax": {
             "x": 0.10000000149011612,
             "y": 0.10000000149011612

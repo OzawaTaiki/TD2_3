@@ -202,6 +202,8 @@ private:
 	float kCharacterSpeed_ = 0.25f;
 	float kRotationSpeed_ = 0.05f;
 
+	float rotationSpeed_ = 0.1f;
+	float accumulatedYaw_ = 0;
 	// 移動量を保存
 	Vector3 prePosition_= { 0.0f,0.0f,0.0f };
 

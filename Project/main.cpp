@@ -71,7 +71,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager::GetInstance()->SetTransition(std::make_unique<SceneTransition>());
 
 
-	SceneManager::GetInstance()->Initialize("Title");
+	SceneManager::GetInstance()->Initialize("Game");
 
 	Time::Initialize();
 

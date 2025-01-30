@@ -43,6 +43,8 @@ void Player::Initialize(Camera* camera)
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
 
+	accumulatedYaw_ = rotation_.y;
+
 	/*===============================================================//
 					 　　		スプライト
 	//===============================================================*/
@@ -231,6 +233,12 @@ void Player::Move()
 	oModel_->translate_ += move;
 }
 
+/// <summary>
+/// プレイヤーの向きをコントローラーの入力に応じて回転させる
+/// </summary>
+/// <summary>
+/// プレイヤーの向きをスムーズに回転させる
+/// </summary>
 void Player::Rotate()
 {
 	if (input_->IsControllerConnected()) {
@@ -238,25 +246,27 @@ void Player::Rotate()
 		ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
 		if (XInputGetState(0, &xInputState) == ERROR_SUCCESS) {
 			// 左スティックのX軸とY軸の値を取得（-32768 ～ 32767）
-			float thumbLX = static_cast<float>(xInputState.Gamepad.sThumbLX);
-			float thumbLY = static_cast<float>(xInputState.Gamepad.sThumbLY);
+			float thumbRX = static_cast<float>(xInputState.Gamepad.sThumbRX);
+			float thumbRY = static_cast<float>(xInputState.Gamepad.sThumbRY);
 
 			// デッドゾーンをチェック
-			if (fabs(thumbLX) > kDeadZoneL_ || fabs(thumbLY) > kDeadZoneL_) {
+			if (fabs(thumbRX) > kDeadZoneL_ || fabs(thumbRY) > kDeadZoneL_) {
 				// 目標角度を計算
-				float newYaw = std::atan2(thumbLX, thumbLY);
+				float targetYaw = std::atan2(thumbRX, thumbRY);
 
-				// 現在の角度との誤差を計算
-				float diff = newYaw - rotation_.y;
+				// 目標角度を現在の累積角度に合わせる（±2π の補正）
+				while (targetYaw - accumulatedYaw_ < -std::numbers::pi) targetYaw += std::numbers::pi * 2.0f;
+				while (targetYaw - accumulatedYaw_ > std::numbers::pi) targetYaw -= std::numbers::pi * 2.0f;
 
-				// -π～+π の範囲に収める（角度の折り返し対応）
-				while (diff < -std::numbers::pi) diff += std::numbers::pi * 2.0f;
-				while (diff > std::numbers::pi) diff -= std::numbers::pi * 2.0f;
+				// 角度差を計算
+				float diff = targetYaw - accumulatedYaw_;
 
 				// 角度差が一定以上の場合のみ更新
 				const float kAngleThreshold = 0.001f;
 				if (fabs(diff) > kAngleThreshold) {
-					rotation_.y = newYaw;
+					// スムーズに回転する
+					accumulatedYaw_ += diff * rotationSpeed_;
+					rotation_.y = accumulatedYaw_;
 				}
 			}
 		}
@@ -264,6 +274,7 @@ void Player::Rotate()
 
 	oModel_->rotate_ = rotation_;
 }
+
 
 void Player::Fire()
 {
@@ -408,76 +419,6 @@ void Player::Bulletdelete() {
 		});
 }
 
-
-#ifdef _DEBUG
-void Player::ImGui()
-{
-	ImGui::Begin("Player");
-
-	// 入力系
-	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_, 100.0f, 0.0f, 50000.0f, "%.0f");
-	ImGui::DragFloat("Character Speed", &kCharacterSpeed_, 0.01f, 0.01f, 5.0f);
-
-	// HP 関連
-	ImGui::InputFloat("MaxHP", &maxHp_, 1.0f);
-	if (ImGui::InputFloat("HP", &hp_, 1.0f))
-	{
-		if (hp_ > maxHp_) {
-			hp_ = maxHp_;
-		}
-	}
-
-	// 弾関連
-	ImGui::Text("Bullet Info");
-	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
-	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
-	ImGui::DragFloat("Bullet Offset", &offset, 1.0f, 1.0f, 10.0f);
-	ImGui::Separator();
-
-	// 弾のクールダウンとインターバル
-	ImGui::Text("BulletCoolTime Info");
-	ImGui::DragFloat("BulletFire Interval", &bulletFireInterval_, 0.1f, 3.0f);
-	ImGui::DragFloat("NorthBullet CoolTime", &northBulletCoolTimer_, 0.0f, 1.0f);
-	ImGui::DragFloat("SouthBullet CoolTime", &southBulletCoolTimer_, 0.0f, 1.0f);
-
-	// ノックバック関連
-	ImGui::Separator();
-	ImGui::Text("Knockback Settings");
-	ImGui::DragFloat("Knockback Strength", (float*)&knockbackStrength_, 0.1f, 0.1f, 10.0f);
-	ImGui::DragFloat("Knockback Damping", (float*)&knockbackDamping_, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("Invincible Duration", (float*)&knockbackInvincibleDuration_, 0.1f, 0.0f, 5.0f);
-
-	// ※ 必要ならノックバックの現在の状態なども表示
-	ImGui::Text("Knockback Active: %s", isKnockbackActive_ ? "Yes" : "No");
-	ImGui::Text("Knockback Invincible Time: %.2f", knockbackInvincibleTime_);
-
-	// デバッグ用にプレイヤーの位置なども表示
-	Vector3 pos = GetWorldPosition();
-	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
-
-	ImGui::SeparatorText("Camera Shake");
-	ImGui::DragFloat("time", &shakeTime_, 0.01f);
-	ImGui::DragFloat2("rangeMin", &shakeRangeMin_.x, 0.01f);
-	ImGui::DragFloat2("rangeMax", &shakeRangeMax_.x, 0.01f);
-
-
-	ImGui::Separator();
-	if (ImGui::Button("deathEffect"))
-	{
-		BeginDeathEffect();
-	}
-
-	ImGui::Separator();
-	if (ImGui::Button("Save Settings"))
-	{
-		Save();
-	}
-
-	ImGui::End();
-}
-#endif
-
-
 Vector3 Player::GetWorldPosition()
 {
 	Vector3 worldPos;
@@ -592,6 +533,71 @@ void Player::UpdateDeathEffect()
 
 }
 
+#ifdef _DEBUG
+void Player::ImGui()
+{
+	ImGui::Begin("Player");
+
+	// 入力系
+	ImGui::SeparatorText("Input Settings");
+	ImGui::DragFloat("L_Stick DeadZone", &kDeadZoneL_, 100.0f, 0.0f, 50000.0f, "%.0f");
+	ImGui::DragFloat("Character Speed", &kCharacterSpeed_, 0.01f, 0.01f, 5.0f);
+	ImGui::DragFloat("Rotation Speed", &rotationSpeed_, 0.01f, 0.01f, 1.0f);
+
+	// HP 関連
+	ImGui::SeparatorText("HP Settings");
+	ImGui::InputFloat("MaxHP", &maxHp_, 1.0f);
+	if (ImGui::InputFloat("HP", &hp_, 1.0f))
+	{
+		if (hp_ > maxHp_) {
+			hp_ = maxHp_;
+		}
+	}
+
+	// 弾関連
+	ImGui::SeparatorText("Bullet Settings");
+	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
+	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
+	ImGui::DragFloat("Bullet Offset", &offset, 1.0f, 1.0f, 10.0f);
+	ImGui::DragFloat("Bullet Fire Interval", &bulletFireInterval_, 0.1f, 0.1f, 3.0f);
+
+	// ノックバック関連
+	ImGui::SeparatorText("Knockback Settings");
+	ImGui::DragFloat("Knockback Strength", (float*)&knockbackStrength_, 0.1f, 0.1f, 10.0f);
+	ImGui::DragFloat("Knockback Damping", (float*)&knockbackDamping_, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("Knockback Invincible Duration", (float*)&knockbackInvincibleDuration_, 0.1f, 0.0f, 5.0f);
+	ImGui::Text("Knockback Active: %s", isKnockbackActive_ ? "Yes" : "No");
+	ImGui::Text("Knockback Invincible Time: %.2f", knockbackInvincibleTime_);
+
+	// デバッグ用プレイヤー情報
+	ImGui::SeparatorText("Player Debug Info");
+	Vector3 pos = GetWorldPosition();
+	ImGui::Text("Position: (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
+
+	// カメラシェイク
+	ImGui::SeparatorText("Camera Shake");
+	ImGui::DragFloat("Shake Time", &shakeTime_, 0.01f);
+	ImGui::DragFloat2("Shake Range Min", &shakeRangeMin_.x, 0.01f);
+	ImGui::DragFloat2("Shake Range Max", &shakeRangeMax_.x, 0.01f);
+
+	// その他のデバッグアクション
+	ImGui::Separator();
+	if (ImGui::Button("Trigger Death Effect"))
+	{
+		BeginDeathEffect();
+	}
+
+	if (ImGui::Button("Save Settings"))
+	{
+		Save();
+	}
+
+	ImGui::End();
+}
+#endif
+
+
+
 void Player::InitJsonBinder()
 {
 
@@ -604,6 +610,8 @@ void Player::InitJsonBinder()
 	// 移動関連
 	jsonBinder_->RegisterVariable("CharacterSpeed", &kCharacterSpeed_);
 	jsonBinder_->RegisterVariable("L_Stick DeadZone", &kDeadZoneL_);
+	//コントローラー関連
+	jsonBinder_->RegisterVariable("RotationSpeed", &rotationSpeed_);
 	// 弾関連
 	jsonBinder_->RegisterVariable("BulletVelocity", &bulletVelocity_);
 	jsonBinder_->RegisterVariable("BulletAcceleration", &bulletAcceleration_);

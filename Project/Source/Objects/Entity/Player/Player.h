@@ -5,6 +5,7 @@
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
+#include <Systems/Audio/AudioSystem.h>
 #include <Systems/Time/GameTime.h>
 
 #include "../../Bullet/SouthPoleBullet.h"
@@ -299,6 +300,14 @@ private:
 	};
 
     DeathEffectParams deathEffectParams_;
+
+	//サウンド
+    uint32_t shotHandle_ = 0;
+    VoiceHandle shotVoice_;
+
+    uint32_t damageHandle_ = 0;
+	VoiceHandle damageVoice_;
+
 
 };
 

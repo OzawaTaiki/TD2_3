@@ -3,6 +3,7 @@
 #include <memory>
 #include <Framework/eScene/BaseScene.h>
 #include <Rendering/LineDrawer/LineDrawer.h>
+#include <Systems/Audio/AudioSystem.h>
 #include <UI/UISprite.h>
 #include "../System_TD/ScoreManager/ScoreManager.h"
 #include "../System_TD/ComboManager/ComboManager.h"
@@ -41,8 +42,10 @@ private:
     /*===============================================================//
                      　　         ポインタなど
     //===============================================================*/
-    static const int ms_ = 4; 
+    static const int ms_ = 4;
     Sprite* resultSprite_[ms_];
+
+    AudioSystem* audio_;
 
     /*===============================================================//
                  　　          外部のスプライト
@@ -65,4 +68,18 @@ private:
     UISprite uiA_;
     uint32_t UI_TX[2];
     bool isRetry_ = false;
+
+    // サウンド
+    uint32_t bgmHandle_ = 0;
+    uint32_t drumrollHandle_ = 0;
+    uint32_t drumrollEndHandle_ = 0;
+    uint32_t buttonHandle_ = 0;
+
+    VoiceHandle bgmVoice_;
+    VoiceHandle drumrollVoice_;
+    VoiceHandle drumrollEndVoice_;
+    VoiceHandle buttonVoice_;
+
+    // オフセット
+    float buttonOffset = 0.2f;
 };

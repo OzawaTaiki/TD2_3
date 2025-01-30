@@ -13,6 +13,11 @@ std::unique_ptr<BaseScene> ResultScene::Create()
 
 ResultScene::~ResultScene()
 {
+    audio_->SoundStop(bgmVoice_);
+    audio_->SoundStop(drumrollVoice_);
+    audio_->SoundStop(drumrollEndVoice_);
+    audio_->SoundStop(buttonVoice_);
+
 }
 
 void ResultScene::Initialize()
@@ -99,6 +104,19 @@ void ResultScene::Initialize()
 
 	UI_TX[0] = { TextureManager::GetInstance()->Load("resultTitle.png", defaulFilPath) };
 	UI_TX[1] = { TextureManager::GetInstance()->Load("resultRetry.png", defaulFilPath) };
+
+
+    audio_ = AudioSystem::GetInstance();
+
+    drumrollHandle_ = audio_->SoundLoadWave("drumroll.wav");
+    //drumrollEndHandle_ = audio_->SoundLoadWave("drumrollEnd.wav");
+    buttonHandle_ = audio_->SoundLoadWave("button.wav");
+
+    bgmHandle_ = audio_->SoundLoadWave("result.wav");
+    audio_->SoundPlay(bgmHandle_, 1.0f, true);
+
+
+
 }
 
 void ResultScene::Update()
@@ -114,6 +132,15 @@ void ResultScene::Update()
 
 	ImGui::Begin("ResultScene");
 	ImGui::DragFloat("Score", &resultSprite_[3]->rotate_);
+
+	static float vol = 1.0f;
+    ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
+    ImGui::DragFloat("Start", &buttonOffset, 0.01f, 0.0f);
+	if (ImGui::Button("sound"))
+	{
+		audio_->SoundPlay(buttonHandle_, vol, false, false, buttonOffset);
+	}
+
 	ImGui::End();
 
 #endif // _DEBUG
@@ -129,6 +156,8 @@ void ResultScene::Update()
 
 	if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_Down) ||
 		Input::GetInstance()->IsPadTriggered(PadButton::iPad_Up)) {
+		buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
+
 		isRetry_ = !isRetry_;
 	}
 
@@ -136,12 +165,14 @@ void ResultScene::Update()
 	if (!isRetry_) {
 		uiTitle_.SetTextureHandle(UI_TX[1]);
 		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
 			SceneManager::GetInstance()->ReserveScene("Game");
 		}
 	}
 	else {
 		uiTitle_.SetTextureHandle(UI_TX[0]);
 		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
 			SceneManager::GetInstance()->ReserveScene("Title");
 		}
 	}

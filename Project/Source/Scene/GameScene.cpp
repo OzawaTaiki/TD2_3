@@ -19,6 +19,8 @@ std::unique_ptr<BaseScene>GameScene::Create()
 
 GameScene::~GameScene()
 {
+    audio_->SoundStop(bgmVoice_);
+
     if (loadThread_ && loadThread_->joinable())
     {
         loadThread_->join();
@@ -46,8 +48,24 @@ void GameScene::Update()
         return;
     }
 
+    bool isCount = false;
+    float preTime_ = std::ceilf(time_);
+
 	float deltaTime = 1.0f / 60.0f;
 	time_ += deltaTime;
+
+    float curTime = std::floorf(time_);
+    if (curTime == preTime_)
+    {
+        isCount = true;
+    }
+
+    if (time_ >= 55.0f && isCount)
+    {
+        audio_->SoundPlay(countHandle_, 1.0f, false, true);
+    }
+
+
     //if (time_ >= 60.0f) {
     //    ScoreManager::GetInstance()->EndGame();
     //    ComboManager::GetInstance()->EndGame();
@@ -61,6 +79,8 @@ void GameScene::Update()
     collisionManager_->ResetColliderList();
 
 #ifdef _DEBUG
+    ImGui::Text("time: %f", time_);
+
     if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN) &&
         Input::GetInstance()->IsKeyPressed(DIK_LSHIFT)) {
         enableDebugCamera_ = !enableDebugCamera_;
@@ -165,6 +185,11 @@ void GameScene::Load()
     enemyManager_->SetPlayer(player_.get());
     enemyManager_->Initialize(&SceneCamera_);
 
+    audio_ = AudioSystem::GetInstance();
+
+    bgmHandle_ = audio_->SoundLoadWave("bgm.wav");
+
+    countHandle_ = audio_->SoundLoadWave("count.wav");
 
 
     lightGroup_.Initialize();
@@ -250,6 +275,7 @@ void GameScene::Load()
 
     Loading_ = false;
 
+    //bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
 }
 
 void GameScene::DrawScore()

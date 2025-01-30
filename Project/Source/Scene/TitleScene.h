@@ -7,6 +7,7 @@
 #include "Source/Objects/Entity/Enemy/EnemyManager.h"
 #include "Source/Objects/Entity/Player/Player.h"
 #include "Source/TitleUI/TItleUI.h"
+#include <Systems/Audio/AudioSystem.h>
 
 class TitleScene : public BaseScene
 {
@@ -35,6 +36,9 @@ private:
     std::unique_ptr<Player> player_ = nullptr;
 
     std::unique_ptr<ObjectModel> titleLogo_ = nullptr;
+
+    AudioSystem* audio_;
+    uint32_t audioHandle_;
 
     LightGroup lg = {};
 

@@ -25,6 +25,12 @@ void EnemyManager::Initialize(Camera* camera)
     spawnJson_.LoadEnemyPopData();
 
     gameTime_ = GameTime::GetInstance();
+
+    hitHandle_ = AudioSystem::GetInstance()->SoundLoadWave("hit.wav");
+    deathHandle_ = AudioSystem::GetInstance()->SoundLoadWave("knockdown.wav");
+
+    InitJsonBinder();
+
 }
 
 void EnemyManager::Update()
@@ -87,6 +93,26 @@ void EnemyManager::ImGui()
         ImGui::SliderFloat("Max Repel Force", &maxRepelForce_, 0.0f, 10.0f);
         ImGui::SliderFloat("Max Attract Force", &maxAttractForce_, 0.0f, 10.0f);
 
+        ImGui::SeparatorText("Sound");
+        ImGui::Text("Hit Sound");
+        ImGui::SliderFloat("Hit Sound Volume", &hitVolume_, 0.0f, 1.0f);
+        ImGui::DragFloat("Hit Sound Offset", &hitStartOffset_, 0.01f, 0.0f);
+        ImGui::Text("Death Sound");
+        ImGui::SliderFloat("Death Sound Volume", &deathVolume_, 0.0f, 1.0f);
+        ImGui::DragFloat("Death Sound Offset", &deathStartOffset_, 0.01f, 0.0f);
+
+        if (ImGui::Button("Set"))
+        {
+            for (auto& enemy : enemies_) {
+                enemy->SetHitSound(hitHandle_, hitVolume_, hitStartOffset_);
+                enemy->SetDeathSound(deathHandle_, deathVolume_, deathStartOffset_);
+            }
+        }
+        if (ImGui::Button("Save"))
+        {
+            jsonBinder_->Save();
+        }
+
     }
     ImGui::End();
 }
@@ -103,6 +129,8 @@ void EnemyManager::SpawnEnemy(Vector3& position, float& speed, Vector3& goal, st
     newEnemy->SetGoal(goal);
     newEnemy->SetPlayer(player_);
     newEnemy->SetMoveType(moveType);
+    newEnemy->SetHitSound(hitHandle_, hitVolume_, hitStartOffset_);
+    newEnemy->SetDeathSound(deathHandle_, deathVolume_, deathStartOffset_);
     enemies_.push_back(std::move(newEnemy));
 }
 
@@ -558,4 +586,15 @@ Vector4 EnemyManager::Vector4ooooo(const Matrix4x4& m, const Vector4& v)
     result.z = m.m[2][0] * v.x + m.m[2][1] * v.y + m.m[2][2] * v.z + m.m[2][3] * v.w;
     result.w = m.m[3][0] * v.x + m.m[3][1] * v.y + m.m[3][2] * v.z + m.m[3][3] * v.w;
     return result;
+}
+
+void EnemyManager::InitJsonBinder()
+{
+    jsonBinder_ = std::make_unique<JsonBinder>("enemyManager","Resources/Data/Parameter");
+
+    jsonBinder_->RegisterVariable("hitSound_Volume", &hitVolume_);
+    jsonBinder_->RegisterVariable("hitSound_Offset", &hitStartOffset_);
+
+    jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);
+    jsonBinder_->RegisterVariable("deathSound_Offset", &deathStartOffset_);
 }

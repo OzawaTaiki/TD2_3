@@ -4,12 +4,17 @@
 #include "Enemy.h"
 #include "TitleEnemy.h"
 #include <Framework/Camera/Camera.h>
+
 #include <chrono>
 
 #include "../../../System_TD/Loader/EnemySpawnLoader.h"
 #include "../../../System_TD/Loader/EnemyJsonLoader.h"
 
 #include <Systems/Time/GameTime.h>
+#include <Systems/Audio/AudioSystem.h>
+#include <Systems/JsonBinder/JsonBinder.h>
+
+
 class Player;
 class EnemyManager
 {
@@ -71,6 +76,8 @@ private:
 
     Vector4 Vector4ooooo(const Matrix4x4& m, const Vector4& v);
 
+    void InitJsonBinder();
+
 public:
 
     void SetPlayer(Player* player) { player_ = player; }
@@ -84,6 +91,7 @@ private:
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;
     GameTime* gameTime_ = nullptr;
+    std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
     EnemyJsonLoader spawnJson_; 
 
     /*===============================================================//
@@ -138,5 +146,18 @@ private:
     std::chrono::steady_clock::time_point lastSpawnTime_; // 最後に敵を生成した時刻
     float spawnInterval_ = 5.0f; // 敵生成間隔
     EnemySpawnLoader spawnLoader_;
+
+
+    /*===============================================================//
+                             サウンド
+    //===============================================================*/
+
+    uint32_t hitHandle_;
+    float hitVolume_ = 1.0f;
+    float hitStartOffset_ = 0.0f;
+
+    uint32_t deathHandle_;
+    float deathVolume_ = 1.0f;
+    float deathStartOffset_ = 0.0f;
 
 };

@@ -42,7 +42,7 @@ private:
                      　　         ポインタなど
     //===============================================================*/
     static const int ms_ = 4; 
-    std::unique_ptr<Sprite> resultSprite_[ms_];
+    Sprite* resultSprite_[ms_];
 
     /*===============================================================//
                  　　          外部のスプライト
@@ -52,9 +52,9 @@ private:
 	int count_ = 0;
 
     //uint32_t scoreTh;
-    std::array<std::unique_ptr<Sprite>, 10> scoreSprites_;
-	std::array<std::unique_ptr<Sprite>, 10> comboSprites_;
-	std::array<std::unique_ptr<Sprite>, 10> countSprites_;
+    std::array<Sprite*, 10> scoreSprites_;
+	std::array<Sprite*, 10> comboSprites_;
+	std::array<Sprite*, 10> countSprites_;
 
 
     /*===============================================================//

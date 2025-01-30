@@ -2,6 +2,8 @@
 
 #include "Enemy.h"
 
+#include <cstdint>
+
 class TitleEnemy : public Enemy
 {
 public:
@@ -31,6 +33,5 @@ private:
     Vector3 end_;
 
     Vector3* translate_;
-
 
 };

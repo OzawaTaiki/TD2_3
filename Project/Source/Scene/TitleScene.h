@@ -6,6 +6,7 @@
 #include "Source/Objects/Entity/Enemy/TitleEnemy.h"
 #include "Source/Objects/Entity/Enemy/EnemyManager.h"
 #include "Source/Objects/Entity/Player/Player.h"
+#include <Systems/JsonBinder/JsonBinder.h>
 #include "Source/TitleUI/TItleUI.h"
 #include <Systems/Audio/AudioSystem.h>
 
@@ -38,7 +39,10 @@ private:
     std::unique_ptr<ObjectModel> titleLogo_ = nullptr;
 
     AudioSystem* audio_;
-    uint32_t audioHandle_;
+
+    std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
+    float hitVolume_ = 0;
+    float deathVolume_ = 0;
 
     LightGroup lg = {};
 

@@ -188,7 +188,7 @@ private:
 	std::list<SouthPoleBullet*> bulletsSouth_;
 
 	static const int ch_ = 2;
-	std::unique_ptr<Sprite> spriteHP_[ch_];
+	Sprite* spriteHP_[ch_];
 
 
 	/*===============================================================//

@@ -70,8 +70,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     //SceneManager::RegisterScene("Load", LoadScene::Create);
 	SceneManager::GetInstance()->SetTransition(std::make_unique<SceneTransition>());
 
-
+#ifdef _DEBUG
 	SceneManager::GetInstance()->Initialize("Game");
+#else
+    SceneManager::GetInstance()->Initialize("Title");
+#endif // _DEBUG
+
+
 
 	Time::Initialize();
 

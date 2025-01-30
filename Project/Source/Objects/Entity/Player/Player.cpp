@@ -51,16 +51,15 @@ void Player::Initialize(Camera* camera)
 	uint32_t th[ch_] = { TextureManager::GetInstance()->Load("hpBar.png",defaulFilPath),
 						 TextureManager::GetInstance()->Load("hp.png",defaulFilPath) };
 
-	spriteHP_[0] = std::make_unique<Sprite>();
-	spriteHP_[0].reset(Sprite::Create(th[0]));
+
+    spriteHP_[0] = Sprite::Create(th[0]);
 	spriteHP_[0]->Initialize();
 	spriteHP_[0]->SetAnchor({ 0.5f,0.5f });
 	spriteHP_[0]->SetSize({ 200,100 });
 	spriteHP_[0]->translate_ = { 933, 651 };
 
 
-	spriteHP_[1] = std::make_unique<Sprite>();
-	spriteHP_[1].reset(Sprite::Create(th[1]));
+    spriteHP_[1] = Sprite::Create(th[1]);
 	spriteHP_[1]->Initialize();
 	spriteHP_[1]->SetAnchor({ 1.0f,0.0f });
 	spriteHP_[1]->SetSize({ 200,100 });

@@ -69,13 +69,13 @@ private:
                      　　         スプライト
     //===============================================================*/
     static const int bg_ = 2;
-    std::unique_ptr<Sprite> backGrounds_[bg_];
+    Sprite* backGrounds_[bg_];
 
     int scoreCount_ = 0;
     int comboCount_ = 0;
 
-    std::array<std::unique_ptr<Sprite>, 11> comboSprites_;
-    std::array<std::unique_ptr<Sprite>, 10> scoreSprites_;
+    std::array<Sprite*, 11> comboSprites_;
+    std::array<Sprite*, 10> scoreSprites_;
 
     std::vector<BonusScore> bonusScores_; // 「+100」の管理リスト
     const float bonusLifetime_ = 1.0f;    // 「+100」の表示時間

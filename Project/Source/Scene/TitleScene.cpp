@@ -25,8 +25,16 @@ void TitleScene::Initialize()
     lineDrawer_->Initialize();
     lineDrawer_->SetCameraPtr(&SceneCamera_);
 
+    jsonBinder_ = std::make_unique<JsonBinder>("enemyManager", "Resources/Data/Parameter");
+
+    jsonBinder_->RegisterVariable("hitSound_Volume", &hitVolume_);
+    jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);
+
     const size_t enemyNum = 20;
 
+    uint32_t hitHandle = AudioSystem::GetInstance()->SoundLoadWave("hit.wav");
+    uint32_t deathHandle = AudioSystem::GetInstance()->SoundLoadWave("knockdown.wav");
+    
     for (size_t i = 0; i < enemyNum; i++)
     {
         auto& enemy = enemies_.emplace_back(std::make_unique<TitleEnemy>());
@@ -34,6 +42,8 @@ void TitleScene::Initialize()
         enemy->SetTranslate(Vector3{ static_cast<float>(-20.0f + i * 2),0,0 });
         enemy->SetRangeOfMovement({ 20.0f,0.0f,0.0f }, { -20.0f,0.0f,0.0f });
         enemy->SetMoveSpeed(-0.1f);
+        enemy->SetHitSound(hitHandle, hitVolume_, 0.0f);
+        enemy->SetDeathSound(deathHandle, deathVolume_, 0.0f);
     };
 
     enemyManager_ = std::make_unique<EnemyManager>();
@@ -65,6 +75,7 @@ void TitleScene::Initialize()
     LightingSystem::GetInstance()->SetLightGroup(&lg);
 
     audio_ = AudioSystem::GetInstance();
+
 }
 
 void TitleScene::Update()
@@ -94,9 +105,14 @@ void TitleScene::Update()
     //if (enemyMove_)
 #endif // _DEBUG
 
-    for (auto& enemy : enemies_)
+    for (auto it = enemies_.begin(); it != enemies_.end();)
     {
-        enemy->Update();
+        auto& enemy = *it;
+            enemy->Update();
+            if (enemy->GetIsAlive())
+                ++it;
+            else
+                it = enemies_.erase(it);
     }
 
     if(enemyManager_->AttractEnemy(enemies_))

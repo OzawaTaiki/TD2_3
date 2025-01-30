@@ -275,7 +275,7 @@ void GameScene::Load()
 
     Loading_ = false;
 
-    //bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
+    bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
 }
 
 void GameScene::DrawScore()

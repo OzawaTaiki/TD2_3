@@ -73,16 +73,20 @@ private:
     /// </summary>
     void UpdateGroup();
 
-
+    /// <summary>
+    /// 特定のウェーブ、グループの更新7
+    /// </summary>
+    /// <param name="waveIndex"></param>
     void IUpdateWave(int waveIndex);
-
-
     void IUpdateGroup(int waveIndex, int groupIndex);
 
     /// <summary>
     /// プレイヤーの位置をリアルタイムで更新する
     /// </summary>
     void UpdateEnemyPositions();
+
+
+
 
 private:
 	Player* player_ = nullptr;

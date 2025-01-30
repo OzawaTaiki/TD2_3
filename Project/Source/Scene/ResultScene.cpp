@@ -21,46 +21,42 @@ void ResultScene::Initialize()
 						 TextureManager::GetInstance()->Load("frame.png", defaulFilPath),
 						 TextureManager::GetInstance()->Load("result.png", defaulFilPath),
 						 TextureManager::GetInstance()->Load("player.png", defaulFilPath) };
-	
-	resultSprite_[0] = std::make_unique<Sprite>();
-	resultSprite_[0].reset(Sprite::Create(th[0]));
+
+    resultSprite_[0] = Sprite::Create(th[0]);
 	resultSprite_[0]->Initialize();
 	resultSprite_[0]->SetAnchor({ 0.0f,0.0f });
 	//resultSprite_[0]->translate_ = {640,320};
 	resultSprite_[0]->SetSize({ 1280,720 });
 	resultSprite_[0]->SetColor({0.25,0.25,0.25,1.0});
 
-	resultSprite_[1] = std::make_unique<Sprite>();
-	resultSprite_[1].reset(Sprite::Create(th[1]));
+    resultSprite_[1] = Sprite::Create(th[1]);
 	resultSprite_[1]->Initialize();
 	resultSprite_[1]->translate_ = { -9,-9 };
 	resultSprite_[1]->scale_ = { 1.018f,1.03f };
 	resultSprite_[1]->SetAnchor({ 0.0f,0.0f });
 
-	resultSprite_[2] = std::make_unique<Sprite>();
-	resultSprite_[2].reset(Sprite::Create(th[2]));
+    resultSprite_[2] = Sprite::Create(th[2]);
 	resultSprite_[2]->Initialize();
 	resultSprite_[2]->SetAnchor({ 0.5f,0.5f });
 	resultSprite_[2]->translate_ = { 640,360 };
 
-	resultSprite_[3] = std::make_unique<Sprite>();
-	resultSprite_[3].reset(Sprite::Create(th[3]));
+    resultSprite_[3] = Sprite::Create(th[3]);
 	resultSprite_[3]->Initialize();
 	resultSprite_[3]->SetAnchor({ 0.5f,0.5f });
 	resultSprite_[3]->translate_ = { 180,550 };
 	resultSprite_[3]->rotate_ = 44.3f;
-	
+
 	/*===============================================================//
 			 　　				スコア
 	//===============================================================*/
 	uint32_t scoreTh = TextureManager::GetInstance()->Load("number.png", defaulFilPath);
 	score_ = ScoreManager::GetInstance()->GetCurrentScore();
 	for (int i = 0; i < 10; ++i) {
-		scoreSprites_[i] = std::make_unique<Sprite>();
-		scoreSprites_[i].reset(Sprite::Create(scoreTh));
+
+        scoreSprites_[i] = Sprite::Create(scoreTh);
 		scoreSprites_[i]->Initialize();
 		scoreSprites_[i]->translate_ = {  };
-		scoreSprites_[i]->scale_ = { 0.07f, 0.5f }; 
+		scoreSprites_[i]->scale_ = { 0.07f, 0.5f };
 		scoreSprites_[i]->uvScale_ = { 0.1f,1.0f };
 		scoreSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
 	}
@@ -71,8 +67,8 @@ void ResultScene::Initialize()
 	//===============================================================*/
 	combo_ = ComboManager::GetInstance()->GetMaxCombo();
 	for (int i = 0; i < 10; ++i) {
-		comboSprites_[i] = std::make_unique<Sprite>();
-		comboSprites_[i].reset(Sprite::Create(scoreTh));
+
+        comboSprites_[i] = Sprite::Create(scoreTh);
 		comboSprites_[i]->Initialize();
 		comboSprites_[i]->translate_ = {  };
 		comboSprites_[i]->scale_ = { 0.07f, 0.5f };
@@ -87,8 +83,7 @@ void ResultScene::Initialize()
 
 	count_ = CountManager::GetInstance()->GetEnemyCount();
 	for (int i = 0; i < 10; ++i) {
-		countSprites_[i] = std::make_unique<Sprite>();
-		countSprites_[i].reset(Sprite::Create(scoreTh));
+        countSprites_[i] = Sprite::Create(scoreTh);
 		countSprites_[i]->Initialize();
 		countSprites_[i]->translate_ = {  };
 		countSprites_[i]->scale_ = { 0.07f, 0.5f };

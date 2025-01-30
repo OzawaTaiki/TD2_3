@@ -99,7 +99,7 @@ void ComboManager::ImGui()
 	}
 
 
-	
+
 	// 保存
 	if (ImGui::Button("Save")) {
 		jsonBinder_->Save();

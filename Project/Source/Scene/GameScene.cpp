@@ -198,15 +198,13 @@ void GameScene::Load()
     //===============================================================*/
     uint32_t bg[bg_] = { TextureManager::GetInstance()->Load("frame.png", defaulFilPath),
                          TextureManager::GetInstance()->Load("player.png", defaulFilPath) };
-    backGrounds_[0] = std::make_unique<Sprite>();
-	backGrounds_[0].reset(Sprite::Create(bg[0]));
+    backGrounds_[0] = Sprite::Create(bg[0]);
 	backGrounds_[0]->Initialize();
 	backGrounds_[0]->translate_ = { -9,-9 };
 	backGrounds_[0]->scale_ = { 1.018f,1.03f };
 	backGrounds_[0]->SetAnchor({ 0.0f,0.0f });
 
-    backGrounds_[1] = std::make_unique<Sprite>();
-    backGrounds_[1].reset(Sprite::Create(bg[1]));
+    backGrounds_[1] = Sprite::Create(bg[1]);
     backGrounds_[1]->Initialize();
     backGrounds_[1]->SetAnchor({ 0.5f,0.5f });
     backGrounds_[1]->translate_ = { 1100,515 };
@@ -219,8 +217,7 @@ void GameScene::Load()
     uint32_t scoreNumber = TextureManager::GetInstance()->Load("number.png", defaulFilPath);
 
     for (int i = 0; i < 10; ++i) {
-        scoreSprites_[i] = std::make_unique<Sprite>();
-        scoreSprites_[i].reset(Sprite::Create(scoreNumber));
+        scoreSprites_[i] = Sprite::Create(scoreNumber);
         scoreSprites_[i]->Initialize();
         scoreSprites_[i]->translate_ = {  };
         scoreSprites_[i]->scale_ = { 0.07f, 0.6f };
@@ -234,8 +231,7 @@ void GameScene::Load()
     uint32_t comboNumber = TextureManager::GetInstance()->Load("number_2.png", defaulFilPath);
 
     for (int i = 0; i < 11; ++i) {
-        comboSprites_[i] = std::make_unique<Sprite>();
-        comboSprites_[i].reset(Sprite::Create(comboNumber));
+        comboSprites_[i] = Sprite::Create(comboNumber);
         comboSprites_[i]->Initialize();
         comboSprites_[i]->translate_ = {  };
         comboSprites_[i]->scale_ = { 0.07f, 0.5f };

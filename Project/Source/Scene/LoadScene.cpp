@@ -5,15 +5,13 @@
 
 std::unique_ptr<BaseScene> LoadScene::Create()
 {
-    Utils::Log("\n\nLoadScene::Create()\n");
     return std::make_unique<LoadScene>();
 }
 
 void LoadScene::Initialize()
 {
     uint32_t  textureHandle = TextureManager::GetInstance()->Load("LoadTest.png");
-    sprite_ = std::make_unique<Sprite>();
-    sprite_.reset(Sprite::Create(textureHandle));
+    sprite_ = Sprite::Create(textureHandle);
     sprite_->Initialize();
     sprite_->SetSize({ 100, 100});
     sprite_->translate_ = { 640,360 };

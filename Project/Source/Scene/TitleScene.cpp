@@ -63,10 +63,13 @@ void TitleScene::Initialize()
 
 
     LightingSystem::GetInstance()->SetLightGroup(&lg);
+
+    audio_ = AudioSystem::GetInstance();
 }
 
 void TitleScene::Update()
 {
+
     CollisionManager::GetInstance()->ResetColliderList();
 
     //if(Input::GetInstance()->IsKeyTriggered(DIK_TAB) ||
@@ -86,6 +89,7 @@ void TitleScene::Update()
 
     BG_.Update();
     titleUI_->Update();
+
 
     //if (enemyMove_)
 #endif // _DEBUG

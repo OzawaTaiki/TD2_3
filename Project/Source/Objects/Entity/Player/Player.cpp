@@ -83,10 +83,27 @@ void Player::Initialize(Camera* camera)
 
 	gameTime_ = GameTime::GetInstance();
 	gameTime_->CreateChannel("default");
+
+    AudioSystem* audio = AudioSystem::GetInstance();
+
+    shotHandle_ = audio->SoundLoadWave("attack.wav");
+
+	damageHandle_ = audio->SoundLoadWave("damage.wav");
+
 }
 
 void Player::Update()
 {
+
+	static float vol = 1.0f;
+	static float offset = 0.0f;
+	ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("Start", &offset, 0.01f, 0.0f);
+	if (ImGui::Button("sound"))
+	{
+		AudioSystem::GetInstance()->SoundPlay(damageHandle_, vol, false, true, offset);
+	}
+
 	if (isAlive_)
 	{
 
@@ -162,6 +179,7 @@ void Player::OnCollision(const Collider* other)
 		if (hp_ <= 0) {
 			isAlive_ = false;
 			BeginDeathEffect();
+			return;
 		}
 		// プレイヤーの向いている方向（rotation_.y）から前方ベクトルを算出
 		float angle = rotation_.y;
@@ -177,6 +195,7 @@ void Player::OnCollision(const Collider* other)
 			oModel_->translate_ = prePosition_;
 		}
 
+		damageVoice_ = AudioSystem::GetInstance()->SoundPlay(damageHandle_, 1.0f, false, true, 0.17f);
 
 	}
 }
@@ -343,6 +362,8 @@ void Player::NorthPoleBulletFire()
 		bulletsNorth_.push_back(newBullet);
 
 		enableShake_ = true;
+
+		shotVoice_ = AudioSystem::GetInstance()->SoundPlay(shotHandle_, 1.0f, false);
 	}
 }
 
@@ -371,6 +392,9 @@ void Player::SouthPoleBulletFire()
 		bulletsSouth_.push_back(newBullet);
 
 		enableShake_ = true;
+
+		shotVoice_ = AudioSystem::GetInstance()->SoundPlay(shotHandle_, 1.0f, false);
+
 	}
 }
 

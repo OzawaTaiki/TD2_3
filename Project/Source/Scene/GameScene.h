@@ -4,6 +4,7 @@
 #include <Framework/Camera/Camera.h>
 #include <Framework/Camera/DebugCamera.h>
 #include <Rendering/Light/LightGroup.h>
+#include <Systems/Audio/AudioSystem.h>
 #include <memory>
 
 #include "../Objects/Entity/Player/Player.h"
@@ -79,6 +80,15 @@ private:
 
     std::vector<BonusScore> bonusScores_; // 「+100」の管理リスト
     const float bonusLifetime_ = 1.0f;    // 「+100」の表示時間
+
+    // サウンド
+    AudioSystem* audio_ = nullptr;
+
+    uint32_t bgmHandle_ = 0;
+    VoiceHandle bgmVoice_ = {};
+
+    uint32_t countHandle_ = 0;
+    VoiceHandle countVoice_ = {};
 
 #ifdef _DEBUG
     void ImGui();

@@ -10,6 +10,7 @@
 #include "UI/ImGuiManager/ImGuiManager.h"
 #include "Framework/Particle/ParticleManager.h"
 #include "Systems/Utility/RandomGenerator.h"
+#include "Systems/Audio/AudioSystem.h"
 #include "Systems/Time/Time.h"
 
 /*-----シーン-----*/
@@ -57,6 +58,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	LineDrawer* lineDrawer = LineDrawer::GetInstance();
 	lineDrawer->Initialize();
+
+	AudioSystem* audio_ = AudioSystem::GetInstance();
+	audio_->Initialize();
 
 	Input* input = Input::GetInstance();
 	input->Initilize(winApp);

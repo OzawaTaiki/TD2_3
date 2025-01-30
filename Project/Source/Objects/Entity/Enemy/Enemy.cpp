@@ -30,6 +30,8 @@ void Enemy::Initialize(Camera* camera)
 
 	markForRemoval_ = false;
 	isAddScore_ = false;
+
+
 }
 
 void Enemy::Update()
@@ -39,6 +41,8 @@ void Enemy::Update()
 		ScoreManager::GetInstance()->AddScore(100);
 		ComboManager::GetInstance()->AddCombo(1);
 		CountManager::GetInstance()->EnemyCount(1);
+
+        AudioSystem::GetInstance()->SoundPlay(deathHandle_, 1.0f, false);
 	}
 
 
@@ -134,10 +138,12 @@ void Enemy::OnCollision(const Collider* other)
 	}
 	else if (other->GetName() == "SouthBullet") {
 
+        AudioSystem::GetInstance()->SoundPlay(hitHandle_, 1.0f, false);
 
 	}
 	else if (other->GetName() == "NorthBullet") {
 
+		AudioSystem::GetInstance()->SoundPlay(hitHandle_, 1.0f, false);
 
 	}
 }

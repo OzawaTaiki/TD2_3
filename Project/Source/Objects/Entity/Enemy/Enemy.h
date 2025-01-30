@@ -2,6 +2,7 @@
 
 #include "../BaseEntity.h"
 #include <Physics/Collision/Collider.h>
+#include <Systems/Audio/AudioSystem.h>
 
 
 class Player;
@@ -112,6 +113,18 @@ public:
 	
     Collider* getcoll() { return collider_.get(); }
 
+	void SetHitSound(uint32_t _handle, float _volume, float _startOffset) {
+		hitHandle_ = _handle;
+		hitVolume_ = _volume;
+		hitStartOffset_ = _startOffset;
+	}
+
+	void SetDeathSound(uint32_t _handle, float _volume, float _startOffset) {
+		deathHandle_ = _handle;
+		deathVolume_ = _volume;
+		deathStartOffset_ = _startOffset;
+	}
+
 private:
 	
 	/*===============================================================//
@@ -141,5 +154,18 @@ private:
 	// 時間でNone状態に変更
 	float typeChangeCount_ = 0.0f;
 	const float typeChangeTime_ = 4.0f;
+
+
+	// サウンド
+    uint32_t hitHandle_;
+    VoiceHandle hitVoice_;
+    float hitVolume_ = 1.0f;
+    float hitStartOffset_ = 0.0f;
+
+    uint32_t deathHandle_;
+    VoiceHandle deathVoice_;
+    float deathVolume_ = 1.0f;
+    float deathStartOffset_ = 0.0f;
+
 };
 

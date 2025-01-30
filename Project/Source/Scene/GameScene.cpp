@@ -121,6 +121,11 @@ void GameScene::Draw()
         return;
     }
 
+    Sprite::PreDraw();
+    for (int i = 0; i < bg_; ++i)
+    {
+        backGrounds_[i]->Draw();
+    }
 
     ModelManager::GetInstance()->PreDrawForObjectModel();
     area_->Draw(&SceneCamera_);

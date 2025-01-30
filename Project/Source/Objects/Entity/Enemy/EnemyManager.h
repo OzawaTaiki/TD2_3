@@ -8,6 +8,8 @@
 #include <chrono>
 
 #include "../../../System_TD/Loader/EnemySpawnLoader.h"
+#include "../../../System_TD/Loader/EnemyJsonLoader.h"
+
 #include <Systems/Time/GameTime.h>
 #include <Systems/Audio/AudioSystem.h>
 #include <Systems/JsonBinder/JsonBinder.h>
@@ -90,6 +92,7 @@ private:
     Camera* camera_ = nullptr;
     GameTime* gameTime_ = nullptr;
     std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
+    EnemyJsonLoader spawnJson_; 
 
     /*===============================================================//
                              ランダム生成

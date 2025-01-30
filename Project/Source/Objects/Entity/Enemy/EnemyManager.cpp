@@ -16,12 +16,13 @@ void EnemyManager::Initialize(Camera* camera)
 
 
     // コールバック関数の登録
-    spawnLoader_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal,std::string& moveType) {
+	spawnJson_.SetPlayer(player_);
+    spawnJson_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal,std::string& moveType) {
         this->SpawnEnemy(position,speed,goal, moveType);
         });
 
     // スポーンデータの読み込み
-    spawnLoader_.LoadEnemyPopData();
+    spawnJson_.LoadEnemyPopData();
 
     gameTime_ = GameTime::GetInstance();
 
@@ -37,7 +38,7 @@ void EnemyManager::Update()
 
     //gameTime_->GetChannel("default").SetGameSpeed(5.0f);
     float deltaTime = gameTime_->GetChannel("default").GetDeltaTime<float>();
-    spawnLoader_.UpdateEnemyPopCommands();
+    spawnJson_.UpdateEnemyPopCommands();
 
     /// デスフラグの立った敵を削除
     RemoveDeadEnemies();
@@ -45,18 +46,20 @@ void EnemyManager::Update()
 
     /// 敵の更新
     for (auto& enemy : enemies_) {
+
         enemy->Update();
         enemy->Move(deltaTime);
-
         enemy->ChangeType(deltaTime);
     }
 
 
-
-
 #ifdef _DEBUG
-    ImGui();
+    spawnJson_.ShowImGui(); // 追加
 #endif
+//
+//#ifdef _DEBUG
+//    ImGui();
+//#endif
 
 }
 

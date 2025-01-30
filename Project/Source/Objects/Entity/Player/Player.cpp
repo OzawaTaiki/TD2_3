@@ -273,8 +273,8 @@ void Player::Rotate()
 				float targetYaw = std::atan2(thumbRX, thumbRY);
 
 				// 目標角度を現在の累積角度に合わせる（±2π の補正）
-				while (targetYaw - accumulatedYaw_ < -std::numbers::pi) targetYaw += std::numbers::pi * 2.0f;
-				while (targetYaw - accumulatedYaw_ > std::numbers::pi) targetYaw -= std::numbers::pi * 2.0f;
+				while (targetYaw - accumulatedYaw_ < -std::numbers::pi_v<float>) targetYaw += std::numbers::pi_v<float> * 2.0f;
+				while (targetYaw - accumulatedYaw_ > std::numbers::pi_v<float>) targetYaw -= std::numbers::pi_v<float> * 2.0f;
 
 				// 角度差を計算
 				float diff = targetYaw - accumulatedYaw_;

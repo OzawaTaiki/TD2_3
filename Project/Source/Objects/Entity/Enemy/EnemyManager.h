@@ -7,6 +7,8 @@
 #include <chrono>
 
 #include "../../../System_TD/Loader/EnemySpawnLoader.h"
+#include "../../../System_TD/Loader/EnemyJsonLoader.h"
+
 #include <Systems/Time/GameTime.h>
 class Player;
 class EnemyManager
@@ -82,6 +84,7 @@ private:
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;
     GameTime* gameTime_ = nullptr;
+    EnemyJsonLoader spawnJson_; 
 
     /*===============================================================//
                              ランダム生成

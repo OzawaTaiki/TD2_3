@@ -1,0 +1,29 @@
+[
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -0.8000008463859558,
+                    "y": 0.0,
+                    "z": -6.103022575378418
+                },
+                "moveType": "Player",
+                "numEnemies": 5,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "speed": 1.0,
+                "waitTime": 1.0
+            }
+        ],
+        "waveNumber": 1
+    }
+]

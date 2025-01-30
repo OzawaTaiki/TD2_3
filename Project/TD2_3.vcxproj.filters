@@ -132,6 +132,9 @@
     <ClCompile Include="Source\TItleUI\TItleUI.cpp">
       <Filter>Source\TitleUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Source\TItleUI\TItleUI.h">
       <Filter>Source\TitleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

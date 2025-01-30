@@ -48,12 +48,12 @@ void GameScene::Update()
 
 	float deltaTime = 1.0f / 60.0f;
 	time_ += deltaTime;
-    if (time_ >= 60.0f) {
-        ScoreManager::GetInstance()->EndGame();
-        ComboManager::GetInstance()->EndGame();
-        SceneManager::GetInstance()->ReserveScene("Result");
-        time_ = 0.0f;
-    }
+    //if (time_ >= 60.0f) {
+    //    ScoreManager::GetInstance()->EndGame();
+    //    ComboManager::GetInstance()->EndGame();
+    //    SceneManager::GetInstance()->ReserveScene("Result");
+    //    time_ = 0.0f;
+    //}
 
     /*===============================================================//
                          　　    当たり判定

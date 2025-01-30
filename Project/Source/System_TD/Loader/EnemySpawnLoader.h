@@ -9,25 +9,25 @@
 #include <Physics/Math/Vector3.h>
 
 
-struct Group {
-	int numEnemies;							// 敵の数
-	std::string moveType = "Default";		// 移動のタイプ
-	float speed;							// 速さ
-	Vector3 goal;							// 目的地
-	Vector3 spawnPoint;						// スポーンする基準点
-	Vector3 direction;						// 列の向き
-	float offset;							// 敵同士の間隔
-	int waitTime;							// 待機時間
-};
 
-struct Wave {
-	int waveNumber;			   // ウェーブ数
-	std::vector<Group> groups; // グループのリスト
-};
 
 class EnemySpawnLoader {
 public:
+	struct Group {
+		int numEnemies;							// 敵の数
+		std::string moveType = "Default";		// 移動のタイプ
+		float speed;							// 速さ
+		Vector3 goal;							// 目的地
+		Vector3 spawnPoint;						// スポーンする基準点
+		Vector3 direction;						// 列の向き
+		float offset;							// 敵同士の間隔
+		int waitTime;							// 待機時間
+	};
 
+	struct Wave {
+		int waveNumber;			   // ウェーブ数
+		std::vector<Group> groups; // グループのリスト
+	};
 	using SpawnCallback = std::function<void(Vector3&,float&,Vector3&,std::string&)>;
 
 	/// <summary>

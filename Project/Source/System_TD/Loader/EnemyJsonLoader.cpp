@@ -59,47 +59,43 @@ void EnemyJsonLoader::UpdateEnemyPopCommands()
 
 	UpdateWave();
 }
+
 void EnemyJsonLoader::UpdateWave()
 {
-	if (currentWaveIndex_ >= waves_.size()) return;
+	if (static_cast<size_t>(currentWaveIndex_) >= waves_.size()) return;
 
-	Wave& currentWave = waves_[currentWaveIndex_];
+	Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
 
-	// グループの処理が終わった場合
-	if (currentGroupIndex_ >= currentWave.groups.size()) {
-		// ウェーブの待機時間を適用
+	if (currentGroupIndex_ >= static_cast<int>(currentWave.groups.size())) {
 		if (currentWave.waitTime > 0) {
 			isWait_ = true;
-			waitTimer_ = static_cast<int>(currentWave.waitTime * 60); // 秒 → フレーム変換
+			waitTimer_ = static_cast<float>(currentWave.waitTime * 60.0f); // float にキャスト
 		}
-		// 次のウェーブへ移行
 		currentWaveIndex_++;
 		currentGroupIndex_ = 0;
 		return;
 	}
 
-	// グループの処理を実行
 	UpdateGroup();
 }
 
 void EnemyJsonLoader::UpdateGroup()
 {
-	Wave& currentWave = waves_[currentWaveIndex_];
-	Group& currentGroup = currentWave.groups[currentGroupIndex_];
+	Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
+	Group& currentGroup = currentWave.groups[static_cast<size_t>(currentGroupIndex_)];
 
-	for (uint32_t i = 0; i < currentGroup.numEnemies; ++i) {
-		Vector3 position = currentGroup.spawnPoint + currentGroup.direction * currentGroup.offset * i;
+	for (int i = 0; i < currentGroup.numEnemies; ++i) {
+		Vector3 position = currentGroup.spawnPoint + currentGroup.direction * static_cast<float>(currentGroup.offset * i);
 		float speed = currentGroup.speed;
 		Vector3 goal = currentGroup.goal;
 		std::string moveType = currentGroup.moveType;
 
-		// MoveType が "Target" の場合、プレイヤーの位置を取得
 		if (currentGroup.moveType == "Target" && player_) {
-			goal = player_->GetWorldPosition();  // プレイヤーの現在位置をゴールにする
+			goal = player_->GetWorldPosition();
 		}
 
 		if (!isUpdate_) {
-			speed = 0.0f; // 速度を0にして移動を停止
+			speed = 0.0f;
 		}
 
 		if (spawnCallback_) {
@@ -107,66 +103,61 @@ void EnemyJsonLoader::UpdateGroup()
 		}
 	}
 
-	// グループの待機時間を適用
 	if (currentGroup.waitTime > 0) {
 		isWait_ = true;
-		waitTimer_ = static_cast<int>(currentGroup.waitTime * 60); // 秒 → フレーム変換
+		waitTimer_ = static_cast<float>(currentGroup.waitTime * 60.0f); // float にキャスト
 	}
 
-	// 次のグループへ
 	currentGroupIndex_++;
 }
 
-void EnemyJsonLoader::IUpdateWave(int waveIndex)
+void EnemyJsonLoader::IUpdateWave(size_t waveIndex)
 {
-	if (waveIndex < 0 || waveIndex >= waves_.size()) return;
+	if (waveIndex < 0 || waveIndex >= static_cast<int>(waves_.size())) return;
 
-	Wave& wave = waves_[waveIndex];
+	Wave& wave = waves_[static_cast<size_t>(waveIndex)];
 
-	// ウェーブの待機時間を適用
 	if (wave.waitTime > 0) {
 		isWait_ = true;
-		waitTimer_ = static_cast<int>(wave.waitTime * 60); // 秒 → フレーム変換
+		waitTimer_ = static_cast<float>(wave.waitTime * 60.0f); // float にキャスト
 	}
 
-	// ウェーブ内のすべてのグループを更新
 	for (size_t groupIndex = 0; groupIndex < wave.groups.size(); ++groupIndex) {
-		IUpdateGroup(waveIndex, static_cast<int>(groupIndex));
+		IUpdateGroup(waveIndex, static_cast<int>(groupIndex)); // size_t から int にキャスト
 	}
 }
 
-void EnemyJsonLoader::IUpdateGroup(int waveIndex, int groupIndex)
+void EnemyJsonLoader::IUpdateGroup(size_t waveIndex, size_t groupIndex)
 {
-	if (waveIndex < 0 || waveIndex >= waves_.size()) return;
-	Wave& wave = waves_[waveIndex];
+	if (waveIndex < 0 || static_cast<size_t>(waveIndex) >= waves_.size()) return;
+	Wave& wave = waves_[static_cast<size_t>(waveIndex)];
 
-	if (groupIndex < 0 || groupIndex >= wave.groups.size()) return;
-	Group& group = wave.groups[groupIndex];
+	if (groupIndex < 0 || static_cast<size_t>(groupIndex) >= wave.groups.size()) return;
+	Group& group = wave.groups[static_cast<size_t>(groupIndex)];
 
-	for (uint32_t i = 0; i < group.numEnemies; ++i) {
-		Vector3 position = group.spawnPoint + group.direction * group.offset * i;
+	for (int i = 0; i < group.numEnemies; ++i) {
+		Vector3 position = group.spawnPoint + group.direction * static_cast<float>(group.offset * i);
 		float speed = group.speed;
 		Vector3 goal = group.goal;
 		std::string moveType = group.moveType;
 
-		// MoveType が "Target" の場合、プレイヤーの位置を取得
 		if (group.moveType == "Target" && player_) {
 			goal = player_->GetWorldPosition();
 		}
 
 		if (!isUpdate_) {
-			speed = 0.0f; // 速度を0にして移動を停止
+			speed = 0.0f;
 		}
 
+        position = group.spawnPoint + group.direction * static_cast<float>(group.offset * i);
 		if (spawnCallback_) {
 			spawnCallback_(position, speed, goal, moveType);
 		}
 	}
 
-	// グループの待機時間を適用
 	if (group.waitTime > 0) {
 		isWait_ = true;
-		waitTimer_ = static_cast<int>(group.waitTime * 60);
+		waitTimer_ = static_cast<float>(group.waitTime * 60.0f); // float にキャスト
 	}
 }
 
@@ -216,7 +207,7 @@ void EnemyJsonLoader::ShowImGui()
 			UpdateEnemyPopCommands();
 		}
 
-		for (size_t i = 0; i < waves_.size(); ++i) {
+		for (int i = 0; i < waves_.size(); ++i) {
 			Wave& wave = waves_[i];
 
 			// Push unique ID to prevent ID conflicts
@@ -258,7 +249,7 @@ void EnemyJsonLoader::ShowImGui()
 					SaveEnemyPopData();
 				}
 
-				for (size_t j = 0; j < wave.groups.size(); ++j) {
+				for (int j = 0; j < wave.groups.size(); ++j) {
 					Group& group = wave.groups[j];
 
 					// Push unique ID to prevent conflicts

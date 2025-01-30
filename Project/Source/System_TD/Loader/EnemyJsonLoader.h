@@ -77,8 +77,8 @@ private:
     /// 特定のウェーブ、グループの更新7
     /// </summary>
     /// <param name="waveIndex"></param>
-    void IUpdateWave(int waveIndex);
-    void IUpdateGroup(int waveIndex, int groupIndex);
+    void IUpdateWave(size_t waveIndex);
+    void IUpdateGroup(size_t waveIndex, size_t groupIndex);
 
     /// <summary>
     /// プレイヤーの位置をリアルタイムで更新する

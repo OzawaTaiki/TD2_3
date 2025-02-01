@@ -1,1 +1,117 @@
-[]
+[
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -8.0,
+                    "y": 0.0,
+                    "z": -70.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 0.0,
+                "spawnPoint": {
+                    "x": -8.0,
+                    "y": 0.0,
+                    "z": 15.0
+                },
+                "speed": 6.5,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -4.0,
+                    "y": 0.0,
+                    "z": -70.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 0.0,
+                "spawnPoint": {
+                    "x": -4.0,
+                    "y": 0.0,
+                    "z": 15.0
+                },
+                "speed": 6.5,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -70.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 0.0,
+                "spawnPoint": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 15.0
+                },
+                "speed": 6.5,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 4.0,
+                    "y": 0.0,
+                    "z": -70.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 0.0,
+                "spawnPoint": {
+                    "x": 4.0,
+                    "y": 0.0,
+                    "z": 15.0
+                },
+                "speed": 6.5,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 8.0,
+                    "y": 0.0,
+                    "z": -70.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 0.0,
+                "spawnPoint": {
+                    "x": 8.0,
+                    "y": 0.0,
+                    "z": 15.0
+                },
+                "speed": 6.5,
+                "waitTime": 0.0
+            }
+        ],
+        "waveNumber": 1
+    }
+]

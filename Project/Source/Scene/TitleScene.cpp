@@ -30,18 +30,18 @@ void TitleScene::Initialize()
     jsonBinder_->RegisterVariable("hitSound_Volume", &hitVolume_);
     jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);
 
-    const size_t enemyNum = 20;
+    const size_t enemyNum = 10;
 
     uint32_t hitHandle = AudioSystem::GetInstance()->SoundLoadWave("hit.wav");
     uint32_t deathHandle = AudioSystem::GetInstance()->SoundLoadWave("knockdown.wav");
-    
+
     for (size_t i = 0; i < enemyNum; i++)
     {
         auto& enemy = enemies_.emplace_back(std::make_unique<TitleEnemy>());
         enemy->Initialize(&SceneCamera_);
-        enemy->SetTranslate(Vector3{ static_cast<float>(-20.0f + i * 2),0,0 });
+        enemy->SetTranslate(Vector3{ static_cast<float>(-20.0f + i * 4),0,0 });
         enemy->SetRangeOfMovement({ 20.0f,0.0f,0.0f }, { -20.0f,0.0f,0.0f });
-        enemy->SetMoveSpeed(-0.1f);
+        enemy->SetMoveSpeed(-0.07f);
         enemy->SetHitSound(hitHandle, hitVolume_, 0.0f);
         enemy->SetDeathSound(deathHandle, deathVolume_, 0.0f);
     };

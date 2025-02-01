@@ -137,7 +137,7 @@ void TitleScene::Draw()
 
     titleLogo_->Draw(&SceneCamera_, { 1,1,1,1 });
 
-    player_->Draw({ 0,0,0,1 });
+    player_->Draw({ 1,1,1,1 });
 
     for (auto& enemy : enemies_)
     {

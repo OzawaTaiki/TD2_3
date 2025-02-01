@@ -150,7 +150,7 @@ void GameScene::Draw()
     ModelManager::GetInstance()->PreDrawForObjectModel();
     area_->Draw(&SceneCamera_);
 
-    player_->Draw({ 0,0,0,1 });
+    player_->Draw({ 1,1,1,1 });
     enemyManager_->Draw({ 1,1,1,1 });
 
     LineDrawer::GetInstance()->Draw();

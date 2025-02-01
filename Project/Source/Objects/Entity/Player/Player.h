@@ -137,7 +137,7 @@ public:
 	/// <summary>
 	/// ワールドトランスフォーム
 	/// </summary>
-	const WorldTransform& GetWorldTransform() {return *oModel_->GetWorldTransform();}
+	const WorldTransform& GetWorldTransform() {return *aModel_->GetWorldTransform();}
 
 	/// <summary>
 	/// 中心点の取得
@@ -161,7 +161,7 @@ public:
     /// プレイヤーの座標を設定
     /// </summary>
     /// <param name="_translate"></param>
-    void SetTranslate(const Vector3& _translate) { oModel_->translate_ = _translate; }
+    void SetTranslate(const Vector3& _translate) { aModel_->translate_ = _translate; }
 
 	/// <summary>
     /// シーン切り替え可能かどうか
@@ -184,6 +184,8 @@ private:
 	Input* input_ = nullptr;
 	std::unique_ptr<Collider> collider_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
+
+    std::unique_ptr<AnimationModel> aModel_ = nullptr;
 
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
@@ -208,6 +210,7 @@ private:
 	// 移動量を保存
 	Vector3 prePosition_= { 0.0f,0.0f,0.0f };
 
+    bool isMove_ = false;
 
 
 

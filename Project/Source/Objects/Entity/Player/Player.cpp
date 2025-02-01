@@ -36,9 +36,11 @@ void Player::Initialize(Camera* camera)
 	camera_ = camera;
 	input_ = Input::GetInstance();
 
-	oModel_ = std::make_unique<ObjectModel>();
-	oModel_->Initialize("Debug/Debug.obj", "Player");
+	//aModel_ = std::make_unique<ObjectModel>();
+	//aModel_->Initialize("Player/Player.obj", "Player");
 
+    aModel_ = std::make_unique<AnimationModel>();
+	aModel_->Initialize("Player/Player.gltf");
 
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
@@ -72,10 +74,10 @@ void Player::Initialize(Camera* camera)
 
 	collider_ = std::make_unique<Collider>();
 	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
-	collider_->SetShape(oModel_->GetMin(), oModel_->GetMax());
+	collider_->SetShape(aModel_->GetMin(), aModel_->GetMax());
 	collider_->SetAtrribute("Player");
 	collider_->SetMask({ "Player" });
-	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
+	collider_->SetGetWorldMatrixFunc([this]() { return aModel_->GetWorldTransform()->matWorld_; });
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
 	collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
 
@@ -134,7 +136,7 @@ void Player::Update()
 		UpdateDeathEffect();
 	}
 
-	oModel_->Update();
+	aModel_->Update();
 
 	worldPosition_ = GetWorldPosition();
 
@@ -152,7 +154,7 @@ void Player::Draw(const Vector4& color)
 
 
 
-	oModel_->Draw(camera_, color);
+	aModel_->Draw(camera_, color);
 
 
 
@@ -192,7 +194,7 @@ void Player::OnCollision(const Collider* other)
 		knockbackInvincibleTime_ = knockbackInvincibleDuration_;
 
 		if (isKnockbackActive_) {
-			oModel_->translate_ = prePosition_;
+			aModel_->translate_ = prePosition_;
 		}
 
 		damageVoice_ = AudioSystem::GetInstance()->SoundPlay(damageHandle_, 1.0f, false, true, 0.17f);
@@ -212,7 +214,7 @@ void Player::DrawSprite()
 
 void Player::Move()
 {
-	prePosition_ = oModel_->translate_;
+	prePosition_ = aModel_->translate_;
 	// キャラクターの移動ベクトル
 	Vector3 move = { 0.0f, 0.0f, 0.0f };
 
@@ -247,8 +249,23 @@ void Player::Move()
 		}
 	}
 
+	if (!isMove_)
+	{
+		if (move.Length() > 0.0f)
+		{
+			aModel_->SetAnimation("Walk", 1);
+		}
+		else
+		{
+            // アニメーションを停止させたい
+            //aModel_->StopAnimation(); <- これでは不自然な姿勢で止まる
+		}
+	}
+
+    isMove_ = move.Length() > 0.0f;
+
 	// ワールド座標に移動を反映
-	oModel_->translate_ += move;
+	aModel_->translate_ += move;
 }
 
 /// <summary>
@@ -290,7 +307,7 @@ void Player::Rotate()
 		}
 	}
 
-	oModel_->rotate_ = rotation_;
+	aModel_->rotate_ = rotation_;
 }
 
 
@@ -314,7 +331,7 @@ void Player::UpdateHP()
 void Player::Knockback()
 {
 	if (knockbackVelocity_.Length() > 0.01f) {
-		oModel_->translate_ += knockbackVelocity_;
+		aModel_->translate_ += knockbackVelocity_;
 
 
 		knockbackVelocity_ *= knockbackDamping_;
@@ -445,9 +462,9 @@ void Player::Bulletdelete() {
 Vector3 Player::GetWorldPosition()
 {
 	Vector3 worldPos;
-	worldPos.x = oModel_->GetWorldTransform()->matWorld_.m[3][0];
-	worldPos.y = oModel_->GetWorldTransform()->matWorld_.m[3][1];
-	worldPos.z = oModel_->GetWorldTransform()->matWorld_.m[3][2];
+	worldPos.x = aModel_->GetWorldTransform()->matWorld_.m[3][0];
+	worldPos.y = aModel_->GetWorldTransform()->matWorld_.m[3][1];
+	worldPos.z = aModel_->GetWorldTransform()->matWorld_.m[3][2];
 	worldPosition_ = worldPos;
 
 	return worldPos;
@@ -458,7 +475,7 @@ Vector3 Player::GetCenterPosition()
 	// ローカル座標でのオフセット
 	const Vector3 offset = { 0.0f, 0.0f, 0.0f };
 	// ワールド座標に変換
-	Vector3 worldPos = Transform(offset, oModel_->GetWorldTransform()->matWorld_);
+	Vector3 worldPos = Transform(offset, aModel_->GetWorldTransform()->matWorld_);
 
 	return worldPos;
 }
@@ -489,7 +506,7 @@ void Player::BeginDeathEffect()
 	isAlive_ = false;
 	isDeathEffectPlaying_ = true;
 	deathEffectParams_.duration = 0.0f;
-	deathEffectParams_.beforePosition = oModel_->translate_;
+	deathEffectParams_.beforePosition = aModel_->translate_;
 	deathEffectParams_.shake = true;
 	gameTime_->GetChannel("default").SetGameSpeed(0.25f);
 }
@@ -524,7 +541,7 @@ void Player::UpdateDeathEffect()
 	{
 		// モデルをプルプルさせる
 		Vector3 shakeDir = RandomGenerator::GetInstance()->GetUniformVec3((-1.0f, 0, -1.0f), (1.0f, 0, 1.0f));
-		oModel_->translate_ = deathEffectParams_.beforePosition + shakeDir * deathEffectParams_.shakePower;
+		aModel_->translate_ = deathEffectParams_.beforePosition + shakeDir * deathEffectParams_.shakePower;
 	}
 	else if (deathEffectParams_.scale)
 	{
@@ -542,7 +559,7 @@ void Player::UpdateDeathEffect()
 			scale = 0;
 		}
 
-		oModel_->scale_ = { scale, 1.0f, scale };
+		aModel_->scale_ = { scale, 1.0f, scale };
 	}
 	else if (deathEffectParams_.wait)
 	{

@@ -24,6 +24,10 @@ public:
 
 private:
 
+    void InitJson();
+
+    void InitEnemy();
+
     Camera SceneCamera_ = {};
     LineDrawer* lineDrawer_ = nullptr;
 
@@ -43,6 +47,13 @@ private:
     std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
     float hitVolume_ = 0;
     float deathVolume_ = 0;
+
+    std::unique_ptr<JsonBinder> titleSceneSetting_ = nullptr;
+
+    float enemySpawnRange_ = 4.0f;
+    float enemySpeed_ = 0.07f;
+
+
 
     LightGroup lg = {};
 

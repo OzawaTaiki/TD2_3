@@ -25,28 +25,10 @@ void TitleScene::Initialize()
     lineDrawer_->Initialize();
     lineDrawer_->SetCameraPtr(&SceneCamera_);
 
-    jsonBinder_ = std::make_unique<JsonBinder>("enemyManager", "Resources/Data/Parameter");
 
-    jsonBinder_->RegisterVariable("hitSound_Volume", &hitVolume_);
-    jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);
+    InitJson();
 
-    const size_t enemyNum = 10;
-
-    uint32_t hitHandle = AudioSystem::GetInstance()->SoundLoadWave("hit.wav");
-    uint32_t deathHandle = AudioSystem::GetInstance()->SoundLoadWave("knockdown.wav");
-
-    for (size_t i = 0; i < enemyNum; i++)
-    {
-        auto& enemy = enemies_.emplace_back(std::make_unique<TitleEnemy>());
-        enemy->Initialize(&SceneCamera_);
-        enemy->SetTranslate(Vector3{ static_cast<float>(-20.0f + i * 4),0,0 });
-        enemy->SetRangeOfMovement({ 20.0f,0.0f,0.0f }, { -20.0f,0.0f,0.0f });
-        enemy->SetMoveSpeed(-0.07f);
-        enemy->SetHitSound(hitHandle, hitVolume_, 0.0f);
-        enemy->SetDeathSound(deathHandle, deathVolume_, 0.0f);
-    };
-
-    enemyManager_ = std::make_unique<EnemyManager>();
+    InitEnemy();
 
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
@@ -96,6 +78,25 @@ void TitleScene::Update()
     if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN))
     {
         enemyMove_ = !enemyMove_;
+    }
+
+    if (ImGui::Begin("Title"))
+    {
+        ImGui::DragFloat("EnemySpeed", &enemySpeed_, 0.01f);
+        ImGui::DragFloat("EnemyRange", &enemySpawnRange_, 0.01f);
+
+        ImGui::Checkbox("move", &enemyMove_);
+
+        if (ImGui::Button("Set"))
+        {
+            InitEnemy();
+        }
+
+        if (ImGui::Button("Save"))
+        {
+            titleSceneSetting_->Save();
+        }
+        ImGui::End();
     }
 
     BG_.Update();
@@ -148,6 +149,47 @@ void TitleScene::Draw()
 
     lineDrawer_->Draw();
 }
+void TitleScene::InitJson()
+{
+    titleSceneSetting_ = std::make_unique<JsonBinder>("TitleScene", "Resources/Data/Parameter");
+
+    titleSceneSetting_->RegisterVariable("enemyRange", &enemySpawnRange_);
+    titleSceneSetting_->RegisterVariable("enemySpeed", &enemySpeed_);
+
+    jsonBinder_ = std::make_unique<JsonBinder>("enemyManager", "Resources/Data/Parameter");
+
+    jsonBinder_->RegisterVariable("hitSound_Volume", &hitVolume_);
+    jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);
+}
+
+void TitleScene::InitEnemy()
+{
+    uint32_t hitHandle = AudioSystem::GetInstance()->SoundLoadWave("hit.wav");
+    uint32_t deathHandle = AudioSystem::GetInstance()->SoundLoadWave("knockdown.wav");
+
+    enemies_.clear();
+
+    float posMin = 20.0f;
+
+    float div = std::ceilf(posMin / enemySpawnRange_);
+    posMin = div * enemySpawnRange_;
+
+    const size_t enemyNum = static_cast<uint32_t>(posMin / enemySpawnRange_ * 2);
+
+    for (size_t i = 0; i < enemyNum; i++)
+    {
+        auto& enemy = enemies_.emplace_back(std::make_unique<TitleEnemy>());
+        enemy->Initialize(&SceneCamera_);
+        enemy->SetTranslate(Vector3{ static_cast<float>(-posMin + i * enemySpawnRange_),0,0 });
+        enemy->SetRangeOfMovement({ posMin,0.0f,0.0f }, { -posMin,0.0f,0.0f });
+        enemy->SetMoveSpeed(enemySpeed_);
+        enemy->SetHitSound(hitHandle, hitVolume_, 0.0f);
+        enemy->SetDeathSound(deathHandle, deathVolume_, 0.0f);
+    };
+
+    enemyManager_ = std::make_unique<EnemyManager>();
+}
+
 #ifdef _DEBUG
 void TitleScene::ImGui()
 {

@@ -121,6 +121,7 @@ void ResultScene::Initialize()
 
 void ResultScene::Update()
 {
+	static float vol = 1.0f;
 #ifdef _DEBUG
 
 
@@ -133,7 +134,6 @@ void ResultScene::Update()
 	ImGui::Begin("ResultScene");
 	ImGui::DragFloat("Score", &resultSprite_[3]->rotate_);
 
-	static float vol = 1.0f;
     ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
     ImGui::DragFloat("Start", &buttonOffset, 0.01f, 0.0f);
 	if (ImGui::Button("sound"))

@@ -76,7 +76,7 @@ void Player::Initialize(Camera* camera)
 
 	collider_ = std::make_unique<Collider>();
 	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
-	collider_->SetShape(aModel_->GetMin(), aModel_->GetMax());
+	collider_->SetShape(Vector3(-1.154f, 0.88f, -0.628f), Vector3(1.194f, 6.971f, 1.574f));
 	collider_->SetAtrribute("Player");
 	collider_->SetMask({ "Player" });
 	collider_->SetGetWorldMatrixFunc([this]() { return aModel_->GetWorldTransform()->matWorld_; });
@@ -616,12 +616,26 @@ void Player::ImGui()
 	ImGui::DragFloat2("Shake Range Max", &shakeRangeMax_.x, 0.01f);
 
 
-	ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("Start", &offset, 0.01f, 0.0f);
-	if (ImGui::Button("sound"))
+    static Vector3 min = aModel_->GetMin(), max = aModel_->GetMax();
+
+    if(ImGui::DragFloat3("Min", &min.x, 0.01f))
+    {
+		collider_->SetShape(min, max);
+    }
+    if (ImGui::DragFloat3("Max", &max.x, 0.01f))
+    {
+        collider_->SetShape(min, max);
+    }
+
+
+
+
+	//ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
+	//ImGui::DragFloat("Start", &offset, 0.01f, 0.0f);
+	/*if (ImGui::Button("sound"))
 	{
 		AudioSystem::GetInstance()->SoundPlay(damageHandle_, vol, false, true, offset);
-	}
+	}*/
 
 	// その他のデバッグアクション
 	ImGui::Separator();

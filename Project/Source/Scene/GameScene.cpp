@@ -101,6 +101,7 @@ void GameScene::Update()
     player_->Update();
     enemyManager_->Update();
     area_->Update(player_.get());
+    countDown_->Update();
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -161,6 +162,7 @@ void GameScene::Draw()
 		backGrounds_[i]->Draw();
 	}
 	DrawScore();
+    countDown_->Draw();
 	//DrawCombo();
 	DrawEnemyScore();
 	player_->DrawSprite();
@@ -322,6 +324,8 @@ void GameScene::Load()
         comboSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
     }
 
+    countDown_ = std::make_unique<CountDown>();
+    countDown_->Initialize(60, { 30,5,4,3,2,1 });
 
 	gameTime_ = GameTime::GetInstance();
     gameTime_->CreateChannel("GameScene");

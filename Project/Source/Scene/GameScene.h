@@ -11,6 +11,7 @@
 #include "../Objects/Entity/Enemy/EnemyManager.h"
 #include "../System_TD/Camera/FollowCamera.h"
 #include "Systems/Time/GameTime.h"
+#include <Source/System_TD/TimeCount/CountDown.h>
 #include <Physics/Collision/CollisionManager.h>
 #include "LoadScene.h"
 #include <Source/Objects/Area/Area.h>
@@ -65,6 +66,8 @@ private:
     Area* area_ = nullptr;
     std::unique_ptr<Player> player_ = nullptr;
     std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
+    std::unique_ptr<CountDown> countDown_ = nullptr;
+
 
 
     /*===============================================================//

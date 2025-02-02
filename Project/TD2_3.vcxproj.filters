@@ -61,6 +61,9 @@
     <Filter Include="Source\TitleUI">
       <UniqueIdentifier>{386f5e8c-a2da-4920-bd6c-7ab5191c97b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System_TD\TimeCount">
+      <UniqueIdentifier>{ece02671-34f7-4e5f-b51e-759614fa9f3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -135,6 +138,9 @@
     <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Source\System_TD\TimeCount\CountDown.cpp">
+      <Filter>Source\System_TD\TimeCount</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -208,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\TimeCount\CountDown.h">
+      <Filter>Source\System_TD\TimeCount</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

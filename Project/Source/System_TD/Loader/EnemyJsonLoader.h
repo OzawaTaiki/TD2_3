@@ -31,6 +31,13 @@ struct Wave {
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Wave, waveNumber, groups, waitTime, waveTimer, isWaveActive)
 };
 
+struct SpawnView {
+    Vector3 position;
+    float timer;
+    Sprite* sprite;
+};
+
+
 class Player;
 class EnemyJsonLoader {
 public:

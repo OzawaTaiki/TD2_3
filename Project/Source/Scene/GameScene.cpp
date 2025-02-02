@@ -172,7 +172,7 @@ void GameScene::AddEnemyScore(int score)
 {
     Score newScore;
     newScore.lifetime = scorePopupDuration_;
-    newScore.position = { 1180, 100.0f + static_cast<float>(scores_.size()) * 25.0f }; // 表示位置をずらす
+    newScore.position = { 1180, 100.0f + static_cast<float>(scores_.size()) * 35.0f }; // 表示位置をずらす
 
     std::string scoreStr = "+" + std::to_string(score);
     float x = newScore.position.x;
@@ -390,44 +390,51 @@ void GameScene::DrawCombo()
 void GameScene::UpdateEnemyScore()
 {
     float deltaTime = 1.0f / 60.0f;
+    float moveSpeed = 2.0f * deltaTime; // 補間速度
 
-    for (auto& score : scores_)
+    if (!scores_.empty())
     {
-        score.lifetime -= deltaTime;
-        if (score.lifetime <= 0.5f)
+        // **一番古いスコアのみフェードアウト＆右移動**
+        Score& oldestScore = scores_.front();
+        oldestScore.lifetime -= deltaTime;
+
+        if (oldestScore.lifetime <= 0.5f)
         {
-            for (auto& digit : score.digits)
+            for (auto& digit : oldestScore.digits)
             {
                 digit->translate_.x += 100.0f * deltaTime; // 右に移動
-				digit->SetColor({ 1.0f, 1.0f, 1.0f, score.lifetime * 2.0f }); // 徐々に透明に
+                digit->SetColor({ 1.0f, 1.0f, 1.0f, oldestScore.lifetime * 2.0f }); // 徐々に透明に
             }
+        }
+
+        // **一番古いスコアが完全に消えたら削除**
+        if (oldestScore.lifetime <= 0.0f)
+        {
+            scores_.erase(scores_.begin()); // リストの先頭を削除
         }
     }
 
-    // 一番古いスコアを削除する
-    auto it = std::remove_if(scores_.begin(), scores_.end(),
-        [](const Score& s) { return s.lifetime <= 0.0f; });
+    // **スコアをスムーズに詰める**
+    float baseY = 100.0f; // 一番上のスコアのY座標
+    float offsetY = 35.0f; // 1つ下のスコアのオフセット
 
-    bool removed = (it != scores_.end());
-
-    // 消えたスコアを削除
-    scores_.erase(it, scores_.end());
-
-    // **削除後に位置を詰める**
-    if (removed)
+    for (size_t i = 0; i < scores_.size(); ++i)
     {
-        float baseY = 100.0f; // 一番上のスコアのY座標
-        float offsetY = 25.0f; // 1つ下のスコアのオフセット
+        float targetY = baseY + i * offsetY; // 目標位置
+        float diff = targetY - scores_[i].position.y;
 
-        // 残っているスコアを詰める
-        for (size_t i = 0; i < scores_.size(); ++i)
+        if (std::abs(diff) > 0.1f) // 補間
         {
-            scores_[i].position.y = baseY + i * offsetY;
+            scores_[i].position.y += diff * moveSpeed;
+        }
+        else
+        {
+            scores_[i].position.y = targetY; // 最終位置にスナップ
+        }
 
-            for (auto& digit : scores_[i].digits)
-            {
-                digit->translate_.y = scores_[i].position.y;
-            }
+        for (auto& digit : scores_[i].digits)
+        {
+            digit->translate_.y = scores_[i].position.y;
         }
     }
 }

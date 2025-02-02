@@ -30,9 +30,8 @@ void ResultScene::Initialize()
     resultSprite_[0] = Sprite::Create(th[0]);
 	resultSprite_[0]->Initialize();
 	resultSprite_[0]->SetAnchor({ 0.0f,0.0f });
-	//resultSprite_[0]->translate_ = {640,320};
 	resultSprite_[0]->SetSize({ 1280,720 });
-	resultSprite_[0]->SetColor({0.25,0.25,0.25,1.0});
+	resultSprite_[0]->SetColor({0.15,0.15,0.15,1.0});
 
     resultSprite_[1] = Sprite::Create(th[1]);
 	resultSprite_[1]->Initialize();
@@ -43,7 +42,7 @@ void ResultScene::Initialize()
     resultSprite_[2] = Sprite::Create(th[2]);
 	resultSprite_[2]->Initialize();
 	resultSprite_[2]->SetAnchor({ 0.5f,0.5f });
-	resultSprite_[2]->translate_ = { 640,360 };
+	resultSprite_[2]->translate_ = { 540,360 };
 
     resultSprite_[3] = Sprite::Create(th[3]);
 	resultSprite_[3]->Initialize();
@@ -183,7 +182,10 @@ void ResultScene::Draw()
 	Sprite::PreDraw();
 	for (uint32_t i = 0; i < ms_; ++i)
 	{
-		resultSprite_[i]->Draw();
+		if(i == 0 || i == 2){
+			resultSprite_[i]->Draw();
+		}
+
 	}
 
 	DrawScore();
@@ -198,6 +200,9 @@ void ResultScene::Draw()
 void ResultScene::DrawScore()
 {
 	std::string scoreStr = std::to_string(score_); // スコアを文字列に変換
+	while (scoreStr.size() < 6) {
+		scoreStr = "0" + scoreStr; 
+	}
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
 	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
 	float y = 270.0f; // スコアの描画位置（固定）
@@ -222,6 +227,9 @@ void ResultScene::DrawScore()
 void ResultScene::DrawCombo()
 {
 	std::string scoreStr = std::to_string(combo_); // スコアを文字列に変換
+	while (scoreStr.size() < 3) {
+		scoreStr = "0" + scoreStr;
+	}
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
 	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
 	float y = 530.0f; // スコアの描画位置（固定）
@@ -246,6 +254,9 @@ void ResultScene::DrawCombo()
 void ResultScene::DrawCountEnemy()
 {
 	std::string scoreStr = std::to_string(count_); // スコアを文字列に変換
+	while (scoreStr.size() < 3) {
+		scoreStr = "0" + scoreStr;
+	}
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
 	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
 	float y = 410.0f; // スコアの描画位置（固定）

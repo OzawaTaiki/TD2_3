@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager::GetInstance()->SetTransition(std::make_unique<SceneTransition>());
 
 #ifdef _DEBUG
-	SceneManager::GetInstance()->Initialize("Game");
+	SceneManager::GetInstance()->Initialize("Result");
 #else
     SceneManager::GetInstance()->Initialize("Title");
 #endif // _DEBUG

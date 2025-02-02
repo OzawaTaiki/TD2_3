@@ -14,7 +14,7 @@
 #include <Systems/Audio/AudioSystem.h>
 #include <Systems/JsonBinder/JsonBinder.h>
 
-
+class GameScene;
 class Player;
 class EnemyManager
 {
@@ -81,12 +81,13 @@ private:
 public:
 
     void SetPlayer(Player* player) { player_ = player; }
-
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 private:
     /*===============================================================//
                               ポインタ
     //===============================================================*/
     Player* player_;
+    GameScene* gameScene_;
     uint32_t enemyCount_ = 3;
     std::list<std::unique_ptr<Enemy>> enemies_;
     Camera* camera_ = nullptr;

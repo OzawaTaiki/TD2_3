@@ -166,6 +166,11 @@ void GameScene::Draw()
 	player_->DrawSprite();
 }
 
+void GameScene::AddEnemyScore(int score)
+{
+
+}
+
 void GameScene::Load()
 {
     SceneCamera_.Initialize();
@@ -255,6 +260,19 @@ void GameScene::Load()
         scoreSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
     }
 
+    scoreTexture_ = TextureManager::GetInstance()->Load("number_2.png", defaulFilPath);
+
+	for (int i = 0; i < 11; ++i)
+	{
+		scoreSprites_[i] = Sprite::Create(scoreTexture_);
+		scoreSprites_[i]->Initialize();
+        scoreSprites_[i]->scale_ = { 0.07f, 0.5f };
+        scoreSprites_[i]->uvScale_ = { 0.1f,1.0f };
+        scoreSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
+	}
+
+
+
     ////// -----------------------------------
     //////              コンボ
     ////// -----------------------------------
@@ -328,6 +346,15 @@ void GameScene::DrawCombo()
 
         x += digitWidth; // 次の桁の位置に移動
     }
+}
+
+void GameScene::UpdateEnemyScore()
+{
+}
+
+void GameScene::DrawEnemyScore()
+{
+
 }
 
 #ifdef _DEBUG

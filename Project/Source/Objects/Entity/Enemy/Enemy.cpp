@@ -4,6 +4,7 @@
 #include <Physics/Math/VectorFunction.h>
 #include <Source/System_TD/ComboManager/ComboManager.h>
 #include "Source/System_TD/CountManager/CountManager.h"
+#include "../../../Scene/GameScene.h"
 
 void Enemy::Initialize(Camera* camera)
 {
@@ -38,10 +39,10 @@ void Enemy::Update()
 {
 	
 	if (!isAlive_) {
-		ScoreManager::GetInstance()->AddScore(100);
+		ScoreManager::GetInstance()->AddScore(score_);
 		ComboManager::GetInstance()->AddCombo(1);
 		CountManager::GetInstance()->EnemyCount(1);
-
+		gameScene_->AddEnemyScore(score_);
         AudioSystem::GetInstance()->SoundPlay(deathHandle_, 1.0f, false);
 	}
 

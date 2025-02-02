@@ -40,7 +40,9 @@ void Player::Initialize(Camera* camera)
 	//aModel_->Initialize("Player/Player.obj", "Player");
 
     aModel_ = std::make_unique<AnimationModel>();
-	aModel_->Initialize("Player/Player.gltf");
+	aModel_->Initialize("Player/PlayerStop.gltf");
+	aModel_->LoadAnimation("Player/Player.gltf");
+	aModel_->SetAnimation("Idol");
 
 	// 回転軸の初期化
 	rotation_ = { 0.0f,0.0f,0.0f };
@@ -255,11 +257,11 @@ void Player::Move()
 		{
 			aModel_->SetAnimation("Walk", 1);
 		}
-		else
-		{
-            // アニメーションを停止させたい
-            //aModel_->StopAnimation(); <- これでは不自然な姿勢で止まる
-		}
+	}
+	else
+	{
+		if (move.Length() == 0.0f)
+			aModel_->SetAnimation("Idol"); //<- これでは不自然な姿勢で止まる
 	}
 
     isMove_ = move.Length() > 0.0f;

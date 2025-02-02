@@ -4,7 +4,7 @@
 #include <Physics/Collision/Collider.h>
 #include <Systems/Audio/AudioSystem.h>
 
-
+class GameScene;
 class Player;
 class Enemy : public BaseEntity
 {
@@ -55,7 +55,6 @@ public:
 	// 現在の弾タイプを取得または設定
 	BulletType GetCurrentType() const { return currentType_; }
 	void SetCurrentType(BulletType type) { currentType_ = type; }
-
 
 	// 現在の弾タイプを文字列で取得
 	std::string GetCurrentTypeName() const {
@@ -125,6 +124,8 @@ public:
 		deathStartOffset_ = _startOffset;
 	}
 
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
 private:
 	
 	/*===============================================================//
@@ -133,7 +134,7 @@ private:
 
 	std::unique_ptr<Collider> collider_ = nullptr;
 	Player* player_ = nullptr;
-
+	GameScene* gameScene_ = nullptr;
 
 	/*===============================================================//
 					 　　		敵の情報
@@ -150,6 +151,8 @@ private:
 	bool isDraw_ = true;
 	bool isAlive_ = true;
 	bool isAddScore_ = false;
+
+	int score_ = 100;
 
 	// 時間でNone状態に変更
 	float typeChangeCount_ = 0.0f;

@@ -17,11 +17,11 @@
 #include <thread>
 
 
-struct BonusScore {
-    Sprite* sprite; // スプライト
-    Vector2 position; // 現在位置
-    float lifetime; // 表示時間
-    bool active; // 表示中かどうか
+struct Score
+{
+    std::vector<std::unique_ptr<Sprite>> digits; // 数字スプライト
+    Vector2 position;   // 表示位置
+    float lifetime;     // 残り表示時間
 };
 
 
@@ -31,16 +31,23 @@ public:
 
     static std::unique_ptr<BaseScene> Create();
 
-     ~GameScene() override;
+    ~GameScene() override;
 
     void Initialize() override;
     void Update() override;
     void Draw() override;
 
+
+    void AddEnemyScore(int score);
+
 private:
     void Load();
     void DrawScore();
     void DrawCombo();
+
+    void UpdateEnemyScore();
+    void DrawEnemyScore();
+
 
     /*===============================================================//
                      　　      ポインタなど
@@ -63,7 +70,7 @@ private:
     /*===============================================================//
                  　　             時間
     //===============================================================*/
-	GameTime* gameTime_ = nullptr;
+    GameTime* gameTime_ = nullptr;
     float time_ = 0.0f;
 
     /*===============================================================//
@@ -78,8 +85,11 @@ private:
     std::array<Sprite*, 11> comboSprites_;
     std::array<Sprite*, 10> scoreSprites_;
 
-    std::vector<BonusScore> bonusScores_; // 「+100」の管理リスト
-    const float bonusLifetime_ = 1.0f;    // 「+100」の表示時間
+    //std::array<Sprite*, 11> scoreSprites_;       // 「+100」の管理リスト
+    std::vector<Score> scores_;
+	std::unique_ptr<Sprite> newScore_;
+    const float scorePopupDuration_ = 1.0f;    // 「+100」の表示時間
+	uint32_t scoreTexture_ = 0;       // 「+100」のテクスチャ
 
     // サウンド
     AudioSystem* audio_ = nullptr;

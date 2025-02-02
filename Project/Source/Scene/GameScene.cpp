@@ -113,7 +113,7 @@ void GameScene::Update()
     comboCount_ = ComboManager::GetInstance()->GetCurrentCombo();
     scoreCount_ = ScoreManager::GetInstance()->GetCurrentScore();
 
-
+    UpdateEnemyScore();
     if (enableDebugCamera_)
     {
         debugCamera_.Update();
@@ -162,8 +162,47 @@ void GameScene::Draw()
 	}
 	DrawScore();
 	//DrawCombo();
-
+	DrawEnemyScore();
 	player_->DrawSprite();
+}
+
+void GameScene::AddEnemyScore(int score)
+{
+    Score newScore;
+    newScore.lifetime = scorePopupDuration_;
+    newScore.position = { 1180, 100.0f + static_cast<float>(scores_.size()) * 25.0f }; // 表示位置をずらす
+
+    std::string scoreStr = "+" + std::to_string(score);
+    float x = newScore.position.x;
+
+    // 各文字ごとの間隔を設定
+    std::unordered_map<char, float> digitSpacing = {
+        {'+', 30.0f}, // + は 15px の間隔
+        {'0', 23.0f}, {'1', 20.0f}, {'2', 20.0f}, {'3', 20.0f},
+        {'4', 20.0f}, {'5', 20.0f}, {'6', 20.0f}, {'7', 20.0f},
+        {'8', 20.0f}, {'9', 20.0f}
+    };
+
+    for (char c : scoreStr)
+    {
+        int digitIndex = (c == '+') ? 0 : (c - '0' + 1); // UVの位置
+
+        // 文字ごとの間隔を取得（見つからなければデフォルト 20.0f）
+        float digitWidth = digitSpacing.count(c) ? digitSpacing[c] : 20.0f;
+
+        std::unique_ptr<Sprite> digitSprite(Sprite::Create(scoreTexture_));
+        digitSprite->Initialize();
+        digitSprite->uvScale_ = { 0.1f, 1.0f };
+        digitSprite->uvTranslate_ = { 0.1f * digitIndex, 0.0f };
+        digitSprite->translate_ = { x, newScore.position.y };
+        digitSprite->scale_ = { 0.07f, 0.6f };
+
+        newScore.digits.push_back(std::move(digitSprite));
+
+        x += digitWidth; // 文字ごとの間隔を反映
+    }
+
+    scores_.push_back(std::move(newScore));
 }
 
 void GameScene::Load()
@@ -184,6 +223,7 @@ void GameScene::Load()
     enemyManager_ = std::make_unique<EnemyManager>();
     enemyManager_->SetPlayer(player_.get());
     enemyManager_->Initialize(&SceneCamera_);
+	enemyManager_->SetGameScene(this);
 
     audio_ = AudioSystem::GetInstance();
 
@@ -254,6 +294,19 @@ void GameScene::Load()
         scoreSprites_[i]->uvScale_ = { 0.1f,1.0f };
         scoreSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
     }
+
+    scoreTexture_ = TextureManager::GetInstance()->Load("number_2.png", defaulFilPath);
+
+	//for (int i = 0; i < 11; ++i)
+	//{
+	//	scoreSprites_[i] = Sprite::Create(scoreTexture_);
+	//	scoreSprites_[i]->Initialize();
+ //       scoreSprites_[i]->scale_ = { 0.07f, 0.5f };
+ //       scoreSprites_[i]->uvScale_ = { 0.1f,1.0f };
+ //       scoreSprites_[i]->uvTranslate_ = { i * 0.1f, 0.0f };
+	//}
+
+
 
     ////// -----------------------------------
     //////              コンボ
@@ -327,6 +380,62 @@ void GameScene::DrawCombo()
         sprite->Draw();
 
         x += digitWidth; // 次の桁の位置に移動
+    }
+}
+
+void GameScene::UpdateEnemyScore()
+{
+    float deltaTime = 1.0f / 60.0f;
+
+    for (auto& score : scores_)
+    {
+        score.lifetime -= deltaTime;
+        if (score.lifetime <= 0.5f)
+        {
+            for (auto& digit : score.digits)
+            {
+                digit->translate_.x += 100.0f * deltaTime; // 右に移動
+				digit->SetColor({ 1.0f, 1.0f, 1.0f, score.lifetime * 2.0f }); // 徐々に透明に
+            }
+        }
+    }
+
+    // 一番古いスコアを削除する
+    auto it = std::remove_if(scores_.begin(), scores_.end(),
+        [](const Score& s) { return s.lifetime <= 0.0f; });
+
+    bool removed = (it != scores_.end());
+
+    // 消えたスコアを削除
+    scores_.erase(it, scores_.end());
+
+    // **削除後に位置を詰める**
+    if (removed)
+    {
+        float baseY = 100.0f; // 一番上のスコアのY座標
+        float offsetY = 25.0f; // 1つ下のスコアのオフセット
+
+        // 残っているスコアを詰める
+        for (size_t i = 0; i < scores_.size(); ++i)
+        {
+            scores_[i].position.y = baseY + i * offsetY;
+
+            for (auto& digit : scores_[i].digits)
+            {
+                digit->translate_.y = scores_[i].position.y;
+            }
+        }
+    }
+}
+
+void GameScene::DrawEnemyScore()
+{
+    for (auto& score : scores_)
+    {
+        for (auto& digit : score.digits)
+        {
+            digit->Draw();
+        }
     }
 }
 

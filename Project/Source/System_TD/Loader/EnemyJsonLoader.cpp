@@ -17,6 +17,9 @@ void EnemyJsonLoader::LoadEnemyPopData()
 		waves_.clear();
 		Wave defaultWave;
 		defaultWave.waveNumber = 1;
+		defaultWave.waitTime = 1.0f;
+		defaultWave.waveTimer = 1.0f;
+		//defaultWave.isWaveActive = false;
 		defaultWave.groups.push_back({ 5, "Default", 1.0f, Vector3(0,0,0), Vector3(0,0,0), Vector3(1,0,0), 1.0f, 0 });
 		waves_.push_back(defaultWave);
 		SaveEnemyPopData();
@@ -54,10 +57,54 @@ void EnemyJsonLoader::UpdateEnemyPopCommands()
 		return;
 	}
 
-	
 	UpdateEnemyPositions();
 
-	UpdateWave();
+	// 時間を更新
+	currentTime_ += 1.0f / 60.0f;  // 60FPSを想定
+
+	// ウェーブの更新
+	if (static_cast<size_t>(currentWaveIndex_) < waves_.size()) {
+		Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
+
+		// 最初のウェーブは即座に開始
+		if (isFirstWave_) {
+			currentWave.isWaveActive = true;
+			isFirstWave_ = false;
+			waveStartTime_ = currentTime_;  // ウェーブ開始時間を記録
+		}
+
+		// ウェーブタイマーの確認（現在時間 - ウェーブ開始時間 >= ウェーブの設定時間）
+		if (!currentWave.isWaveActive && (currentTime_ - waveStartTime_ >= currentWave.waveTimer * 60.0f)) {
+			currentWave.isWaveActive = true;
+			waveStartTime_ = currentTime_;  // 次のウェーブ開始の基準時刻を更新
+		}
+
+		// アクティブなウェーブの更新
+		if (currentWave.isWaveActive) {
+			UpdateWave();
+		}
+	}
+}
+
+void EnemyJsonLoader::UpdateAllWaves()
+{
+	// 現在の状態を保存
+	int originalWaveIndex = currentWaveIndex_;
+	int originalGroupIndex = currentGroupIndex_;
+	bool originalIsWait = isWait_;
+	float originalWaitTimer = waitTimer_;
+	
+
+	// すべてのウェーブを順番に更新
+	for (size_t waveIndex = 0; waveIndex < waves_.size(); waveIndex++) {
+		IUpdateWave(waveIndex);
+	}
+
+	// 元の状態を復元
+	currentWaveIndex_ = originalWaveIndex;
+	currentGroupIndex_ = originalGroupIndex;
+	isWait_ = originalIsWait;
+	waitTimer_ = originalWaitTimer;
 }
 
 void EnemyJsonLoader::UpdateWave()
@@ -69,10 +116,16 @@ void EnemyJsonLoader::UpdateWave()
 	if (currentGroupIndex_ >= static_cast<int>(currentWave.groups.size())) {
 		if (currentWave.waitTime > 0) {
 			isWait_ = true;
-			waitTimer_ = static_cast<float>(currentWave.waitTime * 60.0f); // float にキャスト
+			waitTimer_ = static_cast<float>(currentWave.waitTime * 60.0f);
 		}
 		currentWaveIndex_++;
 		currentGroupIndex_ = 0;
+
+		// **次のウェーブ開始時間をリセット**
+		if (currentWaveIndex_ < waves_.size()) {
+			waveStartTime_ = currentTime_;  // 新しいウェーブの開始時刻を記録
+		}
+
 		return;
 	}
 
@@ -204,7 +257,7 @@ void EnemyJsonLoader::ShowImGui()
 		// ウェーブの追加
 		if (ImGui::Button("Update All Wave", ImVec2(200, 30))) {
 
-			UpdateEnemyPopCommands();
+			UpdateAllWaves();
 		}
 
 		for (int i = 0; i < waves_.size(); ++i) {
@@ -216,8 +269,11 @@ void EnemyJsonLoader::ShowImGui()
 			if (ImGui::CollapsingHeader(("Wave " + std::to_string(wave.waveNumber)).c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 				ImGui::Indent();
 
+				// アクティブ状態の表示
+				//ImGui::Text("Wave Status: %s", wave.isWaveActive ? "Active" : "Waiting");
+
 				// ウェーブの待機時間（タイマー設定）
-				ImGui::DragFloat(("Wave Timer (seconds)##" + std::to_string(i)).c_str(), &wave.waitTime, 0.1f, 0.0f, 30.0f, "%.2f sec");
+				//ImGui::DragFloat(("Wave Timer (seconds)" + std::to_string(i)).c_str(), &wave.waveTimer, 0.1f, 0.0f, 30.0f, "%.2f sec");
 
 				// 指定ウェーブの更新ボタン
 				if (ImGui::Button(("Update Wave " + std::to_string(wave.waveNumber)).c_str(), ImVec2(140, 20))) {

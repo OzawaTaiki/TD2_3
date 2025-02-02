@@ -1,1 +1,84 @@
-[]
+[
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 1.0,
+                "spawnPoint": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "speed": 1.0,
+                "waitTime": 10.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 2.4000000953674316
+                },
+                "speed": 1.0,
+                "waitTime": 1.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 1,
+        "waveTimer": 30.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": -6.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "speed": 1.0,
+                "waitTime": 1.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 2,
+        "waveTimer": -107374176.0
+    }
+]

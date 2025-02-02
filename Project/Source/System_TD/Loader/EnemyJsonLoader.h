@@ -25,7 +25,10 @@ struct Wave {
     int waveNumber;
     std::vector<Group> groups;
     float waitTime;
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Wave, waveNumber, groups)
+    float waveTimer;     
+    bool isWaveActive; 
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Wave, waveNumber, groups, waitTime, waveTimer, isWaveActive)
 };
 
 class Player;
@@ -47,6 +50,8 @@ public:
     /// 敵発生コマンドの更新
     /// </summary>
     void UpdateEnemyPopCommands();
+
+    void UpdateAllWaves();
 
     /// <summary>
     /// ImGui の UI を表示
@@ -95,8 +100,13 @@ private:
     size_t currentWaveIndex_ = 0;
     size_t currentGroupIndex_ = 0;
     bool isWait_ = false;
-    float waitTimer_ = 0;
+    float waitTimer_ = 0.0f;
     bool isUpdate_ = true;
+
+    float currentTime_ = 0.0f;   
+    float waveStartTime_ = 0.0f;
+    bool isFirstWave_ = true;    
+
 
     SpawnCallback spawnCallback_ = nullptr;
 };

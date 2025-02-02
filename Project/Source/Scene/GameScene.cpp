@@ -48,7 +48,7 @@ void GameScene::Update()
         return;
     }
 
-    bool isCount = false;
+    /*bool isCount = false;
     float preTime_ = std::ceilf(time_);
 
 	float deltaTime = 1.0f / 60.0f;
@@ -63,7 +63,7 @@ void GameScene::Update()
     if (time_ >= 55.0f && isCount)
     {
         audio_->SoundPlay(countHandle_, 1.0f, false, true);
-    }
+    }*/
 
 
     //if (time_ >= 60.0f) {
@@ -325,7 +325,7 @@ void GameScene::Load()
     }
 
     countDown_ = std::make_unique<CountDown>();
-    countDown_->Initialize(60, { 30,5,4,3,2,1 });
+    countDown_->Initialize();
 
 	gameTime_ = GameTime::GetInstance();
     gameTime_->CreateChannel("GameScene");

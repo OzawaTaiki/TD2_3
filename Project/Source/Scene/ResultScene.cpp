@@ -198,6 +198,9 @@ void ResultScene::Draw()
 void ResultScene::DrawScore()
 {
 	std::string scoreStr = std::to_string(score_); // スコアを文字列に変換
+	while (scoreStr.size() < 6) {
+		scoreStr = "0" + scoreStr; 
+	}
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
 	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
 	float y = 270.0f; // スコアの描画位置（固定）
@@ -222,6 +225,9 @@ void ResultScene::DrawScore()
 void ResultScene::DrawCombo()
 {
 	std::string scoreStr = std::to_string(combo_); // スコアを文字列に変換
+	while (scoreStr.size() < 3) {
+		scoreStr = "0" + scoreStr;
+	}
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
 	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
 	float y = 530.0f; // スコアの描画位置（固定）
@@ -246,6 +252,9 @@ void ResultScene::DrawCombo()
 void ResultScene::DrawCountEnemy()
 {
 	std::string scoreStr = std::to_string(count_); // スコアを文字列に変換
+	while (scoreStr.size() < 3) {
+		scoreStr = "0" + scoreStr;
+	}
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
 	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
 	float y = 410.0f; // スコアの描画位置（固定）

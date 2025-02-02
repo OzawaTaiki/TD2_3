@@ -5,7 +5,7 @@
 #include <fstream>
 #include <json.hpp>
 #include <imgui.h> // ImGui を追加
-
+#include <Rendering/Sprite/Sprite.h>
 #include <Physics/Math/Vector3.h>
 
 struct Group {

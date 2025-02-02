@@ -99,13 +99,6 @@ void Player::Update()
 
 	static float vol = 1.0f;
 	static float offset = 0.0f;
-	ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("Start", &offset, 0.01f, 0.0f);
-	if (ImGui::Button("sound"))
-	{
-		AudioSystem::GetInstance()->SoundPlay(damageHandle_, vol, false, true, offset);
-	}
-
 	if (isAlive_)
 	{
 
@@ -619,6 +612,14 @@ void Player::ImGui()
 	ImGui::DragFloat("Shake Time", &shakeTime_, 0.01f);
 	ImGui::DragFloat2("Shake Range Min", &shakeRangeMin_.x, 0.01f);
 	ImGui::DragFloat2("Shake Range Max", &shakeRangeMax_.x, 0.01f);
+
+
+	ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("Start", &offset, 0.01f, 0.0f);
+	if (ImGui::Button("sound"))
+	{
+		AudioSystem::GetInstance()->SoundPlay(damageHandle_, vol, false, true, offset);
+	}
 
 	// その他のデバッグアクション
 	ImGui::Separator();

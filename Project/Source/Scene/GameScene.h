@@ -19,11 +19,9 @@
 
 struct Score
 {
-    Sprite* sprite;
-    Vector2 position;
-    int score;
-    float viewTime;
-    float viewTimer;
+    std::vector<std::unique_ptr<Sprite>> digits; // 数字スプライト
+    Vector2 position;   // 表示位置
+    float lifetime;     // 残り表示時間
 };
 
 
@@ -87,10 +85,10 @@ private:
     std::array<Sprite*, 11> comboSprites_;
     std::array<Sprite*, 10> scoreSprites_;
 
-    std::array<Sprite*, 11> scoreSprites_;       // 「+100」の管理リスト
+    //std::array<Sprite*, 11> scoreSprites_;       // 「+100」の管理リスト
     std::vector<Score> scores_;
 	std::unique_ptr<Sprite> newScore_;
-    const float viewtime_ = 60.0f;    // 「+100」の表示時間
+    const float scorePopupDuration_ = 1.0f;    // 「+100」の表示時間
 	uint32_t scoreTexture_ = 0;       // 「+100」のテクスチャ
 
     // サウンド

@@ -46,7 +46,7 @@ void EnemyManager::Update()
 
     /// 敵の更新
     for (auto& enemy : enemies_) {
-
+		enemy->SetGameScene(gameScene_);
         enemy->Update();
         enemy->Move(deltaTime);
         enemy->ChangeType(deltaTime);

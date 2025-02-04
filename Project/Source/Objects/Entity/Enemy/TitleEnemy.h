@@ -10,7 +10,7 @@ public:
     TitleEnemy() = default;
     ~TitleEnemy() override = default;
 
-    void Initialize(Camera* _camera) override;
+    void Initialize(Camera* _camera, const Vector3& _start, const Vector3& _end);
 
     void Update() override;
 
@@ -20,10 +20,6 @@ public:
 
     void SetMoveSpeed(float _speed) { moveSpeed_ = _speed; }
 
-    void SetRangeOfMovement(const Vector3& _start, const Vector3& _end) {
-        start_ = _start;
-        end_ = _end;
-    }
 
 private:
 

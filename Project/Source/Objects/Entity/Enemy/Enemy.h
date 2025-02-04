@@ -79,6 +79,8 @@ public:
 		}
 	};
 
+    void SetID(uint32_t _id) { collider_->SetId(std::to_string(_id)); }
+
 private:
 
 	/// <summary>
@@ -109,7 +111,7 @@ public:
 	bool& GetIsAlive() { return isAlive_; }
 	bool& GetIsAddScore() { return isAddScore_; }
 	bool& GetMarkForRemoval() { return markForRemoval_; }
-	
+
     Collider* getcoll() { return collider_.get(); }
 
 	void SetHitSound(uint32_t _handle, float _volume, float _startOffset) {
@@ -127,7 +129,7 @@ public:
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
-	
+
 	/*===============================================================//
 						 　　	ポインタなど
 	//===============================================================*/
@@ -169,6 +171,7 @@ private:
     VoiceHandle deathVoice_;
     float deathVolume_ = 1.0f;
     float deathStartOffset_ = 0.0f;
+	uint32_t ID_ = 0;
 
 };
 

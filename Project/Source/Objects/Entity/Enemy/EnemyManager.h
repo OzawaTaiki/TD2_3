@@ -148,6 +148,7 @@ private:
     float spawnInterval_ = 5.0f; // 敵生成間隔
     EnemySpawnLoader spawnLoader_;
 
+    uint32_t enemyID_ = 0;
 
     /*===============================================================//
                              サウンド

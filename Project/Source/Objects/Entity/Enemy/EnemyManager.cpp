@@ -31,6 +31,8 @@ void EnemyManager::Initialize(Camera* camera)
 
     InitJsonBinder();
 
+    enemyID_ = 0;
+
 }
 
 void EnemyManager::Update()
@@ -131,6 +133,7 @@ void EnemyManager::SpawnEnemy(Vector3& position, float& speed, Vector3& goal, st
     newEnemy->SetMoveType(moveType);
     newEnemy->SetHitSound(hitHandle_, hitVolume_, hitStartOffset_);
     newEnemy->SetDeathSound(deathHandle_, deathVolume_, deathStartOffset_);
+    newEnemy->SetID(enemyID_++);
     enemies_.push_back(std::move(newEnemy));
 }
 

@@ -21,7 +21,7 @@ void Enemy::Initialize(Camera* camera)
 	collider_->SetBoundingBox(Collider::BoundingBox::OBB_3D);
 	collider_->SetShape(oModel_->GetMin(), oModel_->GetMax());
 	collider_->SetAtrribute("Enemy");
-	collider_->SetMask({ "Enemy" });
+	collider_->SetMask("NONE");
 	collider_->SetGetWorldMatrixFunc([this]() { return oModel_->GetWorldTransform()->matWorld_; });
 	collider_->SetOnCollisionFunc([this](const Collider* other) { OnCollision(other); });
 	//collider_->SetReferencePoint({ 0.0f, 0.0f, 0.0f });
@@ -38,7 +38,7 @@ void Enemy::Initialize(Camera* camera)
 
 void Enemy::Update()
 {
-	
+
 	if (!isAlive_) {
 		if (gameScene_) {
 			ScoreManager::GetInstance()->AddScore(score_);
@@ -150,6 +150,20 @@ void Enemy::OnCollision(const Collider* other)
 		AudioSystem::GetInstance()->SoundPlay(hitHandle_, 1.0f, false);
 
 	}
+    else if (other->GetName() == "Enemy") {
+		uint32_t id = std::atoi(other->GetId().c_str());
+		// 自分よりIDが小さい敵にぶつかったら無視
+		if (id < ID_)
+			return;
+
+		// ぶつかったら離れる
+		Vector3 direction = other->GetWorldMatrix().GetTranslate() - oModel_->GetWorldTransform()->GetWorldPosition();
+		direction.y = 0;
+		oModel_->translate_ -= direction.Normalize() * speed_* GameTime::GetChannel("default").GetDeltaTime<float>();
+    }
+    else {
+        // 何もしない
+    }
 }
 
 void Enemy::ImGui()

@@ -358,10 +358,13 @@ void Player::NorthPoleBulletFire()
 
 		// 前方ベクトルの取得
 		Vector3 forward = GetForwardVector();
+		Vector3 side = Cross(forward, { 0,1,0 }).Normalize();
 
 		// プレイヤーの前方に発射位置オフセット
-		float spawnOffset = offset;
-		Vector3 spawnPosition = GetWorldPosition() + forward * spawnOffset;
+        float spawnXOffset = -offset.x;
+		float spawnZOffset = offset.z;
+
+		Vector3 spawnPosition = GetWorldPosition() + side * spawnXOffset + forward * spawnZOffset;
 
 		// 速度・加速度の計算
 		Vector3 velocity = forward * bulletVelocity_;
@@ -388,10 +391,14 @@ void Player::SouthPoleBulletFire()
 
 		// 前方ベクトルの取得
 		Vector3 forward = GetForwardVector();
+		Vector3 side = Cross(forward, { 0,1,0 }).Normalize();
 
 		// プレイヤーの前方に発射位置オフセット
-		float spawnOffset = offset;
-		Vector3 spawnPosition = GetWorldPosition() + forward * spawnOffset;
+		// プレイヤーの前方に発射位置オフセット
+		float spawnXOffset = offset.x;
+		float spawnZOffset = offset.z;
+
+		Vector3 spawnPosition = GetWorldPosition() + side * spawnXOffset + forward * spawnZOffset;
 
 		// 速度・加速度の計算
 		Vector3 velocity = forward * bulletVelocity_;
@@ -593,7 +600,7 @@ void Player::ImGui()
 	ImGui::SeparatorText("Bullet Settings");
 	ImGui::DragFloat("Bullet Velocity", &bulletVelocity_, 0.001f, 0.001f, 1.0f);
 	ImGui::DragFloat("Bullet Acceleration", &bulletAcceleration_, 0.001f, 0.001f, 1.0f);
-	ImGui::DragFloat("Bullet Offset", &offset, 1.0f, 1.0f, 10.0f);
+	ImGui::DragFloat3("Bullet Offset", &offset.x, 0.01f, 0.0f, 10.0f);
 	ImGui::DragFloat("Bullet Fire Interval", &bulletFireInterval_, 0.1f, 0.1f, 3.0f);
 
 	// ノックバック関連

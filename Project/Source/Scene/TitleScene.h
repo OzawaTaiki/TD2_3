@@ -53,7 +53,14 @@ private:
     float enemySpawnRange_ = 4.0f;
     float enemySpeed_ = 0.07f;
 
+    size_t enemyNum_ = 0;
+    float posMin = 20.0f;
 
+    uint32_t hitHandle;
+    uint32_t deathHandle;
+
+    float currentTime_ = 0;
+    float spawnInterval_ = 1.0f;
 
     LightGroup lg = {};
 

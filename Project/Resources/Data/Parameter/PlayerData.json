@@ -3,9 +3,9 @@
         "BulletAcceleration": 0.014999999664723873,
         "BulletFireInterval": 1.0,
         "BulletOffset": {
-            "x" : 0.0,
-            "y":0.0,
-            "z":2.0
+            "x": 1.2999999523162842,
+            "y": 0.0,
+            "z": 4.0
         },
         "BulletVelocity": 0.029999999329447746,
         "CharacterSpeed": 0.20000000298023224,

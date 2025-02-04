@@ -38,6 +38,11 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+    /// <summary>
+    /// 前景スプライトの描画
+    /// </summary>
+    void DrawBallistic();
+
 	/// <summary>
 	/// 衝突
 	/// </summary>
@@ -190,6 +195,8 @@ private:
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
 
+    std::unique_ptr<ObjectModel> ballistic_ = nullptr;
+
 	static const int ch_ = 2;
 	Sprite* spriteHP_[ch_];
 
@@ -219,7 +226,7 @@ private:
 	//===============================================================*/
 	float bulletVelocity_ =  0.03f;
 	float bulletAcceleration_ = 0.015f;
-	float offset = 2.0f;
+	Vector3 offset = 2.0f;
 
 	//--------------- 弾のクールタイム ---------------//
 

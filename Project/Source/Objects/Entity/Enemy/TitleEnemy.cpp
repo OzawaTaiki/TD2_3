@@ -1,15 +1,14 @@
 #include "TitleEnemy.h"
 
 
-void TitleEnemy::Initialize(Camera* camera)
+void TitleEnemy::Initialize(Camera* _camera, const Vector3& _start, const Vector3& _end)
 {
-    Enemy::Initialize(camera);
+    Enemy::Initialize(_camera);
 
     translate_ = &Enemy::GetTranslate();
 
-    start_ = { 10.0f,0.0f,0.0f };
-    end_ = { -10.0f,0.0f,0.0f };
-
+    start_ = _start;
+    end_ = _end;
 }
 
 void TitleEnemy::Update()
@@ -18,10 +17,18 @@ void TitleEnemy::Update()
 
     // ru-pu
     if (translate_->x < end_.x)
+    {
         translate_->x = start_.x;
+        Enemy::GetIsAlive() = false;
+        return;
+    }
 
     else if (translate_->x > start_.x)
+    {
         translate_->x = end_.x;
+        Enemy::GetIsAlive() = false;
+        return;
+    }
 
     Enemy::Update();
 

@@ -164,6 +164,7 @@
     <ClCompile Include="Source\Scene\GameScene.cpp" />
     <ClCompile Include="Source\Scene\TitleScene.cpp" />
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
+    <ClCompile Include="Source\System_TD\TimeCount\CountDown.cpp" />
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
     <ClCompile Include="Source\System_TD\Math\TD_Math.cpp" />
     <ClCompile Include="Source\TItleUI\TItleUI.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Source\Scene\GameScene.h" />
     <ClInclude Include="Source\Scene\TitleScene.h" />
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
+    <ClInclude Include="Source\System_TD\TimeCount\CountDown.h" />
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
     <ClInclude Include="Source\System_TD\Math\TD_Math.h" />
     <ClInclude Include="Source\TItleUI\TItleUI.h" />

@@ -32,6 +32,7 @@ void Enemy::Initialize(Camera* camera)
 	markForRemoval_ = false;
 	isAddScore_ = false;
 
+	currentType_ = BulletType::None;
 
 }
 

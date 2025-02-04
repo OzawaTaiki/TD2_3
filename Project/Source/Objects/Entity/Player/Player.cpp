@@ -14,7 +14,7 @@
 #include <Source/System_TD/ComboManager/ComboManager.h>
 #include <ResourceManagement/TextureManager/TextureManager.h>
 
-const std::string defaulFilPath = "Resources./Textures./";
+const std::string defaulFilPath = "Resources/Textures/";
 using namespace DirectX;
 Player::~Player()
 {
@@ -94,6 +94,12 @@ void Player::Initialize(Camera* camera)
 
 	damageHandle_ = audio->SoundLoadWave("damage.wav");
 
+    ballistic_ = std::make_unique<ObjectModel>();
+    ballistic_->Initialize("Player/Ballistic.obj", "Ballistic");
+    ballistic_->translate_ = { 0.0f,0.1f,0.0f };
+    ballistic_->scale_ = { 0.3f,0.1f,20.0f };
+    ballistic_->SetParent(aModel_->GetWorldTransform());
+
 }
 
 void Player::Update()
@@ -132,6 +138,7 @@ void Player::Update()
 	}
 
 	aModel_->Update();
+    ballistic_->Update();
 
 	worldPosition_ = GetWorldPosition();
 
@@ -147,8 +154,6 @@ void Player::Draw(const Vector4& color)
 
 #endif // _DEBUG
 
-
-
 	aModel_->Draw(camera_, color);
 
 
@@ -163,6 +168,12 @@ void Player::Draw(const Vector4& color)
 
 
 }
+
+void Player::DrawBallistic()
+{
+    ballistic_->Draw(camera_, 0, { .7f,.3f ,.3f ,.5f });
+}
+
 
 void Player::OnCollision(const Collider* other)
 {

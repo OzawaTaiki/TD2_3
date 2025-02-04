@@ -154,10 +154,14 @@ void GameScene::Draw()
     player_->Draw({ 1,1,1,1 });
     enemyManager_->Draw({ 1,1,1,1 });
 
+    player_->DrawBallistic();
+
     LineDrawer::GetInstance()->Draw();
 
+
+
     Sprite::PreDraw();
-	for (int i = 0; i < bg_; ++i)
+    for (int i = 0; i < bg_; ++i)
 	{
 		backGrounds_[i]->Draw();
 	}

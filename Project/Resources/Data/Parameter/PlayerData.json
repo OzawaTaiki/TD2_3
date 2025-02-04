@@ -2,8 +2,12 @@
     "PlayerData": {
         "BulletAcceleration": 0.014999999664723873,
         "BulletFireInterval": 1.0,
-        "BulletOffset": 2.0,
-        "BulletVelocity": 0.15000000596046448,
+        "BulletOffset": {
+            "x" : 0.0,
+            "y":0.0,
+            "z":2.0
+        },
+        "BulletVelocity": 0.029999999329447746,
         "CharacterSpeed": 0.20000000298023224,
         "KnockbackDamping": 0.8999999761581421,
         "KnockbackInvincibleDuration": 0.5,

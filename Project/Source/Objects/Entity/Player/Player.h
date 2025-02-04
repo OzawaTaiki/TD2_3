@@ -219,7 +219,7 @@ private:
 	//===============================================================*/
 	float bulletVelocity_ =  0.03f;
 	float bulletAcceleration_ = 0.015f;
-	float offset = 2.0f;
+	Vector3 offset = 2.0f;
 
 	//--------------- 弾のクールタイム ---------------//
 

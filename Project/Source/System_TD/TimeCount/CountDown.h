@@ -19,6 +19,8 @@ public:
     void Update();
     void Draw();
 
+    bool IsEnd()const  { return currentTime_ <= 0.0f; }
+
 private:
 
     std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;

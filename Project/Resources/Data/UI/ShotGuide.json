@@ -1,0 +1,28 @@
+{
+    "ShotGuide": {
+        "ShotGuide_anchor": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "ShotGuide_color": {
+            "w": 1.0,
+            "x": 0.9137254953384399,
+            "y": 0.7921568751335144,
+            "z": 0.7921568751335144
+        },
+        "ShotGuide_directoryPath": "Resources/Textures/",
+        "ShotGuide_isActive": 257,
+        "ShotGuide_isVisible": 335544321,
+        "ShotGuide_label": "ShotGuide",
+        "ShotGuide_pos": {
+            "x": 1241.0,
+            "y": 680.0
+        },
+        "ShotGuide_rotate": 0.0,
+        "ShotGuide_size": {
+            "x": 330.0,
+            "y": 230.0
+        },
+        "ShotGuide_textureName": "shot.png"
+    }
+}

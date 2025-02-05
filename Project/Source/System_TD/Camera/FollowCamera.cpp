@@ -6,9 +6,9 @@ void FollowCamera::Initialize()
 {
 }
 
-void FollowCamera::Update()
+void FollowCamera::Update(bool _lock)
 {
-	FollowProcess();
+	FollowProcess(_lock);
 
 #ifdef _DEBUG
 	ImGui();
@@ -16,9 +16,9 @@ void FollowCamera::Update()
 
 }
 
-void FollowCamera::FollowProcess()
+void FollowCamera::FollowProcess(bool _lock)
 {
-	if (target_) {
+	if (target_ && !_lock) {
 
 		// 真下を向くようにカメラを回転
 		rotate_ = { DirectX::XMConvertToRadians(90), 0.0f, 0.0f }; // X軸回転 -90度
@@ -35,9 +35,13 @@ void FollowCamera::FollowProcess()
 void FollowCamera::GetViewProjection() const
 {
 }
-
+#ifdef _DEBUG
 void FollowCamera::ImGui()
 {
+
+
+
+
 	ImGui::Begin("FollowCamera Info");
 	ImGui::DragFloat3("OffSet", offset_);
 
@@ -49,3 +53,4 @@ void FollowCamera::ImGui()
 
 	ImGui::End();
 }
+#endif // _DEBUG

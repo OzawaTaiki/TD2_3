@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Framework/eScene/BaseScene.h>
-
 #include <Rendering/Sprite/Sprite.h>
 
 class LoadScene : public BaseScene
@@ -16,12 +15,17 @@ public:
     void Update() override;
     void Draw() override;
 
-
 private:
-
-    Sprite* sprite_ = nullptr;
-
-
-
-
+    /*===============================================================//
+                         　　 ポインタなど
+    //===============================================================*/
+    Sprite* sprite_;
+    Sprite* spriteBG_;
+    uint32_t textureHandles_[3];
+    int currentTextureIndex_ = 0;
+    float rotationSpeed_ = 0.05f;
+    float textureChangeInterval_ = 0.2f; // テクスチャ切り替え間隔
+    float elapsedTime_ = 0.0f;
+    float scale_ = 1.0f;
+    bool isScalingUp_ = true;
 };

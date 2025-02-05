@@ -1,0 +1,7 @@
+{
+    "TitleScene": {
+        "enemyRange": 4.0,
+        "enemySpeed": 0.05000000074505806,
+        "spawnInterval": 1.2999999523162842
+    }
+}

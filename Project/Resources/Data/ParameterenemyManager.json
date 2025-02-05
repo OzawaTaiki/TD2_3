@@ -1,0 +1,21 @@
+{
+    "enemyManager": {
+        "SetColor": {
+            "w": 1.0,
+            "x": 1.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "deathSound_Offset": 0.0,
+        "deathSound_Volume": 1.0,
+        "hitSound_Offset": 0.0,
+        "hitSound_Volume": 1.0,
+        "warning_RiseSpeed": 2.0,
+        "warning_RotateSpeed": {
+            "x": -90.0,
+            "y": 15.699999809265137,
+            "z": 25.0
+        },
+        "warning_ScaleSpeed": 2.0
+    }
+}

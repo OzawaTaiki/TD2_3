@@ -25,14 +25,17 @@ void NorthPoleBullet::Update()
 {
 	if (!isAlive_) return; // 生存状態を確認
 
-	collider_->RegsterCollider();
 	BaseBullet::Update();
+	collider_->RegsterCollider();
 }
 
 void NorthPoleBullet::Draw(const Camera& camera, const Vector4& color)
 {
-	//collider_->Draw();
 	if (!isAlive_) return; // 生存状態を確認
+#ifdef _DEBUG
+	collider_->Draw();
+#endif // _DEBUG
+
 	BaseBullet::Draw(camera, color);
 }
 

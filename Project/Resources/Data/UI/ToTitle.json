@@ -1,0 +1,28 @@
+{
+    "ToTitle": {
+        "ToTitle_anchor": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "ToTitle_color": {
+            "w": 1.0,
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "ToTitle_directoryPath": "Resources/Textures/",
+        "ToTitle_isActive": 257,
+        "ToTitle_isVisible": 201326593,
+        "ToTitle_label": "ToTitle",
+        "ToTitle_pos": {
+            "x": 887.0,
+            "y": 308.0
+        },
+        "ToTitle_rotate": 0.0,
+        "ToTitle_size": {
+            "x": 300.0,
+            "y": 350.0
+        },
+        "ToTitle_textureName": "resultRetry.png"
+    }
+}

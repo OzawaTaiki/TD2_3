@@ -26,14 +26,18 @@ void SouthPoleBullet::Initialize(const std::string& directoryPath, const std::st
 void SouthPoleBullet::Update()
 {
 	if (!isAlive_) return; // 生存状態を確認
-	collider_->RegsterCollider();
+
 	BaseBullet::Update();
+	collider_->RegsterCollider();
 }
 
 void SouthPoleBullet::Draw(const Camera& camera, const Vector4& color)
 {
+
 	if (!isAlive_) return; // 生存状態を確認
-	//collider_->Draw();
+#ifdef _DEBUG
+	collider_->Draw();
+#endif // _DEBUG
 	BaseBullet::Draw(camera, color);
 }
 

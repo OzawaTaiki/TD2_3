@@ -43,8 +43,38 @@
     <Filter Include="Source\System_TD\TypeManager">
       <UniqueIdentifier>{ddb9ef8b-cea9-443f-994f-3bbdb01c9fd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System_TD\Math">
+      <UniqueIdentifier>{311cf529-2169-4c20-8de2-4fba8bde8609}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Objects\Area">
       <UniqueIdentifier>{e00173b7-de6a-41a0-86bd-4a5b79404c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD\Loader">
+      <UniqueIdentifier>{3f038500-09b8-4ff1-bfc0-83bd48597dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD\Score">
+      <UniqueIdentifier>{7bac84c3-0420-4fb5-ae03-994ce02bb84f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Transitoin">
+      <UniqueIdentifier>{d2a5b9da-db49-44c0-8b6c-402afd609008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System_TD\TimeCount">
+      <UniqueIdentifier>{ece02671-34f7-4e5f-b51e-759614fa9f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Objects\Bullistic">
+      <UniqueIdentifier>{77cfac96-da21-43c4-a974-3d622d186abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Effects">
+      <UniqueIdentifier>{62a76b4e-8341-4572-9f88-b9f33e1104e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{b10fbc90-7994-41c9-b55d-0fa7e74b2c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI\TitleUI">
+      <UniqueIdentifier>{386f5e8c-a2da-4920-bd6c-7ab5191c97b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI\OffScreenEnemy">
+      <UniqueIdentifier>{40f463d7-e10a-4f2f-8736-59a59638fe25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,14 +117,50 @@
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp">
       <Filter>Source\System_TD\TypeManager</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene\LoadScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TD_Math.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\System_TD\Math\TD_Math.cpp">
+      <Filter>Source\System_TD\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objects\Area\Area.cpp">
       <Filter>Source\Objects\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp">
+      <Filter>Source\System_TD\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp">
+      <Filter>Source\System_TD\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneTransition.cpp">
+      <Filter>Source\Scene\Transitoin</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp">
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\LoadScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TItleUI\TItleUI.cpp">
+      <Filter>Source\UI\TitleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System_TD\TimeCount\CountDown.cpp">
+      <Filter>Source\System_TD\TimeCount</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objects\Bullisitc\Bullistic.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDeathEffect.cpp">
+      <Filter>Source\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="OffScreenEnemyMark.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,23 +194,68 @@
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h">
       <Filter>Source\Objects\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
-      <Filter>Source\Objects\Entity\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h">
       <Filter>Source\System_TD\TypeManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene\LoadScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TD_Math.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Source\System_TD\Math\TD_Math.h">
+      <Filter>Source\System_TD\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objects\Area\Area.h">
       <Filter>Source\Objects\Area</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h">
+      <Filter>Source\System_TD\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h">
+      <Filter>Source\System_TD\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneTransition.h">
+      <Filter>Source\Scene\Transitoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\CountManager\CountManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h">
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Player\TitlePlayer.h">
+      <Filter>Source\Objects\Entity\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Entity\Enemy\TitleEnemy.h">
+      <Filter>Source\Objects\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\LoadScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TItleUI\TItleUI.h">
+      <Filter>Source\UI\TitleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System_TD\TimeCount\CountDown.h">
+      <Filter>Source\System_TD\TimeCount</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Bullisitc\Bullistic.h">
+      <Filter>Source\Objects\Bullistic</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeathEffect.h">
+      <Filter>Source\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="OffScreenEnemyMark.h">
+      <Filter>Source\UI\OffScreenEnemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Resources\Data\UI\MoveGuide.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Data\UI\ShotGuide.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

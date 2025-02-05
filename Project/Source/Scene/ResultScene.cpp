@@ -115,11 +115,6 @@ void ResultScene::Initialize()
     bgmHandle_ = audio_->SoundLoadWave("result.wav");
     audio_->SoundPlay(bgmHandle_, 1.0f, true);
 
-	targetScore_ = 10000;
-    targetCombo_ = 250;
-    targetCount_ = 42;
-
-
 }
 
 void ResultScene::Update()

@@ -21,7 +21,7 @@ void EnemyManager::Initialize(Camera* camera)
     spawnJson_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal,std::string& moveType) {
         this->SpawnEnemy(position,speed,goal, moveType);
         });
-    
+
     spawnJson_.SetWarningCallback([this](Vector3& position, float warningTime) {
         this->SpawnWarning(position, warningTime);
         });
@@ -78,6 +78,19 @@ void EnemyManager::Update()
         }
     }
 
+    for (auto it = deathEffects_.begin(); it != deathEffects_.end();)
+    {
+        (*it)->Update();
+        if ((*it)->IsEnd())
+        {
+            it = deathEffects_.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
 #ifdef _DEBUG
     ImGui();
     spawnJson_.ShowImGui(); // 追加
@@ -97,6 +110,14 @@ void EnemyManager::Draw(const Vector4& color)
     // 警告モデルの描画
     for (const auto& warning : warningModels_) {
         warning.oModel->Draw(camera_, warningColor);  // 半透明の赤色で描画
+    }
+}
+
+void EnemyManager::DrawDeathEffect()
+{
+    for (auto& effect : deathEffects_)
+    {
+        effect->Draw(camera_);
     }
 }
 
@@ -181,9 +202,22 @@ void EnemyManager::SpawnWarning(Vector3& position, float& warningTime)
 
 void EnemyManager::RemoveDeadEnemies()
 {
-    enemies_.remove_if([](const std::unique_ptr<Enemy>& enemy) {
-        return !enemy->GetIsAlive() || !enemy->GetIsDraw();
-        });
+    for (auto it = enemies_.begin(); it != enemies_.end();)
+    {
+        (*it)->Update();
+        if (!(*it)->GetIsAlive() || !(*it)->GetIsDraw())
+        {
+            if (!effectPos_.empty())
+            {
+                auto& effect = deathEffects_.emplace_back(std::make_unique<EnemyDeathEffect>());
+                effect->Initialize(std::get<2>(effectPos_.front()));
+                effectPos_.pop_front();
+            }
+            it = enemies_.erase(it);
+            continue;
+        }
+        ++it;
+    }
 }
 
 Vector3 EnemyManager::GenerateRandomPosition()
@@ -273,6 +307,8 @@ void EnemyManager::AttractEnemy(float range)
                 pos2.y -= direction.y * attractForce;
                 pos2.z -= direction.z * attractForce;
 
+                bool makeTuple = false;
+
                 // 一定距離以下なら両者消滅
                 if (distanceSquared <= std::powf(threshold_, 2)) {
                     enemy1->SetIsAlive(false);
@@ -281,6 +317,7 @@ void EnemyManager::AttractEnemy(float range)
                     enemy1->SetIsDraw(false);
                     enemy2->SetIsDraw(false);
 
+                    makeTuple = true;
                 }
 
                 // ------------------------------
@@ -329,6 +366,15 @@ void EnemyManager::AttractEnemy(float range)
                     // デバッグ時だけ描画
                     LineDrawer::GetInstance()->DrawOBB(OBBWorldMat);
 #endif // _DEBUG
+
+                    if (makeTuple)
+                    {
+                        EffectPos ep = std::make_tuple(it1, it2, center);
+                        if (std::find(effectPos_.begin(), effectPos_.end(), ep) == effectPos_.end())
+                        {
+                            effectPos_.push_back(ep);
+                        }
+                    }
 
                     // OBBのサイズが一定以下のときに当たっている敵をマーク
                     // 引き寄せあってるやつらが消滅した時マークした敵を消す

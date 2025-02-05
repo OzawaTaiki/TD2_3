@@ -67,6 +67,9 @@
     <Filter Include="Source\Objects\Bullistic">
       <UniqueIdentifier>{77cfac96-da21-43c4-a974-3d622d186abf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Effects">
+      <UniqueIdentifier>{62a76b4e-8341-4572-9f88-b9f33e1104e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -147,6 +150,9 @@
     <ClCompile Include="Source\Objects\Bullisitc\Bullistic.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyDeathEffect.cpp">
+      <Filter>Source\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Source\Objects\Bullisitc\Bullistic.h">
       <Filter>Source\Objects\Bullistic</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeathEffect.h">
+      <Filter>Source\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

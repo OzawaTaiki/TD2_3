@@ -9,10 +9,12 @@
 
 #include "../../../System_TD/Loader/EnemySpawnLoader.h"
 #include "../../../System_TD/Loader/EnemyJsonLoader.h"
-
+#include "EnemyDeathEffect.h"
 #include <Systems/Time/GameTime.h>
 #include <Systems/Audio/AudioSystem.h>
 #include <Systems/JsonBinder/JsonBinder.h>
+
+#include <queue>
 
 class GameScene;
 class Player;
@@ -36,6 +38,7 @@ public:
     /// </summary>
     void Draw(const Vector4& color);
 
+    void DrawDeathEffect();
 
 
     bool AttractEnemy(std::list <std::unique_ptr<TitleEnemy>>& _enemies, float range = 10.0f) const;
@@ -114,6 +117,8 @@ private:
     std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
     EnemyJsonLoader spawnJson_; 
 
+    std::list<std::unique_ptr<EnemyDeathEffect>> deathEffects_;
+
     /*===============================================================//
                              ランダム生成
     //===============================================================*/
@@ -157,7 +162,9 @@ private:
 
     // 時間経過でNone状態に戻す
 
-
+    using EnemyListIterator = std::list<std::unique_ptr<Enemy>>::iterator;
+    using EffectPos = std::tuple<EnemyListIterator, EnemyListIterator, Vector3>;
+    std::list<EffectPos> effectPos_;
 
     /*===============================================================//
                              スポーン関連

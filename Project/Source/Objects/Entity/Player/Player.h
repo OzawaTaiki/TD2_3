@@ -12,6 +12,7 @@
 #include "../../Bullet/NorthPoleBullet.h"
 #include "../BaseEntity.h"
 #include <Physics/Collision/Collider.h>
+#include <Source/Objects/Bullisitc/Bullistic.h>
 
 // C++
 #include <memory>
@@ -195,7 +196,8 @@ private:
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
 
-    std::unique_ptr<ObjectModel> ballistic_ = nullptr;
+    std::unique_ptr<Bullistic> rightBallistic_ = nullptr;
+    std::unique_ptr<Bullistic> leftBallistic_ = nullptr;
 
 	static const int ch_ = 2;
 	Sprite* spriteHP_[ch_];
@@ -310,6 +312,10 @@ private:
 	};
 
     DeathEffectParams deathEffectParams_;
+
+
+    Vector4 rightBullisticColor_ = { 1.0f,0.0f,0.0f,1.0f };
+    Vector4 leftBullisticColor_ = { 0.0f,0.0f,1.0f,1.0f };
 
 	//サウンド
     uint32_t shotHandle_ = 0;

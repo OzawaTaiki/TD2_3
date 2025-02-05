@@ -94,11 +94,12 @@ void Player::Initialize(Camera* camera)
 
 	damageHandle_ = audio->SoundLoadWave("damage.wav");
 
-    ballistic_ = std::make_unique<ObjectModel>();
-    ballistic_->Initialize("Player/Ballistic.obj", "Ballistic");
-    ballistic_->translate_ = { 0.0f,0.1f,0.0f };
-    ballistic_->scale_ = { 0.3f,0.1f,20.0f };
-    ballistic_->SetParent(aModel_->GetWorldTransform());
+
+    rightBallistic_ = std::make_unique<Bullistic>();
+    rightBallistic_->Initialize(aModel_->GetWorldTransform());
+
+    leftBallistic_ = std::make_unique<Bullistic>();
+	leftBallistic_->Initialize(aModel_->GetWorldTransform(), "left");
 
 }
 
@@ -138,7 +139,8 @@ void Player::Update()
 	}
 
 	aModel_->Update();
-    ballistic_->Update();
+    rightBallistic_->Update();
+    leftBallistic_->Update();
 
 	worldPosition_ = GetWorldPosition();
 
@@ -157,7 +159,6 @@ void Player::Draw(const Vector4& color)
 	aModel_->Draw(camera_, color);
 
 
-
 	for (NorthPoleBullet* bullet : bulletsNorth_) {
 		bullet->Draw(*camera_, Vector4{ 255.0f,0.0f,0.0f,1.0f });
 	}
@@ -171,7 +172,8 @@ void Player::Draw(const Vector4& color)
 
 void Player::DrawBallistic()
 {
-    ballistic_->Draw(camera_, 0, { .7f,.3f ,.3f ,.5f });
+	rightBallistic_->Draw(camera_);
+	leftBallistic_->Draw(camera_);
 }
 
 

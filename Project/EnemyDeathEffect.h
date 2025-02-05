@@ -21,14 +21,14 @@ public:
 
 private:
 
-    float lifeTime_ = 1;
+    float lifeTime_ = .5f;
     float currentTime_ = 0;
 
     std::unique_ptr<ObjectModel> oModel_ = nullptr;
 
     float scale_ = 0;
     float sScale_ = 0;
-    float eScale_ = 1;
+    float eScale_ = 3;
 
     Vector4 color_ = { 1.0f,1.0f,1.0f,1.0f };
     Vector4 sColor_ = { 1.0f,1.0f,1.0f,1.0f };

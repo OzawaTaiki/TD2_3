@@ -64,6 +64,9 @@
     <Filter Include="Source\System_TD\TimeCount">
       <UniqueIdentifier>{ece02671-34f7-4e5f-b51e-759614fa9f3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Objects\Bullistic">
+      <UniqueIdentifier>{77cfac96-da21-43c4-a974-3d622d186abf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -141,6 +144,9 @@
     <ClCompile Include="Source\System_TD\TimeCount\CountDown.cpp">
       <Filter>Source\System_TD\TimeCount</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Objects\Bullisitc\Bullistic.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\GameScene.h">
@@ -217,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Source\System_TD\TimeCount\CountDown.h">
       <Filter>Source\System_TD\TimeCount</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objects\Bullisitc\Bullistic.h">
+      <Filter>Source\Objects\Bullistic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

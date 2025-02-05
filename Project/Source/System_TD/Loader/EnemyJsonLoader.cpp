@@ -111,6 +111,7 @@ void EnemyJsonLoader::UpdateWave()
 
 	Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
 
+	// 全てのグループの処理が終わった場合
 	if (currentGroupIndex_ >= static_cast<int>(currentWave.groups.size())) {
 		if (currentWave.waitTime > 0) {
 			isWait_ = true;
@@ -118,16 +119,81 @@ void EnemyJsonLoader::UpdateWave()
 		}
 		currentWaveIndex_++;
 		currentGroupIndex_ = 0;
+		hasWarned_ = false;  // 警告フラグをリセット
 
-		// **次のウェーブ開始時間をリセット**
+		// 次のウェーブ開始時間をリセット
 		if (currentWaveIndex_ < waves_.size()) {
-			waveStartTime_ = currentTime_;  // 新しいウェーブの開始時刻を記録
+			waveStartTime_ = currentTime_;
 		}
-
 		return;
 	}
 
-	UpdateGroup();
+	// 現在のウェーブ内の全てのグループに対して警告処理を行う
+	if (!hasWarned_) {
+		Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
+
+		// 最後のグループのwaitTimeを取得
+		float lastGroupWaitTime = 0.0f;
+		if (!currentWave.groups.empty()) {
+			lastGroupWaitTime = currentWave.groups.back().waitTime;
+		}
+
+		// waitTimeが0より大きい場合、2秒前から警告を表示
+		if (lastGroupWaitTime > 0) {
+			float warningStartTime = lastGroupWaitTime - 2.0f;
+			if ((currentTime_ - waveStartTime_) < warningStartTime) {
+				return;
+			}
+		}
+
+		for (int groupIndex = 0; groupIndex < currentWave.groups.size(); groupIndex++) {
+			Group& group = currentWave.groups[groupIndex];
+
+			// グループ内の全ての敵の警告を表示
+			for (int enemyIndex = 0; enemyIndex < group.numEnemies; enemyIndex++) {
+				Vector3 position = group.spawnPoint +
+					group.direction * static_cast<float>(group.offset * enemyIndex);
+
+				if (warningCallback_) {
+					warningCallback_(position, kSpawnWarningTime_);
+				}
+			}
+		}
+		hasWarned_ = true;
+		isWait_ = true;
+		waitTimer_ = kSpawnWarningTime_ * 60.0f;
+		return;
+	}
+
+	// 警告後、待機時間が終わったら全ての敵をスポーン
+	if (!isWait_) {
+		for (int groupIndex = 0; groupIndex < currentWave.groups.size(); groupIndex++) {
+			Group& group = currentWave.groups[groupIndex];
+
+			for (int enemyIndex = 0; enemyIndex < group.numEnemies; enemyIndex++) {
+				Vector3 position = group.spawnPoint +
+					group.direction * static_cast<float>(group.offset * enemyIndex);
+
+				float speed = group.speed;
+				Vector3 goal = group.goal;
+
+				if (group.moveType == "Target" && player_) {
+					goal = player_->GetWorldPosition();
+				}
+
+				if (!isUpdate_) {
+					speed = 0.0f;
+				}
+
+				if (spawnCallback_) {
+					spawnCallback_(position, speed, goal, group.moveType);
+				}
+			}
+		}
+
+		currentGroupIndex_ = currentWave.groups.size(); // 全てのグループを処理済みとマーク
+		hasWarned_ = false;  // 次のウェーブのために警告フラグをリセット
+	}
 }
 
 void EnemyJsonLoader::UpdateGroup()

@@ -131,7 +131,7 @@ private:
     float currentTime_ = 0.0f;   
     float waveStartTime_ = 0.0f;
     bool isFirstWave_ = true;    
-
+    bool hasWarned_ = false;
 
     SpawnCallback spawnCallback_ = nullptr;
     WarningCallback warningCallback_ = nullptr;

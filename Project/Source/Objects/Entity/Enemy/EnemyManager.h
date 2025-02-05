@@ -19,6 +19,8 @@ class Player;
 class EnemyManager
 {
 public:
+
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -50,6 +52,13 @@ private:
     /// タイムでスポーン
     /// </summary>
     void SpawnEnemy(Vector3& position,float& speed,Vector3& goal,std::string& moveType);
+
+	/// <summary>
+	/// スポーンの警告
+	/// </summary>
+	/// <param name="position"></param>
+	/// <param name="warningTime"></param>
+	void SpawnWarning(Vector3& position, float& warningTime);
 
     /// <summary>
     /// 敵を削除（デスフラグ付き）
@@ -83,6 +92,16 @@ public:
     void SetPlayer(Player* player) { player_ = player; }
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 private:
+    /*===============================================================//
+                         構造体
+    //===============================================================*/
+    struct SpawnWarningModel {
+        std::unique_ptr<ObjectModel> oModel;
+        float timer;
+        Vector3 position;
+    };
+    std::list<SpawnWarningModel> warningModels_;
+
     /*===============================================================//
                               ポインタ
     //===============================================================*/
@@ -160,5 +179,12 @@ private:
     uint32_t deathHandle_;
     float deathVolume_ = 1.0f;
     float deathStartOffset_ = 0.0f;
+
+
+    Vector3 warningRotate_ = { -90.0f, 0.0f, 180.0f };    // 回転速度
+    Vector4 warningColor = { 1.0f,0.0f,0.0f,0.0f };
+	Vector4 setColor = { 1.0f,0.0f,0.0f,1.0f };
+    float warningRiseSpeed_ = 5.0f;       // 上昇速度
+	float warningScaleSpeed_ = 5.0f;      // 拡大速度
 
 };

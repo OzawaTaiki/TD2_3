@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <Physics/Math/MatrixFunction.h>
 #include <Physics/Math/VectorFunction.h>
+#include <ResourceManagement/TextureManager/TextureManager.h>
 
 
 void EnemyManager::Initialize(Camera* camera)
@@ -20,9 +21,15 @@ void EnemyManager::Initialize(Camera* camera)
     spawnJson_.SetSpawnCallback([this](Vector3& position, float& speed,Vector3& goal,std::string& moveType) {
         this->SpawnEnemy(position,speed,goal, moveType);
         });
+    
+    spawnJson_.SetWarningCallback([this](Vector3& position, float warningTime) {
+        this->SpawnWarning(position, warningTime);
+        });
+
 
     // スポーンデータの読み込み
     spawnJson_.LoadEnemyPopData();
+
 
     gameTime_ = GameTime::GetInstance();
 
@@ -52,15 +59,29 @@ void EnemyManager::Update()
         enemy->ChangeType(deltaTime);
     }
 
+    // 警告モデルの更新
+    for (auto it = warningModels_.begin(); it != warningModels_.end();) {
+        it->oModel->Update();
+        it->timer -= deltaTime;
+
+        // 回転アニメーション
+        it->oModel->rotate_ = warningRotate_;/** deltaTime*/;
+        it->oModel->translate_.y += warningRiseSpeed_ * deltaTime;
+        it->oModel->scale_ += warningScaleSpeed_ * deltaTime;
+        warningColor.w = (std::min)(warningColor.w + 2.0f* deltaTime, setColor.x);
+        if (it->timer <= 0.0f) {
+            it = warningModels_.erase(it);
+            warningColor.w = 0.0f;
+        }
+        else {
+            ++it;
+        }
+    }
 
 #ifdef _DEBUG
+    ImGui();
     spawnJson_.ShowImGui(); // 追加
 #endif
-//
-//#ifdef _DEBUG
-//    ImGui();
-//#endif
-
 }
 
 void EnemyManager::Draw(const Vector4& color)
@@ -71,6 +92,11 @@ void EnemyManager::Draw(const Vector4& color)
         if (enemy->GetCurrentTypeName() != "None") {
             LineDrawer::GetInstance()->DrawCircle(enemy->GetTranslate(), attractRadius_);
         }
+    }
+
+    // 警告モデルの描画
+    for (const auto& warning : warningModels_) {
+        warning.oModel->Draw(camera_, warningColor);  // 半透明の赤色で描画
     }
 }
 
@@ -100,6 +126,14 @@ void EnemyManager::ImGui()
         ImGui::Text("Death Sound");
         ImGui::SliderFloat("Death Sound Volume", &deathVolume_, 0.0f, 1.0f);
         ImGui::DragFloat("Death Sound Offset", &deathStartOffset_, 0.01f, 0.0f);
+
+
+
+        ImGui::SeparatorText("Warning Model Animation");
+        ImGui::DragFloat3("Rotate Speed", &warningRotate_.x, 1.0f, 50.0f);
+        ImGui::DragFloat("Rise Speed", &warningRiseSpeed_, 1.0f, 20.0f);
+        ImGui::DragFloat("Scale Speed", &warningScaleSpeed_, 1.0f, 20.0f);
+		ImGui::DragFloat4("Color", &setColor.x, 0.01f, 0.0f, 1.0f);
 
         if (ImGui::Button("Set"))
         {
@@ -132,6 +166,17 @@ void EnemyManager::SpawnEnemy(Vector3& position, float& speed, Vector3& goal, st
     newEnemy->SetHitSound(hitHandle_, hitVolume_, hitStartOffset_);
     newEnemy->SetDeathSound(deathHandle_, deathVolume_, deathStartOffset_);
     enemies_.push_back(std::move(newEnemy));
+}
+
+void EnemyManager::SpawnWarning(Vector3& position, float& warningTime)
+{
+    SpawnWarningModel warning;
+    warning.oModel = std::make_unique<ObjectModel>();
+    warning.oModel->Initialize("plane/plane.obj", "Warning");
+    warning.oModel->translate_ = position;
+    warning.timer = warningTime;
+    warning.position = position;
+    warningModels_.push_back(std::move(warning));
 }
 
 void EnemyManager::RemoveDeadEnemies()
@@ -597,4 +642,9 @@ void EnemyManager::InitJsonBinder()
 
     jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);
     jsonBinder_->RegisterVariable("deathSound_Offset", &deathStartOffset_);
+
+    jsonBinder_->RegisterVariable("warning_RotateSpeed", &warningRotate_);
+    jsonBinder_->RegisterVariable("warning_RiseSpeed", &warningRiseSpeed_);
+    jsonBinder_->RegisterVariable("warning_ScaleSpeed", &warningScaleSpeed_);
+	jsonBinder_->RegisterVariable("SetColor", &setColor);
 }

@@ -70,16 +70,14 @@ void EnemyJsonLoader::UpdateEnemyPopCommands()
 		if (isFirstWave_) {
 			currentWave.isWaveActive = true;
 			isFirstWave_ = false;
-			waveStartTime_ = currentTime_;  // ウェーブ開始時間を記録
+			waveStartTime_ = currentTime_;
 		}
 
-		// ウェーブタイマーの確認（現在時間 - ウェーブ開始時間 >= ウェーブの設定時間）
 		if (!currentWave.isWaveActive && (currentTime_ - waveStartTime_ >= currentWave.waveTimer * 60.0f)) {
 			currentWave.isWaveActive = true;
-			waveStartTime_ = currentTime_;  // 次のウェーブ開始の基準時刻を更新
+			waveStartTime_ = currentTime_;
 		}
 
-		// アクティブなウェーブの更新
 		if (currentWave.isWaveActive) {
 			UpdateWave();
 		}
@@ -137,31 +135,60 @@ void EnemyJsonLoader::UpdateGroup()
 	Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
 	Group& currentGroup = currentWave.groups[static_cast<size_t>(currentGroupIndex_)];
 
-	for (int i = 0; i < currentGroup.numEnemies; ++i) {
-		Vector3 position = currentGroup.spawnPoint + currentGroup.direction * static_cast<float>(currentGroup.offset * i);
-		float speed = currentGroup.speed;
-		Vector3 goal = currentGroup.goal;
-		std::string moveType = currentGroup.moveType;
+	const float kSpawnWarningTime = 2.0f;
+	static int currentEnemyIndex = 0;
 
-		if (currentGroup.moveType == "Target" && player_) {
-			goal = player_->GetWorldPosition();
-		}
+	// スポーン処理
+	Vector3 position = currentGroup.spawnPoint +
+		currentGroup.direction * static_cast<float>(currentGroup.offset * currentEnemyIndex);
+	float speed = currentGroup.speed;
+	Vector3 goal = currentGroup.goal;
+	std::string moveType = currentGroup.moveType;
 
-		if (!isUpdate_) {
-			speed = 0.0f;
-		}
-
-		if (spawnCallback_) {
-			spawnCallback_(position, speed, goal, moveType);
-		}
+	if (currentGroup.moveType == "Target" && player_) {
+		goal = player_->GetWorldPosition();
 	}
 
-	if (currentGroup.waitTime > 0) {
+	if (!isUpdate_) {
+		speed = 0.0f;
+	}
+
+	// 警告表示とスポーン処理の状態管理
+	static bool hasWarned = false;
+
+	if (!hasWarned) {
+		// 警告表示
+		if (warningCallback_) {
+			warningCallback_(position, kSpawnWarningTime);
+		}
 		isWait_ = true;
-		waitTimer_ = static_cast<float>(currentGroup.waitTime * 60.0f); // float にキャスト
+		waitTimer_ = kSpawnWarningTime * 60.0f;
+		hasWarned = true;
+		nextSpawnInfo_ = { position, speed, goal, moveType };
 	}
+	else if (!isWait_) {  // 待機時間が終了した
+		// 敵をスポーン
+		if (spawnCallback_) {
+			spawnCallback_(nextSpawnInfo_.position, nextSpawnInfo_.speed,
+				nextSpawnInfo_.goal, nextSpawnInfo_.moveType);
+		}
 
-	currentGroupIndex_++;
+		currentEnemyIndex++;
+		hasWarned = false;  // 次の敵のために警告フラグをリセット
+
+		// グループ内の全ての敵のスポーンが完了したら
+		if (currentEnemyIndex >= currentGroup.numEnemies) {
+			currentEnemyIndex = 0;
+
+			// グループの待機時間を設定
+			if (currentGroup.waitTime > 0) {
+				isWait_ = true;
+				waitTimer_ = static_cast<float>(currentGroup.waitTime * 60.0f);
+			}
+
+			currentGroupIndex_++;
+		}
+	}
 }
 
 void EnemyJsonLoader::IUpdateWave(size_t waveIndex)

@@ -6,7 +6,7 @@
 void Area::Initialize(float _size)
 {
     model_ = std::make_unique<ObjectModel>();
-    model_->Initialize("plane/plane.gltf", "Area");
+    model_->Initialize("planeEngine/plane.gltf", "Area");
 
     model_->rotate_.x = std::numbers::pi_v<float> / 2;
     model_->scale_ = { _size * 2,_size * 2,1 };

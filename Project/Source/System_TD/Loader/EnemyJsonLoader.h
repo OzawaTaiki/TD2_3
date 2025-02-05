@@ -17,9 +17,10 @@ struct Group {
     Vector3         direction;
     float           offset;
     float           waitTime;
-
+    //bool            isWarning = false;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Group, numEnemies, moveType, speed, goal, spawnPoint, direction, offset, waitTime)
 };
+
 
 struct Wave {
     int waveNumber;
@@ -37,11 +38,20 @@ struct SpawnView {
     Sprite* sprite;
 };
 
+struct SpawnInfo {
+    Vector3 position;
+    float speed;
+    Vector3 goal;
+    std::string moveType;
+};
+
 
 class Player;
 class EnemyJsonLoader {
 public:
     using SpawnCallback = std::function<void(Vector3&, float&, Vector3&, std::string&)>;
+    using WarningCallback = std::function<void(Vector3& position, float warningTime)>;
+   
 
     /// <summary>
     /// 敵発生データの読み込み
@@ -58,6 +68,10 @@ public:
     /// </summary>
     void UpdateEnemyPopCommands();
 
+
+    /// <summary>
+	/// 全てのウェーブを更新
+    /// </summary>
     void UpdateAllWaves();
 
     /// <summary>
@@ -69,8 +83,14 @@ public:
     /// コールバック登録
     /// </summary>
     void SetSpawnCallback(SpawnCallback callback) { spawnCallback_ = callback; }
+    void SetWarningCallback(WarningCallback callback) { warningCallback_ = callback; }
 
 
+public:
+
+	/// <summary>
+	/// プレイヤーの設定
+	/// </summary>
 	void SetPlayer(Player* player) { player_ = player; }
 
 private:
@@ -97,9 +117,6 @@ private:
     /// </summary>
     void UpdateEnemyPositions();
 
-
-
-
 private:
 	Player* player_ = nullptr;
     std::vector<Wave> waves_;
@@ -116,4 +133,6 @@ private:
 
 
     SpawnCallback spawnCallback_ = nullptr;
+    WarningCallback warningCallback_ = nullptr;
+    SpawnInfo nextSpawnInfo_;
 };

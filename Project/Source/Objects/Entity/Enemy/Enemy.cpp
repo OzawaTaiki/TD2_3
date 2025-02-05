@@ -5,6 +5,8 @@
 #include <Source/System_TD/ComboManager/ComboManager.h>
 #include "Source/System_TD/CountManager/CountManager.h"
 #include "../../../Scene/GameScene.h"
+#include <Framework/Particle/ParticleEmitters.h>
+#include <Framework/Particle/ParticleManager.h>
 
 void Enemy::Initialize(Camera* camera)
 {
@@ -34,6 +36,12 @@ void Enemy::Initialize(Camera* camera)
 
 	currentType_ = BulletType::None;
 
+
+	/*===============================================================//
+				 　　	  死亡時エフェクト設定
+	//===============================================================*/
+
+
 }
 
 void Enemy::Update()
@@ -48,7 +56,13 @@ void Enemy::Update()
 		}
         AudioSystem::GetInstance()->SoundPlay(deathHandle_, 1.0f, false);
 	}
+	
 
+
+	
+
+
+	OnDeth();
 
 	ImGui();
 	oModel_->Update();
@@ -162,11 +176,12 @@ void Enemy::ImGui()
 
 	//ImGui::End();
 
-#endif // _DEBUG
+#endif
+}
 
-
-
-
+void Enemy::OnDeth()
+{
+	
 }
 
 Vector3 Enemy::GetCenterPosition() const {

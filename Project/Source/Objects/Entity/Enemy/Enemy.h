@@ -4,6 +4,7 @@
 #include <Physics/Collision/Collider.h>
 #include <Systems/Audio/AudioSystem.h>
 
+
 class GameScene;
 class Player;
 class Enemy : public BaseEntity
@@ -91,6 +92,10 @@ private:
 	/// </summary>
 	void ImGui();
 
+	/// <summary>
+	/// 死亡時
+	/// </summary>
+	void OnDeth();
 
 public:
 
@@ -169,6 +174,7 @@ private:
     VoiceHandle deathVoice_;
     float deathVolume_ = 1.0f;
     float deathStartOffset_ = 0.0f;
+
 
 };
 

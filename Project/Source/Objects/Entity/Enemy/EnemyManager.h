@@ -13,6 +13,7 @@
 #include <Systems/Time/GameTime.h>
 #include <Systems/Audio/AudioSystem.h>
 #include <Systems/JsonBinder/JsonBinder.h>
+#include <Framework/Particle/Effect.h>
 
 class GameScene;
 class Player;
@@ -113,6 +114,7 @@ private:
     GameTime* gameTime_ = nullptr;
     std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
     EnemyJsonLoader spawnJson_; 
+	std::list<std::unique_ptr<Effect>> deathEffects_;
 
     /*===============================================================//
                              ランダム生成

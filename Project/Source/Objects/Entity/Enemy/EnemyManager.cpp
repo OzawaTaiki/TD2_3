@@ -36,6 +36,12 @@ void EnemyManager::Initialize(Camera* camera)
     hitHandle_ = AudioSystem::GetInstance()->SoundLoadWave("hit.wav");
     deathHandle_ = AudioSystem::GetInstance()->SoundLoadWave("knockdown.wav");
 
+    
+	for (auto &effect : deathEffects_)
+	{
+		effect->Initialize("DethEnemy");
+		deathEffects_.push_back(std::move(effect));
+	}
     InitJsonBinder();
 
 }
@@ -76,6 +82,11 @@ void EnemyManager::Update()
         else {
             ++it;
         }
+    }
+
+    for (auto& effect : deathEffects_)
+    {
+        effect->Update();
     }
 
 #ifdef _DEBUG
@@ -181,9 +192,21 @@ void EnemyManager::SpawnWarning(Vector3& position, float& warningTime)
 
 void EnemyManager::RemoveDeadEnemies()
 {
-    enemies_.remove_if([](const std::unique_ptr<Enemy>& enemy) {
-        return !enemy->GetIsAlive() || !enemy->GetIsDraw();
-        });
+	for (auto it = enemies_.begin(); it != enemies_.end();)
+	{
+		if (!(*it)->GetIsAlive() || !(*it)->GetIsDraw())
+		{
+			deathEffects_.emplace_back(std::make_unique<Effect>());
+			deathEffects_.back()->Initialize("DethEnemy");
+			deathEffects_.back()->SetActive(true);
+            deathEffects_.back()->SetTranslate((*it)->GetTranslate() + Vector3{0.0f,5.0f,0.0f});
+			it = enemies_.erase(it);
+
+        }
+        else {
+            ++it;
+        }
+	}
 }
 
 Vector3 EnemyManager::GenerateRandomPosition()

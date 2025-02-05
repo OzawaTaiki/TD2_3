@@ -71,11 +71,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager::RegisterScene("Title", TitleScene::Create);
 	SceneManager::RegisterScene("Game", GameScene::Create);
 	SceneManager::RegisterScene("Result", ResultScene::Create);
+	SceneManager::RegisterScene("ParticleTest", ParticleTestScene::Create);
     //SceneManager::RegisterScene("Load", LoadScene::Create);
 	SceneManager::GetInstance()->SetTransition(std::make_unique<SceneTransition>());
 
 #ifdef _DEBUG
-	SceneManager::GetInstance()->Initialize("Result");
+	SceneManager::GetInstance()->Initialize("ParticleTest");
 #else
     SceneManager::GetInstance()->Initialize("Title");
 #endif // _DEBUG

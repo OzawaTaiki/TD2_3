@@ -104,7 +104,7 @@ void ResultScene::Initialize()
 
 	UI_TX[0] = { TextureManager::GetInstance()->Load("resultTitle.png", defaulFilPath) };
 	UI_TX[1] = { TextureManager::GetInstance()->Load("resultRetry.png", defaulFilPath) };
-
+	uiTitle_.SetTextureHandle(UI_TX[0]);
 
     audio_ = AudioSystem::GetInstance();
 
@@ -115,6 +115,7 @@ void ResultScene::Initialize()
     bgmHandle_ = audio_->SoundLoadWave("result.wav");
 	bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
 
+	isRetry_ = true;
 }
 
 void ResultScene::Update()
@@ -147,6 +148,36 @@ void ResultScene::Update()
 
 	if (drawSelect_)
 	{
+		static float animationTime = 0.0f;
+		animationTime += GameTime::GetUnScaleDeltaTime_float();
+
+		float amplitude = 2.0f;
+		float frequency = 5.0f;
+
+		float shakeOffset = std::sin(animationTime * frequency) * amplitude;
+
+		Vector2 pos = uiA_.GetPos();
+		pos.x += shakeOffset;
+		uiA_.SetPos(pos);
+
+		// コントローラーの左スティックを取得
+		Vector2 leftStick = Input::GetInstance()->GetPadLeftStick();
+
+		// 上下の入力で切り替え
+		if (std::abs(leftStick.y) > 0.5f)
+		{
+			if (leftStick.y > 0.0f && isRetry_)  // 上に倒したとき
+			{
+				buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
+				isRetry_ = false;
+			}
+			else if (leftStick.y < 0.0f && !isRetry_)  // 下に倒したとき
+			{
+				buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
+				isRetry_ = true;
+			}
+		}
+
 		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_Down) ||
 			Input::GetInstance()->IsPadTriggered(PadButton::iPad_Up)) {
 			buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
@@ -155,6 +186,7 @@ void ResultScene::Update()
 		}
 
 
+		// 既存のパッドボタン入力処理...
 		if (!isRetry_) {
 			uiTitle_.SetTextureHandle(UI_TX[1]);
 			if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
@@ -169,8 +201,8 @@ void ResultScene::Update()
 				SceneManager::GetInstance()->ReserveScene("Title");
 			}
 		}
-	}
 
+	}
     UpdateNumbers();
 }
 

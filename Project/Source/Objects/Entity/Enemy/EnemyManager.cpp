@@ -113,6 +113,13 @@ void EnemyManager::Draw(const Vector4& color)
     }
 }
 
+void EnemyManager::DrawSprite()
+{
+    for (auto& enemy : enemies_) {
+        enemy->DrawSprite();
+    }
+}
+
 void EnemyManager::DrawDeathEffect()
 {
     for (auto& effect : deathEffects_)

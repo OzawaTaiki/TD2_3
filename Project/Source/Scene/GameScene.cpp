@@ -35,7 +35,7 @@ void GameScene::Initialize()
     loadScene_ = new LoadScene();
     loadScene_->Initialize();
     Loading_ = true;
-
+    isReady_ = false;
     loadThread_ = std::make_unique <std::thread>(&GameScene::Load, this);
     //loadThread_->detach();
 }
@@ -165,6 +165,7 @@ void GameScene::Draw()
 	{
 		backGrounds_[i]->Draw();
 	}
+    enemyManager_->DrawSprite();
 	DrawScore();
     countDown_->Draw();
 	//DrawCombo();
@@ -334,8 +335,10 @@ void GameScene::Load()
 	gameTime_ = GameTime::GetInstance();
     gameTime_->CreateChannel("GameScene");
 
-    Loading_ = false;
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
+    Loading_ = false;
+    isReady_ = true;
     bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
 }
 

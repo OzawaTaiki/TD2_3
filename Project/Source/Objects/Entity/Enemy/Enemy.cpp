@@ -34,11 +34,13 @@ void Enemy::Initialize(Camera* camera)
 
 	currentType_ = BulletType::None;
 
+    offScreenMark_ = std::make_unique<OffScreenEnemyMark>();
+    offScreenMark_->Initialize();
 }
 
 void Enemy::Update()
 {
-	
+
 	if (!isAlive_) {
 		if (gameScene_) {
 			ScoreManager::GetInstance()->AddScore(score_);
@@ -55,6 +57,8 @@ void Enemy::Update()
 	if (isAlive_) {
 		collider_->RegsterCollider();
 	}
+
+    offScreenMark_->Update(*camera_, GetCenterPosition());
 }
 
 void Enemy::Draw(const Vector4& color)
@@ -86,6 +90,11 @@ void Enemy::Draw(const Vector4& color)
 		oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
 	}
 
+}
+
+void Enemy::DrawSprite()
+{
+    offScreenMark_->Draw();
 }
 
 void Enemy::ChangeType(float deltaTime)

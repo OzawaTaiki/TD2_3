@@ -38,6 +38,7 @@ public:
     void Update() override;
     void Draw() override;
 
+    bool IsReady() override { return isReady_; }
 
     void AddEnemyScore(int score);
 
@@ -102,6 +103,8 @@ private:
 
     uint32_t countHandle_ = 0;
     VoiceHandle countVoice_ = {};
+
+    bool isReady_ = false;
 
 #ifdef _DEBUG
     void ImGui();

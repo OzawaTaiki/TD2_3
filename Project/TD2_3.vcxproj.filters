@@ -58,9 +58,6 @@
     <Filter Include="Source\Scene\Transitoin">
       <UniqueIdentifier>{d2a5b9da-db49-44c0-8b6c-402afd609008}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\TitleUI">
-      <UniqueIdentifier>{386f5e8c-a2da-4920-bd6c-7ab5191c97b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\System_TD\TimeCount">
       <UniqueIdentifier>{ece02671-34f7-4e5f-b51e-759614fa9f3f}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,15 @@
     </Filter>
     <Filter Include="Source\Effects">
       <UniqueIdentifier>{62a76b4e-8341-4572-9f88-b9f33e1104e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{b10fbc90-7994-41c9-b55d-0fa7e74b2c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI\TitleUI">
+      <UniqueIdentifier>{386f5e8c-a2da-4920-bd6c-7ab5191c97b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI\OffScreenEnemy">
+      <UniqueIdentifier>{40f463d7-e10a-4f2f-8736-59a59638fe25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +145,7 @@
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\TItleUI\TItleUI.cpp">
-      <Filter>Source\TitleUI</Filter>
+      <Filter>Source\UI\TitleUI</Filter>
     </ClCompile>
     <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp">
       <Filter>ソース ファイル</Filter>
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="EnemyDeathEffect.cpp">
       <Filter>Source\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="OffScreenEnemyMark.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,7 +231,7 @@
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\TItleUI\TItleUI.h">
-      <Filter>Source\TitleUI</Filter>
+      <Filter>Source\UI\TitleUI</Filter>
     </ClInclude>
     <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -235,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="EnemyDeathEffect.h">
       <Filter>Source\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="OffScreenEnemyMark.h">
+      <Filter>Source\UI\OffScreenEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -38,6 +38,8 @@ public:
     /// </summary>
     void Draw(const Vector4& color);
 
+    void DrawSprite();
+
     void DrawDeathEffect();
 
 

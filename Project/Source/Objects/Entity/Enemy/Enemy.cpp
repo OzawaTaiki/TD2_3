@@ -99,16 +99,16 @@ void Enemy::DrawSprite()
 
 void Enemy::ChangeType(float deltaTime)
 {
-	if (currentType_ != BulletType::None) {
-		typeChangeCount_ += deltaTime;
-		if (typeChangeCount_ >= typeChangeTime_) {
-			SetCurrentType(BulletType::None);  // None状態に変更
-			typeChangeCount_ = 0.0f;   // タイマーをリセット
-		}
-	}
-	else {
-		typeChangeCount_ = 0.0f;  // Noneのときはタイマーをリセット
-	}
+	//if (currentType_ != BulletType::None) {
+	//	typeChangeCount_ += deltaTime;
+	//	if (typeChangeCount_ >= typeChangeTime_) {
+	//		//SetCurrentType(BulletType::None);  // None状態に変更
+	//		typeChangeCount_ = 0.0f;   // タイマーをリセット
+	//	}
+	//}
+	//else {
+	//	typeChangeCount_ = 0.0f;  // Noneのときはタイマーをリセット
+	//}
 
 }
 

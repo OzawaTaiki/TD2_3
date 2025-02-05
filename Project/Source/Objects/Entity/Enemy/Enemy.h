@@ -160,7 +160,7 @@ private:
 
 	// 時間でNone状態に変更
 	float typeChangeCount_ = 0.0f;
-	const float typeChangeTime_ = 4.0f;
+	const float typeChangeTime_ = 1000.0f;
 
     std::unique_ptr<OffScreenEnemyMark> offScreenMark_ = nullptr;
 

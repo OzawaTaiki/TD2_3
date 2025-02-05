@@ -779,12 +779,620 @@
                     "z": -30.0
                 },
                 "speed": 4.0,
-                "waitTime": 3.0
+                "waitTime": 6.0
             }
         ],
         "isWaveActive": true,
         "waitTime": 1.0,
         "waveNumber": 5,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 40.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 4,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 40.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "speed": 2.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -40.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 4,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -40.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "speed": 2.0,
+                "waitTime": 4.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 6,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "speed": 4.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": -4.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -4.0
+                },
+                "speed": 4.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": -16.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -16.0
+                },
+                "speed": 4.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 4.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": -24.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -24.0
+                },
+                "speed": 4.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": -28.0
+                },
+                "moveType": "Default",
+                "numEnemies": 1,
+                "offset": 2.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -28.0
+                },
+                "speed": 4.0,
+                "waitTime": 4.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 7,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "moveType": "Default",
+                "numEnemies": 4,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 10.0,
+                    "y": 0.0,
+                    "z": -30.0
+                },
+                "speed": 4.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "moveType": "Default",
+                "numEnemies": 4,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -30.0
+                },
+                "speed": 4.0,
+                "waitTime": 1.0
+            },
+            {
+                "direction": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "moveType": "Default",
+                "numEnemies": 4,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -30.0
+                },
+                "speed": 4.0,
+                "waitTime": 5.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 9,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "speed": 4.0,
+                "waitTime": 1.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 10,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 25.0,
+                    "y": 0.0,
+                    "z": -90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 25.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "speed": 4.0,
+                "waitTime": 1.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 11,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 30.0,
+                    "y": 0.0,
+                    "z": -90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 30.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "speed": 4.0,
+                "waitTime": 4.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 12,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 90.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -20.0,
+                    "y": 0.0,
+                    "z": 30.0
+                },
+                "speed": 4.0,
+                "waitTime": 1.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 13,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 90.0,
+                    "y": 0.0,
+                    "z": 25.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -20.0,
+                    "y": 0.0,
+                    "z": 25.0
+                },
+                "speed": 4.0,
+                "waitTime": 1.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 14,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "goal": {
+                    "x": 90.0,
+                    "y": 0.0,
+                    "z": 20.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -20.0,
+                    "y": 0.0,
+                    "z": 20.0
+                },
+                "speed": 4.0,
+                "waitTime": 5.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 15,
+        "waveTimer": -107374176.0
+    },
+    {
+        "groups": [
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -30.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -30.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -20.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -20.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": -10.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": -10.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 10.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 10.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 20.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            },
+            {
+                "direction": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -1.0
+                },
+                "goal": {
+                    "x": 30.0,
+                    "y": 0.0,
+                    "z": 90.0
+                },
+                "moveType": "Default",
+                "numEnemies": 5,
+                "offset": 4.0,
+                "spawnPoint": {
+                    "x": 30.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "speed": 3.0,
+                "waitTime": 0.0
+            }
+        ],
+        "isWaveActive": true,
+        "waitTime": 1.0,
+        "waveNumber": 16,
         "waveTimer": -107374176.0
     }
 ]

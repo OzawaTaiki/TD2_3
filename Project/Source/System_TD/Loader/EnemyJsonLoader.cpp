@@ -134,8 +134,6 @@ void EnemyJsonLoader::UpdateGroup()
 {
 	Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
 	Group& currentGroup = currentWave.groups[static_cast<size_t>(currentGroupIndex_)];
-
-	const float kSpawnWarningTime = 2.0f;
 	static int currentEnemyIndex = 0;
 
 	// スポーン処理
@@ -159,10 +157,10 @@ void EnemyJsonLoader::UpdateGroup()
 	if (!hasWarned) {
 		// 警告表示
 		if (warningCallback_) {
-			warningCallback_(position, kSpawnWarningTime);
+			warningCallback_(position, kSpawnWarningTime_);
 		}
 		isWait_ = true;
-		waitTimer_ = kSpawnWarningTime * 60.0f;
+		waitTimer_ = kSpawnWarningTime_ * 60.0f;
 		hasWarned = true;
 		nextSpawnInfo_ = { position, speed, goal, moveType };
 	}

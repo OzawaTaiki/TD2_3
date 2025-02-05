@@ -93,6 +93,7 @@ public:
 	/// </summary>
 	void SetPlayer(Player* player) { player_ = player; }
 
+    float GetSpawnWarningTime() { return kSpawnWarningTime_; }
 private:
 
     /// <summary>
@@ -135,4 +136,5 @@ private:
     SpawnCallback spawnCallback_ = nullptr;
     WarningCallback warningCallback_ = nullptr;
     SpawnInfo nextSpawnInfo_;
+    float kSpawnWarningTime_ = 2.0f;
 };

@@ -68,7 +68,7 @@ void EnemyManager::Update()
         it->oModel->rotate_ = warningRotate_;/** deltaTime*/;
         it->oModel->translate_.y += warningRiseSpeed_ * deltaTime;
         it->oModel->scale_ += warningScaleSpeed_ * deltaTime;
-        warningColor.w = (std::min)(warningColor.w + 2.0f* deltaTime, setColor.x);
+        warningColor.w = (std::min)(warningColor.w + spawnJson_.GetSpawnWarningTime()* deltaTime, setColor.w);
         if (it->timer <= 0.0f) {
             it = warningModels_.erase(it);
             warningColor.w = 0.0f;

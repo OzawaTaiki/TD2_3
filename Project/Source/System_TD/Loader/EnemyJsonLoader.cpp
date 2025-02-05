@@ -130,6 +130,22 @@ void EnemyJsonLoader::UpdateWave()
 
 	// 現在のウェーブ内の全てのグループに対して警告処理を行う
 	if (!hasWarned_) {
+		Wave& currentWave = waves_[static_cast<size_t>(currentWaveIndex_)];
+
+		// 最後のグループのwaitTimeを取得
+		float lastGroupWaitTime = 0.0f;
+		if (!currentWave.groups.empty()) {
+			lastGroupWaitTime = currentWave.groups.back().waitTime;
+		}
+
+		// waitTimeが0より大きい場合、2秒前から警告を表示
+		if (lastGroupWaitTime > 0) {
+			float warningStartTime = lastGroupWaitTime - 2.0f;
+			if ((currentTime_ - waveStartTime_) < warningStartTime) {
+				return;
+			}
+		}
+
 		for (int groupIndex = 0; groupIndex < currentWave.groups.size(); groupIndex++) {
 			Group& group = currentWave.groups[groupIndex];
 

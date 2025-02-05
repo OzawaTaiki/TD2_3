@@ -186,6 +186,7 @@ void Player::OnCollision(const Collider* other)
 
 	if (other->GetName() == "Enemy") {
 		hp_-= takeDamage_;
+		UpdateHP();
 		if (hp_ <= 0) {
 			isAlive_ = false;
 			BeginDeathEffect();

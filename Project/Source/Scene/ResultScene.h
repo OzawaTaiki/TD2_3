@@ -80,6 +80,9 @@ private:
     uint32_t UI_TX[2];
     bool isRetry_ = false;
 
+    bool drawSelect_ = false;
+
+
     // サウンド
     uint32_t bgmHandle_ = 0;
     uint32_t drumrollHandle_ = 0;

@@ -92,7 +92,7 @@ private:
     //std::array<Sprite*, 11> scoreSprites_;       // 「+100」の管理リスト
     std::vector<Score> scores_;
 	std::unique_ptr<Sprite> newScore_;
-    const float scorePopupDuration_ = 1.0f;    // 「+100」の表示時間
+    const float scorePopupDuration_ = 0.7f;    // 「+100」の表示時間
 	uint32_t scoreTexture_ = 0;       // 「+100」のテクスチャ
 
     // サウンド

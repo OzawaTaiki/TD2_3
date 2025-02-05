@@ -78,7 +78,7 @@ private:
     UISprite uiTitle_;
     UISprite uiA_;
     uint32_t UI_TX[2];
-    bool isRetry_ = false;
+    bool isRetry_ = true;
 
     bool drawSelect_ = false;
 

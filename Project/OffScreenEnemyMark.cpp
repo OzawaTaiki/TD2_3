@@ -13,7 +13,7 @@ const Vector2 OffScreenEnemyMark::center_ = { 640,360 };
 
 void OffScreenEnemyMark::Initialize()
 {
-    sprite_ = Sprite::Create(TextureManager::GetInstance()->Load("enemyDirection.png", "Resources/Textures/"));
+    sprite_ = Sprite::Create(TextureManager::GetInstance()->Load("enemy.png", "Resources/Textures/"));
     sprite_->Initialize();
     sprite_->SetAnchor({ 0.5f,0.5f });
     sprite_->SetSize({ 100,100 });

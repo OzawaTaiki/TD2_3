@@ -213,6 +213,7 @@ void GameScene::AddEnemyScore(int score)
 
 void GameScene::Load()
 {
+    std::this_thread::sleep_for(std::chrono::seconds(5)); // 
     SceneCamera_.Initialize();
     SceneCamera_.translate_ = { 0,100,0 };
     SceneCamera_.rotate_ = { DirectX::XMConvertToRadians(90.0f),0,0 };

@@ -39,6 +39,9 @@ private:
     void DrawCountEnemy();
 
 private:
+
+    void UpdateNumbers();
+
     /*===============================================================//
                      　　         ポインタなど
     //===============================================================*/
@@ -53,6 +56,14 @@ private:
 	int score_ = 0;
 	int combo_ = 0;
 	int count_ = 0;
+
+    float timePerDigit_ = 0.5f;
+    float duration_ = 0.0f;
+    int currentDigitIndex = 0;
+
+    int targetScore_ = 0;
+    int targetCount_ = 0;
+    int targetCombo_ = 0;
 
     //uint32_t scoreTh;
     std::array<Sprite*, 10> scoreSprites_;

@@ -3,6 +3,7 @@
 #include <Systems/Input/Input.h>
 #include <Framework/eScene/SceneManager.h>
 #include <ResourceManagement/TextureManager/TextureManager.h>
+#include<Systems/Utility/RandomGenerator.h>
 
 const std::string defaulFilPath = "Resources./Textures./";
 
@@ -54,10 +55,10 @@ void ResultScene::Initialize()
 			 　　				スコア
 	//===============================================================*/
 	uint32_t scoreTh = TextureManager::GetInstance()->Load("number.png", defaulFilPath);
-	score_ = ScoreManager::GetInstance()->GetCurrentScore();
+	targetScore_ = ScoreManager::GetInstance()->GetCurrentScore();
 	for (int i = 0; i < 10; ++i) {
 
-        scoreSprites_[i] = Sprite::Create(scoreTh);
+        scoreSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
 		scoreSprites_[i]->Initialize();
 		scoreSprites_[i]->translate_ = {  };
 		scoreSprites_[i]->scale_ = { 0.07f, 0.5f };
@@ -69,10 +70,10 @@ void ResultScene::Initialize()
 	/*===============================================================//
 		 　　					コンボ
 	//===============================================================*/
-	combo_ = ComboManager::GetInstance()->GetMaxCombo();
+	targetCombo_ = ComboManager::GetInstance()->GetMaxCombo();
 	for (int i = 0; i < 10; ++i) {
 
-        comboSprites_[i] = Sprite::Create(scoreTh);
+		comboSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
 		comboSprites_[i]->Initialize();
 		comboSprites_[i]->translate_ = {  };
 		comboSprites_[i]->scale_ = { 0.07f, 0.5f };
@@ -85,9 +86,9 @@ void ResultScene::Initialize()
 	 　　						敵倒
 	//===============================================================*/
 
-	count_ = CountManager::GetInstance()->GetEnemyCount();
+	targetCount_ = CountManager::GetInstance()->GetEnemyCount();
 	for (int i = 0; i < 10; ++i) {
-        countSprites_[i] = Sprite::Create(scoreTh);
+        countSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
 		countSprites_[i]->Initialize();
 		countSprites_[i]->translate_ = {  };
 		countSprites_[i]->scale_ = { 0.07f, 0.5f };
@@ -114,6 +115,9 @@ void ResultScene::Initialize()
     bgmHandle_ = audio_->SoundLoadWave("result.wav");
     audio_->SoundPlay(bgmHandle_, 1.0f, true);
 
+	targetScore_ = 10000;
+    targetCombo_ = 250;
+    targetCount_ = 42;
 
 
 }
@@ -175,6 +179,8 @@ void ResultScene::Update()
 			SceneManager::GetInstance()->ReserveScene("Title");
 		}
 	}
+
+    UpdateNumbers();
 }
 
 void ResultScene::Draw()
@@ -201,10 +207,11 @@ void ResultScene::DrawScore()
 {
 	std::string scoreStr = std::to_string(score_); // スコアを文字列に変換
 	while (scoreStr.size() < 6) {
-		scoreStr = "0" + scoreStr; 
+		scoreStr = "0" + scoreStr;
 	}
+
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
-	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
+	float x = 540.0f - (scoreStr.size() / 2.0f *digitWidth); // スコア全体の中心を基準に調整
 	float y = 270.0f; // スコアの描画位置（固定）
 
 	// スコアの桁数に応じてスプライトを更新
@@ -230,8 +237,9 @@ void ResultScene::DrawCombo()
 	while (scoreStr.size() < 3) {
 		scoreStr = "0" + scoreStr;
 	}
+	float base = static_cast<float>(scoreStr.size()) / 2.0f;
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
-	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
+	float x = 540.0f - (base *digitWidth); // スコア全体の右端を基準に調整
 	float y = 530.0f; // スコアの描画位置（固定）
 
 	// スコアの桁数に応じてスプライトを更新
@@ -257,8 +265,11 @@ void ResultScene::DrawCountEnemy()
 	while (scoreStr.size() < 3) {
 		scoreStr = "0" + scoreStr;
 	}
+
+	float base = static_cast<float>(scoreStr.size()) / 2.0f;
+
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
-	float x = 700.0f - (scoreStr.size() * digitWidth); // スコア全体の右端を基準に調整
+	float x = 540 - (base *digitWidth); // スコア全体の右端を基準に調整
 	float y = 410.0f; // スコアの描画位置（固定）
 
 	// スコアの桁数に応じてスプライトを更新
@@ -276,6 +287,82 @@ void ResultScene::DrawCountEnemy()
 
 		x += digitWidth; // 次の桁の位置に移動
 	}
+}
+
+void ResultScene::UpdateNumbers()
+{
+    duration_ += GameTime::GetUnScaleDeltaTime_float();
+
+	if (duration_ > timePerDigit_)
+	{
+        duration_ = 0.0f;
+        currentDigitIndex++;
+	}
+
+    if (score_ != targetScore_)
+    {
+		score_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000000 - 1);
+
+		// 桁数
+		int numDigits = 1;
+		for (int i = 0; i < currentDigitIndex; ++i)
+            numDigits *= 10;
+
+        int num = targetScore_ % numDigits;
+        score_ /= numDigits;
+        score_ *= numDigits;
+        score_ += num;
+
+        if (numDigits >= targetScore_)
+        {
+            score_ = targetScore_;
+            currentDigitIndex = 0;
+            duration_ = 0.0f;
+        }
+    }
+	else if (count_ != targetCount_)
+	{
+		count_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000 - 1);
+
+		// 桁数
+		int numDigits = 1;
+		for (int i = 0; i < currentDigitIndex; ++i)
+			numDigits *= 10;
+
+		int num = targetCount_ % numDigits;
+
+		count_ /= numDigits;
+		count_ *= numDigits;
+		count_ += num;
+
+		if (numDigits >= targetCount_)
+		{
+			count_ = targetCount_;
+			currentDigitIndex = 0;
+			duration_ = 0.0f;
+		}
+	}
+    else if (combo_ != targetCombo_)
+    {
+        combo_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000 - 1);
+
+        // 桁数
+        int numDigits = 1;
+        for (int i = 0; i < currentDigitIndex; ++i)
+            numDigits *= 10;
+
+        int num = targetCombo_ % numDigits;
+        combo_ /= numDigits;
+        combo_ *= numDigits;
+        combo_ += num;
+
+        if (numDigits >= targetCombo_)
+        {
+            combo_ = targetCombo_;
+            currentDigitIndex = 0;
+            duration_ = 0.0f;
+        }
+    }
 }
 
 

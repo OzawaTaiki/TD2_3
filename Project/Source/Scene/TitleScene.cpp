@@ -79,7 +79,31 @@ void TitleScene::Update()
 
     titleLogo_->Update();
     player_->Update();
+
+    Vector3 playerPosition = player_->GetWorldPosition();
+
+    if (playerPosition.x < min.x)
+    {
+        playerPosition.x = min.x;
+    }
+    else if (playerPosition.x > max.x)
+    {
+        playerPosition.x = max.x;
+    }
+    if (playerPosition.z < min.z)
+    {
+        playerPosition.z = min.z;
+    }
+    else if (playerPosition.z > max.z)
+    {
+        playerPosition.z = max.z;
+    }
+
+    player_->SetTranslate(playerPosition);
+
     currentTime_ += GameTime::GetInstance()->GetUnScaleDeltaTime_float();
+
+
 
 #ifdef _DEBUG
     if (Input::GetInstance()->IsKeyTriggered(DIK_RETURN))
@@ -99,6 +123,9 @@ void TitleScene::Update()
         {
             InitEnemy();
         }
+
+        ImGui::DragFloat3("MoveMin", &min.x, 0.01f);
+        ImGui::DragFloat3("MoveMax", &max.x, 0.01f);
 
         if (ImGui::Button("Save"))
         {
@@ -149,6 +176,7 @@ void TitleScene::Update()
 
     player_->SetHp(100.0f);
 
+
     CollisionManager::GetInstance()->CheckAllCollision();
 }
 
@@ -173,14 +201,16 @@ void TitleScene::Draw()
 }
 void TitleScene::InitJson()
 {
-    titleSceneSetting_ = std::make_unique<JsonBinder>("TitleScene", "Resources/Data/Parameter");
+    titleSceneSetting_ = std::make_unique<JsonBinder>("TitleScene", "Resources/Data/Parameter/");
 
     titleSceneSetting_->RegisterVariable("enemyRange", &enemySpawnRange_);
     titleSceneSetting_->RegisterVariable("enemySpeed", &enemySpeed_);
     titleSceneSetting_->RegisterVariable("spawnInterval", &spawnInterval_);
+    titleSceneSetting_->RegisterVariable("MoveMin", &min);
+    titleSceneSetting_->RegisterVariable("MoveMax", &max);
 
 
-    jsonBinder_ = std::make_unique<JsonBinder>("enemyManager", "Resources/Data/Parameter");
+    jsonBinder_ = std::make_unique<JsonBinder>("enemyManager", "Resources/Data/Parameter/");
 
     jsonBinder_->RegisterVariable("hitSound_Volume", &hitVolume_);
     jsonBinder_->RegisterVariable("deathSound_Volume", &deathVolume_);

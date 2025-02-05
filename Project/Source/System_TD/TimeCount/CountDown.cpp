@@ -1,8 +1,12 @@
 #include "CountDown.h"
 
 #include <Systems/Time/GameTime.h>
-
 #include <ResourceManagement/TextureManager/TextureManager.h>
+#include <Physics/Math/Easing.h>
+#include <Physics/Math/MyLib.h>
+
+
+
 
 void CountDown::Initialize()
 {
@@ -28,6 +32,12 @@ void CountDown::Initialize()
     jsonBinder_->RegisterVariable("position", &position_);
     jsonBinder_->RegisterVariable("size", &size_);
     jsonBinder_->RegisterVariable("offset", &offset_);
+    jsonBinder_->RegisterVariable("startSize", &startSize_);
+    jsonBinder_->RegisterVariable("endSize", &endSize_);
+    jsonBinder_->RegisterVariable("easingType", &easingType_);
+
+    easingFunc_ = Easing::SelectFuncPtr(static_cast<int> (easingType_));
+
 
     if (gameTime_ == 0.0f)
         gameTime_ = 60.0f;
@@ -52,6 +62,11 @@ void CountDown::Update()
 
     for (float time : countDownTime_)
     {
+
+#ifdef _DEBUG
+        if (draw_ && curTime == preTime)
+            isCount = true;
+#endif // _DEBUG
         if (curTime == time + 1 && curTime == preTime)
         {
             isCount = true;
@@ -59,9 +74,10 @@ void CountDown::Update()
         else if (!drawSprite_.empty() && curTime == preTime)
         {
             drawSprite_.clear();
-
+            t_ = 0;
         }
     }
+
 
     if (isCount)
     {
@@ -79,7 +95,12 @@ void CountDown::Update()
         drawSprite_.push_back(o);
     }
 
-
+    if (!drawSprite_.empty())
+    {
+        t_ += deltaTime;
+        float easedT = easingFunc_(t_);
+        size_ = Lerp(startSize_, endSize_, easedT);
+    }
 
     ImGui();
 
@@ -106,6 +127,7 @@ void CountDown::ImGui()
 
     ImGui::Begin("CountDown");
 
+    ImGui::Checkbox("draw", &draw_);
     ImGui::Text("currentTime:%f", currentTime_);
     ImGui::DragFloat2("position", &position_.x);
     ImGui::DragFloat2("size", &size_.x);
@@ -116,6 +138,11 @@ void CountDown::ImGui()
     if(ImGui::Button("save"))
         jsonBinder_->Save();
 
+    ImGui::DragFloat2("startSize", &startSize_.x);
+    ImGui::DragFloat2("endSize", &endSize_.x);
+
+    Easing::SelectEasingFunc(reinterpret_cast<int*>(&easingType_));
+    easingFunc_ = Easing::SelectFuncPtr(static_cast<int> (easingType_));
 
     ImGui::End();
 

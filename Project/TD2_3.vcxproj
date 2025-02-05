@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Objects\Bullisitc\Bullistic.cpp" />
     <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp" />
     <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp" />
@@ -175,6 +176,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Objects\Bullisitc\Bullistic.h" />
     <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h" />
     <ClInclude Include="Source\System_TD\CountManager\CountManager.h" />
     <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h" />

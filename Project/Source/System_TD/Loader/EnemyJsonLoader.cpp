@@ -87,11 +87,11 @@ void EnemyJsonLoader::UpdateEnemyPopCommands()
 void EnemyJsonLoader::UpdateAllWaves()
 {
 	// 現在の状態を保存
-	int originalWaveIndex = currentWaveIndex_;
-	int originalGroupIndex = currentGroupIndex_;
+	int originalWaveIndex = static_cast<int> (currentWaveIndex_);
+	int originalGroupIndex = static_cast<int>(currentGroupIndex_);
 	bool originalIsWait = isWait_;
 	float originalWaitTimer = waitTimer_;
-	
+
 
 	// すべてのウェーブを順番に更新
 	for (size_t waveIndex = 0; waveIndex < waves_.size(); waveIndex++) {

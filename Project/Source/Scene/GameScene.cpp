@@ -96,7 +96,7 @@ void GameScene::Update()
         SceneManager::GetInstance()->ReserveScene("Title");
     }
 
-    if(player_->CanSwitchScene())
+    if (player_->CanSwitchScene() || countDown_->IsEnd())
     {
 		ScoreManager::GetInstance()->EndGame();
 		ComboManager::GetInstance()->EndGame();

@@ -36,6 +36,8 @@ void TitleScene::Initialize()
 
     player_ = std::make_unique<Player>();
     player_->Initialize(&SceneCamera_);
+    Vector3 pos = { 0, 0,-8 };
+	player_->SetTranslate(pos);
 
     BG_.Initialize("TItleBG");
 

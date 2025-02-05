@@ -148,6 +148,18 @@ void ResultScene::Update()
 
 	if (drawSelect_)
 	{
+		static float animationTime = 0.0f;
+		animationTime += GameTime::GetUnScaleDeltaTime_float();
+
+		float amplitude = 2.0f;
+		float frequency = 5.0f;
+
+		float shakeOffset = std::sin(animationTime * frequency) * amplitude;
+
+		Vector2 pos = uiA_.GetPos();
+		pos.x += shakeOffset;
+		uiA_.SetPos(pos);
+
 		// コントローラーの左スティックを取得
 		Vector2 leftStick = Input::GetInstance()->GetPadLeftStick();
 

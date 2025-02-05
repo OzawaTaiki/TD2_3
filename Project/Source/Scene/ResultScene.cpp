@@ -14,10 +14,10 @@ std::unique_ptr<BaseScene> ResultScene::Create()
 
 ResultScene::~ResultScene()
 {
-    audio_->SoundStop(bgmVoice_);
-    audio_->SoundStop(drumrollVoice_);
-    audio_->SoundStop(drumrollEndVoice_);
-    audio_->SoundStop(buttonVoice_);
+	audio_->SoundStop(bgmVoice_);
+	audio_->SoundStop(drumrollVoice_);
+	audio_->SoundStop(drumrollEndVoice_);
+	audio_->SoundStop(buttonVoice_);
 
 }
 
@@ -28,24 +28,24 @@ void ResultScene::Initialize()
 						 TextureManager::GetInstance()->Load("result.png", defaulFilPath),
 						 TextureManager::GetInstance()->Load("player.png", defaulFilPath) };
 
-    resultSprite_[0] = Sprite::Create(th[0]);
+	resultSprite_[0] = Sprite::Create(th[0]);
 	resultSprite_[0]->Initialize();
 	resultSprite_[0]->SetAnchor({ 0.0f,0.0f });
 	resultSprite_[0]->SetSize({ 1280,720 });
-	resultSprite_[0]->SetColor({0.15,0.15,0.15,1.0});
+	resultSprite_[0]->SetColor({ 0.15,0.15,0.15,1.0 });
 
-    resultSprite_[1] = Sprite::Create(th[1]);
+	resultSprite_[1] = Sprite::Create(th[1]);
 	resultSprite_[1]->Initialize();
 	resultSprite_[1]->translate_ = { -9,-9 };
 	resultSprite_[1]->scale_ = { 1.018f,1.03f };
 	resultSprite_[1]->SetAnchor({ 0.0f,0.0f });
 
-    resultSprite_[2] = Sprite::Create(th[2]);
+	resultSprite_[2] = Sprite::Create(th[2]);
 	resultSprite_[2]->Initialize();
 	resultSprite_[2]->SetAnchor({ 0.5f,0.5f });
 	resultSprite_[2]->translate_ = { 540,360 };
 
-    resultSprite_[3] = Sprite::Create(th[3]);
+	resultSprite_[3] = Sprite::Create(th[3]);
 	resultSprite_[3]->Initialize();
 	resultSprite_[3]->SetAnchor({ 0.5f,0.5f });
 	resultSprite_[3]->translate_ = { 180,550 };
@@ -58,7 +58,7 @@ void ResultScene::Initialize()
 	targetScore_ = ScoreManager::GetInstance()->GetCurrentScore();
 	for (int i = 0; i < 10; ++i) {
 
-        scoreSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
+		scoreSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
 		scoreSprites_[i]->Initialize();
 		scoreSprites_[i]->translate_ = {  };
 		scoreSprites_[i]->scale_ = { 0.07f, 0.5f };
@@ -88,7 +88,7 @@ void ResultScene::Initialize()
 
 	targetCount_ = CountManager::GetInstance()->GetEnemyCount();
 	for (int i = 0; i < 10; ++i) {
-        countSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
+		countSprites_[i] = Sprite::Create(scoreTh, { 0,0 });
 		countSprites_[i]->Initialize();
 		countSprites_[i]->translate_ = {  };
 		countSprites_[i]->scale_ = { 0.07f, 0.5f };
@@ -106,13 +106,13 @@ void ResultScene::Initialize()
 	UI_TX[1] = { TextureManager::GetInstance()->Load("resultRetry.png", defaulFilPath) };
 	uiTitle_.SetTextureHandle(UI_TX[0]);
 
-    audio_ = AudioSystem::GetInstance();
+	audio_ = AudioSystem::GetInstance();
 
-    drumrollHandle_ = audio_->SoundLoadWave("drumroll.wav");
-    //drumrollEndHandle_ = audio_->SoundLoadWave("drumrollEnd.wav");
-    buttonHandle_ = audio_->SoundLoadWave("button.wav");
+	drumrollHandle_ = audio_->SoundLoadWave("drumroll.wav");
+	//drumrollEndHandle_ = audio_->SoundLoadWave("drumrollEnd.wav");
+	buttonHandle_ = audio_->SoundLoadWave("button.wav");
 
-    bgmHandle_ = audio_->SoundLoadWave("result.wav");
+	bgmHandle_ = audio_->SoundLoadWave("result.wav");
 	bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
 
 	isRetry_ = true;
@@ -127,8 +127,8 @@ void ResultScene::Update()
 	ImGui::Begin("ResultScene");
 	ImGui::DragFloat("Score", &resultSprite_[3]->rotate_);
 
-    ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
-    ImGui::DragFloat("Start", &buttonOffset, 0.01f, 0.0f);
+	ImGui::DragFloat("Volume", &vol, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("Start", &buttonOffset, 0.01f, 0.0f);
 	if (ImGui::Button("sound"))
 	{
 		audio_->SoundPlay(buttonHandle_, vol, false, false, buttonOffset);
@@ -203,7 +203,7 @@ void ResultScene::Update()
 		}
 
 	}
-    UpdateNumbers();
+	UpdateNumbers();
 }
 
 void ResultScene::Draw()
@@ -211,7 +211,7 @@ void ResultScene::Draw()
 	Sprite::PreDraw();
 	for (uint32_t i = 0; i < ms_; ++i)
 	{
-		if(i == 0 || i == 2){
+		if (i == 0 || i == 2) {
 			resultSprite_[i]->Draw();
 		}
 
@@ -236,8 +236,8 @@ void ResultScene::DrawScore()
 	}
 
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
-	float x = 540.0f - (scoreStr.size() / 2.0f *digitWidth); // スコア全体の中心を基準に調整
-	float y = 270.0f; // スコアの描画位置（固定）
+	float x = 540.0f - (scoreStr.size() / 2.0f * digitWidth); // スコア全体の中心を基準に調整
+	float y = 250.0f; // スコアの描画位置（固定）
 
 	// スコアの桁数に応じてスプライトを更新
 	for (size_t i = 0; i < scoreStr.size(); ++i) {
@@ -264,8 +264,8 @@ void ResultScene::DrawCombo()
 	}
 	float base = static_cast<float>(scoreStr.size()) / 2.0f;
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
-	float x = 540.0f - (base *digitWidth); // スコア全体の右端を基準に調整
-	float y = 530.0f; // スコアの描画位置（固定）
+	float x = 540.0f - (base * digitWidth); // スコア全体の右端を基準に調整
+	float y = 510.0f; // スコアの描画位置（固定）
 
 	// スコアの桁数に応じてスプライトを更新
 	for (size_t i = 0; i < scoreStr.size(); ++i) {
@@ -294,8 +294,8 @@ void ResultScene::DrawCountEnemy()
 	float base = static_cast<float>(scoreStr.size()) / 2.0f;
 
 	float digitWidth = 30.0f; // 各桁の幅（x方向の移動量）
-	float x = 540 - (base *digitWidth); // スコア全体の右端を基準に調整
-	float y = 410.0f; // スコアの描画位置（固定）
+	float x = 540 - (base * digitWidth); // スコア全体の右端を基準に調整
+	float y = 385.0f; // スコアの描画位置（固定）
 
 	// スコアの桁数に応じてスプライトを更新
 	for (size_t i = 0; i < scoreStr.size(); ++i) {
@@ -316,10 +316,10 @@ void ResultScene::DrawCountEnemy()
 
 void ResultScene::UpdateNumbers()
 {
-    if (drawSelect_)
-        return;
+	if (drawSelect_)
+		return;
 
-    duration_ += GameTime::GetUnScaleDeltaTime_float();
+	duration_ += GameTime::GetUnScaleDeltaTime_float();
 
 	if (combo_ == targetCombo_)
 	{
@@ -332,37 +332,37 @@ void ResultScene::UpdateNumbers()
 
 	if (duration_ > timePerDigit_)
 	{
-        duration_ = 0.0f;
-        currentDigitIndex++;
+		duration_ = 0.0f;
+		currentDigitIndex++;
 	}
 
-    if (score_ != targetScore_)
-    {
+	if (score_ != targetScore_)
+	{
 		score_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000000 - 1);
 
 		// 桁数
 		int numDigits = 1;
 
-        if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
 			currentDigitIndex++;
-        }
+		}
 
 		for (int i = 0; i < currentDigitIndex; ++i)
-            numDigits *= 10;
+			numDigits *= 10;
 
 
-        int num = targetScore_ % numDigits;
-        score_ /= numDigits;
-        score_ *= numDigits;
-        score_ += num;
+		int num = targetScore_ % numDigits;
+		score_ /= numDigits;
+		score_ *= numDigits;
+		score_ += num;
 
-        if (numDigits >= targetScore_)
-        {
-            score_ = targetScore_;
-            currentDigitIndex = 0;
-            duration_ = 0.0f;
-        }
-    }
+		if (numDigits >= targetScore_)
+		{
+			score_ = targetScore_;
+			currentDigitIndex = 0;
+			duration_ = 0.0f;
+		}
+	}
 	else if (count_ != targetCount_)
 	{
 		count_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000 - 1);
@@ -388,30 +388,30 @@ void ResultScene::UpdateNumbers()
 			duration_ = 0.0f;
 		}
 	}
-    else if (combo_ != targetCombo_)
-    {
-        combo_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000 - 1);
+	else if (combo_ != targetCombo_)
+	{
+		combo_ = RandomGenerator::GetInstance()->GetUniformInt(0, 1000 - 1);
 
-        // 桁数
-        int numDigits = 1;
+		// 桁数
+		int numDigits = 1;
 		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
 			currentDigitIndex++;
 		}
-        for (int i = 0; i < currentDigitIndex; ++i)
-            numDigits *= 10;
+		for (int i = 0; i < currentDigitIndex; ++i)
+			numDigits *= 10;
 
-        int num = targetCombo_ % numDigits;
-        combo_ /= numDigits;
-        combo_ *= numDigits;
-        combo_ += num;
+		int num = targetCombo_ % numDigits;
+		combo_ /= numDigits;
+		combo_ *= numDigits;
+		combo_ += num;
 
-        if (numDigits >= targetCombo_)
-        {
-            combo_ = targetCombo_;
-            currentDigitIndex = 0;
-            duration_ = 0.0f;
-        }
-    }
+		if (numDigits >= targetCombo_)
+		{
+			combo_ = targetCombo_;
+			currentDigitIndex = 0;
+			duration_ = 0.0f;
+		}
+	}
 }
 
 

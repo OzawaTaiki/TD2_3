@@ -5,6 +5,7 @@
 #include <Source/System_TD/ComboManager/ComboManager.h>
 #include "Source/System_TD/CountManager/CountManager.h"
 #include "../../../Scene/GameScene.h"
+#include <ResourceManagement/TextureManager/TextureManager.h>
 
 void Enemy::Initialize(Camera* camera)
 {
@@ -36,6 +37,15 @@ void Enemy::Initialize(Camera* camera)
 
     offScreenMark_ = std::make_unique<OffScreenEnemyMark>();
     offScreenMark_->Initialize();
+
+    circle_ = std::make_unique<ObjectModel>();
+    circle_->Initialize("plane/plane_up.gltf", "infuleceCircle");
+    circle_->SetParent(oModel_->GetWorldTransform());
+	circle_->scale_ = { 10,1,10 };
+
+
+    infulenceRedTexture_ = TextureManager::GetInstance()->Load("RedRange.png", "Resources/Textures/");
+    infulenceBlueTexture_ = TextureManager::GetInstance()->Load("BlueRange.png", "Resources/Textures/");
 }
 
 void Enemy::Update()
@@ -57,7 +67,7 @@ void Enemy::Update()
 	if (isAlive_) {
 		collider_->RegsterCollider();
 	}
-
+    circle_->Update();
     offScreenMark_->Update(*camera_, GetCenterPosition());
 }
 
@@ -90,6 +100,16 @@ void Enemy::Draw(const Vector4& color)
 		oModel_->Draw(camera_, typeColor); // タイプごとの色で描画
 	}
 
+}
+
+void Enemy::DrawInfuenceCircle()
+{
+    if (currentType_ == BulletType::North) {
+		circle_->Draw(camera_,infulenceRedTexture_, Vector4{ 1.0f,1.0f,1.0f,.5f });
+    }
+    else if (currentType_ == BulletType::South) {
+		circle_->Draw(camera_, infulenceBlueTexture_, Vector4{ 1.0f,1.0f,1.0f,.5f });
+	}
 }
 
 void Enemy::DrawSprite()
@@ -164,12 +184,13 @@ void Enemy::OnCollision(const Collider* other)
 void Enemy::ImGui()
 {
 #ifdef _DEBUG
-	//ImGui::Begin("Enemy Para");
+	ImGui::Begin("Enemy Para");
 
 	//ImGui::Checkbox("AddScore", &isAddScore_);
 	//ImGui::Checkbox("Alive", &isAlive_);
 
-	//ImGui::End();
+    ImGui::DragFloat3("Circle_scale", &circle_->scale_.x,0.01f);
+	ImGui::End();
 
 #endif // _DEBUG
 

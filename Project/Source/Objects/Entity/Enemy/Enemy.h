@@ -39,6 +39,8 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+	void DrawInfuenceCircle();
+
     void DrawSprite();
 
 	/// <summary>
@@ -175,5 +177,8 @@ private:
     float deathVolume_ = 1.0f;
     float deathStartOffset_ = 0.0f;
 
+    std::unique_ptr<ObjectModel> circle_ = nullptr;
+    uint32_t infulenceRedTexture_ = 0;
+    uint32_t infulenceBlueTexture_ = 0;
 };
 

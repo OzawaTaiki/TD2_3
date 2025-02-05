@@ -113,7 +113,7 @@ void ResultScene::Initialize()
     buttonHandle_ = audio_->SoundLoadWave("button.wav");
 
     bgmHandle_ = audio_->SoundLoadWave("result.wav");
-    audio_->SoundPlay(bgmHandle_, 1.0f, true);
+	bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
 
 }
 

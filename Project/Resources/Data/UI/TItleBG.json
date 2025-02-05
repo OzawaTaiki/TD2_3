@@ -6,13 +6,13 @@
         },
         "TItleBG_color": {
             "w": 1.0,
-            "x": 0.250980406999588,
-            "y": 0.250980406999588,
-            "z": 0.250980406999588
+            "x": 0.11741237342357635,
+            "y": 0.0995049849152565,
+            "z": 0.20098036527633667
         },
         "TItleBG_directoryPath": "Resources/Textures/",
         "TItleBG_isActive": 257,
-        "TItleBG_isVisible": 234881025,
+        "TItleBG_isVisible": 301989889,
         "TItleBG_label": "TItleBG",
         "TItleBG_pos": {
             "x": 0.0,

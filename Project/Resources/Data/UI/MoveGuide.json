@@ -6,22 +6,22 @@
         },
         "MoveGuide_color": {
             "w": 1.0,
-            "x": 0.250980406999588,
-            "y": 0.250980406999588,
-            "z": 0.250980406999588
+            "x": 0.8725489974021912,
+            "y": 0.7912821769714355,
+            "z": 0.7912821769714355
         },
         "MoveGuide_directoryPath": "Resources/Textures/",
         "MoveGuide_isActive": 257,
-        "MoveGuide_isVisible": 251658241,
+        "MoveGuide_isVisible": 318767105,
         "MoveGuide_label": "MoveGuide",
         "MoveGuide_pos": {
-            "x": 16.0,
-            "y": 704.0
+            "x": 39.0,
+            "y": 680.0
         },
         "MoveGuide_rotate": 0.0,
         "MoveGuide_size": {
-            "x": 300.0,
-            "y": 200.0
+            "x": 330.0,
+            "y": 230.0
         },
         "MoveGuide_textureName": "move.png"
     }

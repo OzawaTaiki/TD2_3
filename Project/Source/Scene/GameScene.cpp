@@ -155,7 +155,7 @@ void GameScene::Draw()
     enemyManager_->Draw({ 1,1,1,1 });
 
     player_->DrawBallistic();
-
+    enemyManager_->DrawDeathEffect();
     LineDrawer::GetInstance()->Draw();
 
 

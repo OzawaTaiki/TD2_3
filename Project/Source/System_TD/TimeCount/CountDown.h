@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <functional>
 
 class CountDown
 {
@@ -36,6 +37,12 @@ private:
 
     uint32_t countHandle_ = 0;
 
+    std::function<float(float)> easingFunc_ = nullptr;
+    uint32_t easingType_ = 0;
+    Vector2 endSize_ = {};
+    Vector2 startSize_ = {};
+    float t_;
 
+    bool draw_ = false;
     void ImGui();
 };

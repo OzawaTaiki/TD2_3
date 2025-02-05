@@ -344,7 +344,7 @@ void GameScene::Load()
 
     Loading_ = false;
     isReady_ = true;
-    bgmVoice_ = audio_->SoundPlay(bgmHandle_, 1.0f, true);
+    bgmVoice_ = audio_->SoundPlay(bgmHandle_, 0.7f, true);
 }
 
 void GameScene::DrawScore()

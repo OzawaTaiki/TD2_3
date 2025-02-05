@@ -133,6 +133,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine\Engine\externals/assimp/include;$(ProjectDir)..\GameEngine\Engine\externals\DirectXTex;$(ProjectDir)..\GameEngine\Engine\externals\nlohmann;$(ProjectDir)..\GameEngine\Engine\externals\imgui;$(projectDir)..\GameEngine\Engine\Engine\;$(projectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,6 +143,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyDeathEffect.cpp" />
+    <ClCompile Include="OffScreenEnemyMark.cpp" />
+    <ClCompile Include="Source\Objects\Bullisitc\Bullistic.cpp" />
+    <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp" />
+    <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp" />
+    <ClCompile Include="Source\System_TD\CountManager\CountManager.cpp" />
+    <ClCompile Include="Source\System_TD\ComboManager\ComboManager.cpp" />
+    <ClCompile Include="Source\System_TD\ScoreManager\ScoreManager.cpp" />
+    <ClCompile Include="Source\Scene\SceneTransition.cpp" />
+    <ClCompile Include="Source\System_TD\Loader\EnemySpawnLoader.cpp" />
     <ClCompile Include="Source\Objects\Area\Area.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Objects\Entity\BaseEntity.cpp" />
@@ -156,8 +167,10 @@
     <ClCompile Include="Source\Scene\GameScene.cpp" />
     <ClCompile Include="Source\Scene\TitleScene.cpp" />
     <ClCompile Include="Source\Objects\Bullet\SouthPoleBullet.cpp" />
+    <ClCompile Include="Source\System_TD\TimeCount\CountDown.cpp" />
     <ClCompile Include="Source\System_TD\TypeManager\TypeManager.cpp" />
-    <ClCompile Include="TD_Math.cpp" />
+    <ClCompile Include="Source\System_TD\Math\TD_Math.cpp" />
+    <ClCompile Include="Source\TItleUI\TItleUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine\GameEngine.vcxproj">
@@ -165,6 +178,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyDeathEffect.h" />
+    <ClInclude Include="OffScreenEnemyMark.h" />
+    <ClInclude Include="Source\Objects\Bullisitc\Bullistic.h" />
+    <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h" />
+    <ClInclude Include="Source\System_TD\CountManager\CountManager.h" />
+    <ClInclude Include="Source\System_TD\ComboManager\ComboManager.h" />
+    <ClInclude Include="Source\Objects\Entity\Enemy\TitleEnemy.h" />
+    <ClInclude Include="Source\Objects\Entity\Player\TitlePlayer.h" />
+    <ClInclude Include="Source\System_TD\ScoreManager\ScoreManager.h" />
+    <ClInclude Include="Source\Scene\SceneTransition.h" />
+    <ClInclude Include="Source\System_TD\Loader\EnemySpawnLoader.h" />
     <ClInclude Include="Source\Objects\Area\Area.h" />
     <ClInclude Include="Source\Objects\Entity\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Objects\Entity\BaseEntity.h" />
@@ -178,11 +202,15 @@
     <ClInclude Include="Source\Scene\GameScene.h" />
     <ClInclude Include="Source\Scene\TitleScene.h" />
     <ClInclude Include="Source\Objects\Bullet\SouthPoleBullet.h" />
+    <ClInclude Include="Source\System_TD\TimeCount\CountDown.h" />
     <ClInclude Include="Source\System_TD\TypeManager\TypeManager.h" />
-    <ClInclude Include="TD_Math.h" />
+    <ClInclude Include="Source\System_TD\Math\TD_Math.h" />
+    <ClInclude Include="Source\TItleUI\TItleUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Resources\Data\UI\MoveGuide.json" />
+    <None Include="Resources\Data\UI\ShotGuide.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,14 +1,18 @@
 #pragma once
 #include <Rendering/Model/ObjectModel.h>
 #include <Rendering/Model/AnimationModel.h>
+#include <Rendering/Sprite/Sprite.h>
 
 #include <Systems/Input/Input.h>
 #include <Systems/JsonBinder/JsonBinder.h>
+#include <Systems/Audio/AudioSystem.h>
+#include <Systems/Time/GameTime.h>
 
 #include "../../Bullet/SouthPoleBullet.h"
 #include "../../Bullet/NorthPoleBullet.h"
 #include "../BaseEntity.h"
 #include <Physics/Collision/Collider.h>
+#include <Source/Objects/Bullisitc/Bullistic.h>
 
 // C++
 #include <memory>
@@ -35,12 +39,20 @@ public:
 	/// </summary>
 	void Draw(const Vector4& color) override;
 
+    /// <summary>
+    /// 前景スプライトの描画
+    /// </summary>
+    void DrawBallistic();
+
 	/// <summary>
 	/// 衝突
 	/// </summary>
 	void OnCollision(const Collider* other);
 
-
+	/// <summary>
+	/// スプライト描画
+	/// </summary>
+	void DrawSprite();
 private:
 
 	/// <summary>
@@ -57,6 +69,11 @@ private:
 	/// 全体射撃
 	/// </summary>
 	void Fire();
+
+	/// <summary>
+	/// HPの処理
+	/// </summary>
+	void UpdateHP();
 
 	/// <summary>
 	/// ノックバックの計算処理
@@ -89,7 +106,24 @@ private:
 	/// </summary>
 	void Bulletdelete();
 
+    /// <summary>
+    /// カメラシェイク
+    /// </summary>
+    void CameraShake();
 
+    /// <summary>
+    /// 死亡演出の開始
+    /// </summary>
+    void BeginDeathEffect();
+
+    /// <summary>
+    /// 死亡演出
+    /// </summary>
+    void UpdateDeathEffect();
+
+    /// <summary>
+    /// JsonBinderの初期化
+    /// </summary>
 	void InitJsonBinder();
 	void Save();
 
@@ -105,10 +139,11 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldPosition();
 
+
 	/// <summary>
 	/// ワールドトランスフォーム
 	/// </summary>
-	const WorldTransform& GetWorldTransform() {return *oModel_->GetWorldTransform();}
+	const WorldTransform& GetWorldTransform() {return *aModel_->GetWorldTransform();}
 
 	/// <summary>
 	/// 中心点の取得
@@ -132,7 +167,21 @@ public:
     /// プレイヤーの座標を設定
     /// </summary>
     /// <param name="_translate"></param>
-    void SetTranslate(const Vector3& _translate) { oModel_->translate_ = _translate; }
+    void SetTranslate(const Vector3& _translate) { aModel_->translate_ = _translate; }
+
+	/// <summary>
+    /// シーン切り替え可能かどうか
+	/// </summary>
+    /// <returns> 死 かつ 死亡演出中でない場合 true </returns>
+	bool CanSwitchScene() const { return !isAlive_ && !isDeathEffectPlaying_; }
+
+    /// <summary>
+    /// プレイヤーの座標のptrを取得
+    /// </summary>
+    /// <returns></returns>
+    Vector3* GetWorldPositionRef();
+
+    void SetHp(float _hp) { hp_ = _hp; }
 
 private:
 	/*===============================================================//
@@ -142,8 +191,16 @@ private:
 	std::unique_ptr<Collider> collider_ = nullptr;
 	std::unique_ptr<JsonBinder> jsonBinder_ = nullptr;
 
+    std::unique_ptr<AnimationModel> aModel_ = nullptr;
+
 	std::list<NorthPoleBullet*> bulletsNorth_;
 	std::list<SouthPoleBullet*> bulletsSouth_;
+
+    std::unique_ptr<Bullistic> rightBallistic_ = nullptr;
+    std::unique_ptr<Bullistic> leftBallistic_ = nullptr;
+
+	static const int ch_ = 2;
+	Sprite* spriteHP_[ch_];
 
 
 	/*===============================================================//
@@ -157,9 +214,12 @@ private:
 	float kCharacterSpeed_ = 0.25f;
 	float kRotationSpeed_ = 0.05f;
 
+	float rotationSpeed_ = 0.1f;
+	float accumulatedYaw_ = 0;
 	// 移動量を保存
 	Vector3 prePosition_= { 0.0f,0.0f,0.0f };
 
+    bool isMove_ = false;
 
 
 
@@ -168,34 +228,36 @@ private:
 	//===============================================================*/
 	float bulletVelocity_ =  0.03f;
 	float bulletAcceleration_ = 0.015f;
-	float offset = 2.0f;
+	Vector3 offset = 2.0f;
 
 	//--------------- 弾のクールタイム ---------------//
 
 	// 弾の発射間隔
-	float bulletFireInterval_ = 1.0f; 
+	float bulletFireInterval_ = 1.0f;
 
 	// 発射クールダウンタイマー
 	float northBulletCoolTimer_ = 0.0f;
 	float southBulletCoolTimer_ = 0.0f;
 
 
-
     /*===============================================================//
 								HPなど
     //===============================================================*/
-    float maxHp_ = 100.0f;
+    float maxHp_ = 10.0f;
     float hp_ = 100.0f;
+	// プレイヤーが受けるダメージ
+	float takeDamage_ = 10.0f;
     bool isAlive_ = true;
+
 
 	/*===============================================================//
 							ノックバックの処理
-	//===============================================================*/	
+	//===============================================================*/
 
 	// ノックバックの初期速度
 	Vector3 knockbackVelocity_ = { 0.0f, 0.0f, 0.0f };
 	// イージングの減衰係数		0.0～1.0、1.0なら即刻停止、0.0なら全く減衰しない
-	const float knockbackDamping_ = 0.9f;  
+	const float knockbackDamping_ = 0.9f;
 	// ノックバックの強さ
 	const float knockbackStrength_ = 1.0f;
 
@@ -204,8 +266,63 @@ private:
 	// 無敵状態の残り時間
 	float knockbackInvincibleTime_ = 0.0f;
 	// 無敵状態の継続時間（調整可能）
-	const float knockbackInvincibleDuration_ = 0.5f; 
-  
+	const float knockbackInvincibleDuration_ = 0.5f;
+
+    //===============================================================//
+	//					カメラシェイクのパラメータ						 //
+    //===============================================================//
+    Vector2 shakeRangeMin_ = { -0.1f, -0.1f };
+    Vector2 shakeRangeMax_ = { 0.1f, 0.1f };
+    float shakeTime_ = 0.1f;
+    bool enableShake_ = false;
+
+
+	// ライト参照用 ワールド座標
+	Vector3 worldPosition_ = {};
+
+    //===============================================================//
+	//						死亡演出									 //
+    // ===============================================================//
+
+	// 死亡時演出中か
+	bool isDeathEffectPlaying_ = false;
+
+	GameTime* gameTime_;
+
+	struct DeathEffectParams
+	{
+		bool scale = false;
+		float scalingTIme = 1.0f;
+		float targetScale = 5.0f;
+
+        bool shake = false;
+
+		float shakeTime = 1.0f;
+        float shakeInterval = 0.0f;
+		float shakePower = 0.2f;
+
+        bool wait = false;
+		// 消えてからの待機時間
+		float waitTime = 1.3f;
+
+        // 経過時間
+        float duration = 0.0f;
+
+        Vector3 beforePosition = { 0.0f,0.0f,0.0f };
+	};
+
+    DeathEffectParams deathEffectParams_;
+
+
+    Vector4 rightBullisticColor_ = { 1.0f,0.0f,0.0f,1.0f };
+    Vector4 leftBullisticColor_ = { 0.0f,0.0f,1.0f,1.0f };
+
+	//サウンド
+    uint32_t shotHandle_ = 0;
+    VoiceHandle shotVoice_;
+
+    uint32_t damageHandle_ = 0;
+	VoiceHandle damageVoice_;
 
 
 };

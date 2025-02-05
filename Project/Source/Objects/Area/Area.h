@@ -24,7 +24,10 @@ public:
 private:
 
     std::unique_ptr<ObjectModel>model_ = nullptr;
+    std::unique_ptr<ObjectModel>circleModel_ = nullptr;
     std::string name_ = "";
+    uint32_t textureHandle_ = 0;
+    uint32_t circleTextureHandle_ = 0;
 
 
 

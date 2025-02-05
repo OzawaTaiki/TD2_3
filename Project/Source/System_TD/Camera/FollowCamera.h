@@ -11,9 +11,9 @@ class FollowCamera
 public:
 
     void Initialize();
-    void Update();
+    void Update(bool _lock);
 
-    void FollowProcess();
+    void FollowProcess(bool _lock);
     void SetTarget(const WorldTransform& target) { target_ = &target; }
     void GetViewProjection() const;
 
@@ -33,5 +33,6 @@ private:
     Vector3 offset_ = { 0.0f, 80.0f, 0.0f }; 
     // 追従対象
     const WorldTransform* target_ ;
+
 };
 

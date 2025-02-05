@@ -1,14 +1,22 @@
 #include "Area.h"
 
 #include <Source/Objects/Entity/Player/Player.h>
+#include <ResourceManagement/TextureManager/TextureManager.h>
 
-void Area::Initialize(float _radius)
+void Area::Initialize(float _size)
 {
     model_ = std::make_unique<ObjectModel>();
-    model_->Initialize("circle/circle.obj", "Area");
+    model_->Initialize("planeEngine/plane.gltf", "Area");
 
-    model_->scale_ = { _radius,1,_radius };
+    model_->rotate_.x = std::numbers::pi_v<float> / 2;
+    model_->scale_ = { _size * 2,_size * 2,1 };
 
+
+    circleModel_ = std::make_unique<ObjectModel>();
+    circleModel_->Initialize("circle/circle.obj", "Circle");
+    circleTextureHandle_ = TextureManager::GetInstance()->Load("Tile.png", "Resources/models/tile/");
+
+    circleModel_->scale_ = { _size ,1 ,_size };
 }
 
 void Area::Update(Player* _player)
@@ -49,18 +57,20 @@ void Area::Update(Player* _player)
     ClampPlayerToCircle(_player);
 
     model_->Update();
+    circleModel_->Update();
 }
 
 void Area::Draw(const Camera* _camera)
 {
-    model_->Draw(_camera, { 1,1,1,1 });
+    model_->Draw(_camera, textureHandle_, { 0.5f,0.5f,0.5f,1 });
+    circleModel_->Draw(_camera, circleTextureHandle_, { 0.5f,0.5f,0.5f,1 });
 }
 
 void Area::ClampPlayerToCircle(Player* _player)
 {
     Vector3 pos = _player->GetWorldPosition();
     Vector3 center = model_->GetWorldTransform()->transform_;
-    float radius = model_->scale_.x;
+    float radius = model_->scale_.x / 2;
 
     Vector3 direction = pos - center;
     float length = direction.Length();

@@ -10,6 +10,7 @@
 #include "UI/ImGuiManager/ImGuiManager.h"
 #include "Framework/Particle/ParticleManager.h"
 #include "Systems/Utility/RandomGenerator.h"
+#include "Systems/Audio/AudioSystem.h"
 #include "Systems/Time/Time.h"
 
 /*-----シーン-----*/
@@ -21,6 +22,7 @@
 #include "Source/Scene/GameScene.h"
 #include "Source/Scene/ResultScene.h"
 #include "Source/Scene/LoadScene.h"
+#include "Source/Scene/SceneTransition.h"
 /*---------------*/
 
 
@@ -57,6 +59,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	LineDrawer* lineDrawer = LineDrawer::GetInstance();
 	lineDrawer->Initialize();
 
+	AudioSystem* audio_ = AudioSystem::GetInstance();
+	audio_->Initialize();
+
 	Input* input = Input::GetInstance();
 	input->Initilize(winApp);
 
@@ -67,9 +72,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SceneManager::RegisterScene("Game", GameScene::Create);
 	SceneManager::RegisterScene("Result", ResultScene::Create);
     //SceneManager::RegisterScene("Load", LoadScene::Create);
+	SceneManager::GetInstance()->SetTransition(std::make_unique<SceneTransition>());
+
+#ifdef _DEBUG
+	SceneManager::GetInstance()->Initialize("Result");
+#else
+    SceneManager::GetInstance()->Initialize("Title");
+#endif // _DEBUG
 
 
-	SceneManager::GetInstance()->Initialize("Title");
 
 	Time::Initialize();
 

@@ -102,9 +102,9 @@ void EnemyManager::Draw(const Vector4& color)
     /// 敵の描画
     for (auto& enemy : enemies_) {
         enemy->Draw(color);
-        if (enemy->GetCurrentTypeName() != "None") {
+       /* if (enemy->GetCurrentTypeName() != "None") {
             LineDrawer::GetInstance()->DrawCircle(enemy->GetTranslate(), attractRadius_);
-        }
+        }*/
     }
 
     // 警告モデルの描画
@@ -122,6 +122,11 @@ void EnemyManager::DrawSprite()
 
 void EnemyManager::DrawDeathEffect()
 {
+    for (auto& enemy : enemies_)
+    {
+        enemy->DrawInfuenceCircle();
+    }
+
     for (auto& effect : deathEffects_)
     {
         effect->Draw(camera_);

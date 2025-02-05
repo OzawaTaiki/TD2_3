@@ -4,6 +4,8 @@
 #include <Physics/Collision/Collider.h>
 #include <Systems/Audio/AudioSystem.h>
 
+#include "OffScreenEnemyMark.h"
+
 class GameScene;
 class Player;
 class Enemy : public BaseEntity
@@ -36,6 +38,8 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(const Vector4& color) override;
+
+    void DrawSprite();
 
 	/// <summary>
 	/// 属性の切り替え
@@ -158,6 +162,7 @@ private:
 	float typeChangeCount_ = 0.0f;
 	const float typeChangeTime_ = 4.0f;
 
+    std::unique_ptr<OffScreenEnemyMark> offScreenMark_ = nullptr;
 
 	// サウンド
     uint32_t hitHandle_;

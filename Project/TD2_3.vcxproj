@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EnemyDeathEffect.cpp" />
+    <ClCompile Include="OffScreenEnemyMark.cpp" />
     <ClCompile Include="Source\Objects\Bullisitc\Bullistic.cpp" />
     <ClCompile Include="Source\System_TD\Loader\EnemyJsonLoader.cpp" />
     <ClCompile Include="Source\Objects\Entity\Enemy\TitleEnemy.cpp" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EnemyDeathEffect.h" />
+    <ClInclude Include="OffScreenEnemyMark.h" />
     <ClInclude Include="Source\Objects\Bullisitc\Bullistic.h" />
     <ClInclude Include="Source\System_TD\Loader\EnemyJsonLoader.h" />
     <ClInclude Include="Source\System_TD\CountManager\CountManager.h" />

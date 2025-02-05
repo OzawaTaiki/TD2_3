@@ -165,6 +165,7 @@ void GameScene::Draw()
 	{
 		backGrounds_[i]->Draw();
 	}
+    enemyManager_->DrawSprite();
 	DrawScore();
     countDown_->Draw();
 	//DrawCombo();

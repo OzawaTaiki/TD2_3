@@ -62,6 +62,11 @@ private:
     float currentTime_ = 0;
     float spawnInterval_ = 1.0f;
 
+    // 行動制限
+    Vector3 min = { -10.0f,0.0f,-10.0f };
+    Vector3 max = { 10.0f,0.0f,10.0f };
+
+
     LightGroup lg = {};
 
 #ifdef _DEBUG

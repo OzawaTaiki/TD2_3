@@ -123,12 +123,6 @@ void ResultScene::Update()
 #ifdef _DEBUG
 
 
-	if (Input::GetInstance()->IsKeyTriggered(DIK_TAB) ||
-		Input::GetInstance()->IsPadTriggered(PadButton::iPad_A))
-	{
-		SceneManager::GetInstance()->ReserveScene("Title");
-	}
-
 	ImGui::Begin("ResultScene");
 	ImGui::DragFloat("Score", &resultSprite_[3]->rotate_);
 
@@ -151,27 +145,29 @@ void ResultScene::Update()
 	uiTitle_.Update();
 	uiA_.Update();
 
-
-	if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_Down) ||
-		Input::GetInstance()->IsPadTriggered(PadButton::iPad_Up)) {
-		buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
-
-		isRetry_ = !isRetry_;
-	}
-
-
-	if (!isRetry_) {
-		uiTitle_.SetTextureHandle(UI_TX[1]);
-		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+	if (drawSelect_)
+	{
+		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_Down) ||
+			Input::GetInstance()->IsPadTriggered(PadButton::iPad_Up)) {
 			buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
-			SceneManager::GetInstance()->ReserveScene("Game");
+
+			isRetry_ = !isRetry_;
 		}
-	}
-	else {
-		uiTitle_.SetTextureHandle(UI_TX[0]);
-		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
-			buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
-			SceneManager::GetInstance()->ReserveScene("Title");
+
+
+		if (!isRetry_) {
+			uiTitle_.SetTextureHandle(UI_TX[1]);
+			if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+				buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
+				SceneManager::GetInstance()->ReserveScene("Game");
+			}
+		}
+		else {
+			uiTitle_.SetTextureHandle(UI_TX[0]);
+			if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+				buttonVoice_ = audio_->SoundPlay(buttonHandle_, vol, false, true, buttonOffset);
+				SceneManager::GetInstance()->ReserveScene("Title");
+			}
 		}
 	}
 
@@ -193,9 +189,11 @@ void ResultScene::Draw()
 	DrawCombo();
 	DrawCountEnemy();
 
-	uiTitle_.Draw();
-
-	uiA_.Draw();
+	if (drawSelect_)
+	{
+		uiTitle_.Draw();
+		uiA_.Draw();
+	}
 }
 
 void ResultScene::DrawScore()
@@ -286,7 +284,19 @@ void ResultScene::DrawCountEnemy()
 
 void ResultScene::UpdateNumbers()
 {
+    if (drawSelect_)
+        return;
+
     duration_ += GameTime::GetUnScaleDeltaTime_float();
+
+	if (combo_ == targetCombo_)
+	{
+		if (duration_ >= 1.5f)
+		{
+			drawSelect_ = true;
+		}
+		return;
+	}
 
 	if (duration_ > timePerDigit_)
 	{
@@ -300,8 +310,14 @@ void ResultScene::UpdateNumbers()
 
 		// 桁数
 		int numDigits = 1;
+
+        if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			currentDigitIndex++;
+        }
+
 		for (int i = 0; i < currentDigitIndex; ++i)
             numDigits *= 10;
+
 
         int num = targetScore_ % numDigits;
         score_ /= numDigits;
@@ -321,6 +337,9 @@ void ResultScene::UpdateNumbers()
 
 		// 桁数
 		int numDigits = 1;
+		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			currentDigitIndex++;
+		}
 		for (int i = 0; i < currentDigitIndex; ++i)
 			numDigits *= 10;
 
@@ -343,6 +362,9 @@ void ResultScene::UpdateNumbers()
 
         // 桁数
         int numDigits = 1;
+		if (Input::GetInstance()->IsPadTriggered(PadButton::iPad_A)) {
+			currentDigitIndex++;
+		}
         for (int i = 0; i < currentDigitIndex; ++i)
             numDigits *= 10;
 

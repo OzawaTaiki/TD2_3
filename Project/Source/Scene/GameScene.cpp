@@ -91,6 +91,11 @@ void GameScene::Update()
 #endif // _DEBUG
     LightingSystem::GetInstance()->SetLightGroup(&lightGroup_);
 
+    if(Input::GetInstance()->IsPadTriggered(PadButton::iPad_Start))
+    {
+        SceneManager::GetInstance()->ReserveScene("Title");
+    }
+
     if(player_->CanSwitchScene())
     {
 		ScoreManager::GetInstance()->EndGame();
